@@ -2,8 +2,9 @@
 
 Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único arquivo HTML.
 
-- 3 mundos com 5 fases e um chefão cada: (Des)Construção, Praia Praiana e Orien Tal
+- 4 mundos com 5 fases e um chefão cada: (Des)Construção, Praia Praiana, Orien Tal e Euro Peu
 - Veículos no lugar da plataforma, com prêmios por mundo
+- Moedas que caem dos caixotes e blocos, e uma garagem para comprar veículos
 - Power-ups, debuffs, caixotes surpresa, música e sons gerados por código
 - Modo desenvolvedor com velocidade da bola, troca de mundo, fase e veículo
 
