@@ -132,6 +132,14 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 .mapOpt[aria-pressed="true"] { border-color: var(--safety); background: rgba(255, 194, 26, 0.12); box-shadow: inset 0 0 0 1px var(--safety); }
 .mapOpt:disabled { opacity: 0.5; cursor: not-allowed; }
 .mapOpt .done { margin-left: auto; font-style: normal; color: var(--safety); font-weight: 700; font-size: 18px; }
+#maps.tiles { grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 8px; }
+#vehicles.tiles { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); }
+.mapOpt.tile { position: relative; flex-direction: column; justify-content: center; text-align: center; gap: 6px; padding: 12px 8px 10px; }
+.mapOpt.tile strong { font-size: 16px; line-height: 1.15; text-wrap: balance; }
+.mapOpt.tile .thumb { width: 100%; max-width: 124px; height: 70px; }
+.mapOpt.tile b { font-size: 34px; line-height: 1; }
+.mapOpt.tile .done { position: absolute; top: 6px; right: 8px; margin: 0; }
+@media (max-width: 560px) { #maps .mapOpt.tile { padding: 10px 4px 8px; } #maps .mapOpt.tile strong { font-size: 13px; } }
 .mapOpt:focus-visible, .devToggle input:focus-visible, #dev button:focus-visible, #devSpeed:focus-visible { outline: 2px solid var(--safety); outline-offset: 2px; }
 .devToggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--cond); font-size: 16px; font-weight: 600; cursor: pointer; }
 .devToggle input { width: 18px; height: 18px; accent-color: var(--safety); }
@@ -249,9 +257,9 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
       <p class="tag help" hidden>Escolha um mundo e um veículo, rebata a bola e ponha tudo abaixo. Cada mundo tem 5 fases e um chefão no fim; vencer o chefão dá um veículo novo de prêmio. Os caixotes de madeira escondem surpresas: quase sempre um power-up, às vezes um debuff. Por onde você passa ficam as marcas dos pneus.</p>
       <p class="tag help" hidden>Chefões: só o ponto fraco tira vida (a cabine da Grua Monstra, os olhos do Caranguejão, a cabeça do Dragão Serpente); o resto é blindado e só rebate a bola. Com 2/3 e com 1/3 da vida eles ficam mais bravos. Desvie do que eles jogam no seu veículo: tudo traz um debuff.</p>
       <h3>Mundos</h3>
-      <div class="maps" id="maps" role="group" aria-label="Escolha o mundo"></div>
+      <div class="maps tiles" id="maps" role="group" aria-label="Escolha o mundo"></div>
       <h3>Veículo</h3>
-      <div class="maps" id="vehicles" role="group" aria-label="Escolha o veículo"></div>
+      <div class="maps tiles" id="vehicles" role="group" aria-label="Escolha o veículo"></div>
       <label class="devToggle"><input type="checkbox" id="devMode"> 🛠️ Modo desenvolvedor <small>todos os mundos e veículos liberados, vidas infinitas, velocidade da bola e power-ups na lateral</small></label>
       <div class="row">
         <button id="btnPlay" class="btn" type="button">Demolir</button>
@@ -362,7 +370,7 @@ const SHIELD_Z = HD - 0.7;
 const BALL_R = 0.4;
 const MAX_BALLS = 14;
 const BACK_H = 2.2;
-const GAME_VERSION = '0.12';
+const GAME_VERSION = '1.0';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -2019,8 +2027,9 @@ function renderVehiclePicker() {
   $('vehicles').innerHTML = VEHICLES.map((v) => {
     const locked = vehicleLocked(v.k);
     const pic = vehThumbs[v.k] ? `<span class="thumb"><img src="${vehThumbs[v.k]}" alt="">${locked ? '<em class="lock">🔒</em>' : ''}</span>` : `<b>${locked ? '🔒' : v.icon}</b>`;
-    return `<button class="mapOpt" type="button" data-veh="${v.k}" aria-pressed="${v.k === vehicle}" ${locked ? 'disabled' : ''}>${pic}`
-      + `<span><strong>${v.n}</strong><small>${locked ? v.lock : v.blurb}</small></span></button>`;
+    const tip = locked ? v.lock : v.blurb;
+    return `<button class="mapOpt tile" type="button" data-veh="${v.k}" aria-pressed="${v.k === vehicle}" ${locked ? 'disabled' : ''} title="${tip}" aria-label="${v.n}. ${tip}">${pic}`
+      + `<strong>${v.n}</strong></button>`;
   }).join('');
   $('vehicles').querySelectorAll('.mapOpt').forEach((b) => b.addEventListener('click', () => setVehicle(b.dataset.veh)));
   const dv = document.getElementById('devVeh');
@@ -2034,8 +2043,9 @@ function markDone(i) {
 function renderMapPicker() {
   $('maps').innerHTML = MAPS.map((m, i) => {
     const locked = mapLocked(i);
-    return `<button class="mapOpt" type="button" data-map="${i}" aria-pressed="${i === mapIdx}" ${locked ? 'disabled' : ''}><b>${locked ? '🔒' : m.icon}</b>`
-      + `<span><strong>Mundo ${i + 1} · ${m.name}</strong><small>${locked ? 'Vença o chefão do mundo anterior para liberar' : (m.levels.length - 1) + ' fases + chefão · ' + m.blurb}</small></span>`
+    const tip = 'Mundo ' + (i + 1) + ' · ' + (locked ? 'Vença o chefão do mundo anterior para liberar' : (m.levels.length - 1) + ' fases + chefão · ' + m.blurb);
+    return `<button class="mapOpt tile" type="button" data-map="${i}" aria-pressed="${i === mapIdx}" ${locked ? 'disabled' : ''} title="${tip}" aria-label="${m.name}. ${tip}"><b>${locked ? '🔒' : m.icon}</b>`
+      + `<strong>${m.name}</strong>`
       + `${doneMaps.includes(i) ? '<em class="done" title="Concluído">✓</em>' : ''}</button>`;
   }).join('');
   $('maps').querySelectorAll('.mapOpt').forEach((b) => b.addEventListener('click', () => { setMap(+b.dataset.map); if (state === 'menu') loadLevel(1); }));
