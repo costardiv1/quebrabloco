@@ -1,0 +1,20 @@
+# Quebrabloco
+
+Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único arquivo HTML.
+
+- 3 mundos com 5 fases e um chefão cada: (Des)Construção, Praia Praiana e Orien Tal
+- Veículos no lugar da plataforma, com prêmios por mundo
+- Power-ups, debuffs, caixotes surpresa, música e sons gerados por código
+- Modo desenvolvedor com velocidade da bola, troca de mundo, fase e veículo
+
+## Arquivos
+
+- `brickstorm.html`: o jogo inteiro (HTML, CSS e JavaScript). Modelos, texturas, sons e músicas são gerados por código.
+- `chefoes.md`: o desenho original dos chefões.
+
+## Créditos
+
+Desenvolvido em vibecode por Vinícius Costardi.
+
+- three.js r170 (licença MIT)
+- Fontes do Google Fonts (SIL Open Font License 1.1): Bungee, Barlow, Barlow Condensed e Sedgwick Ave
