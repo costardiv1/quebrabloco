@@ -8,7 +8,8 @@ Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único 
 - Veículos no lugar da plataforma, com prêmios por mundo
 - Moedas que caem dos caixotes e blocos, e uma garagem para comprar veículos
 - Modo Caos: mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes caindo e blocos que andam
-- Qualidade gráfica HD, SD ou Leve (tecla Q), que se ajusta sozinha em PCs mais fracos
+- Dificuldade Fácil, Normal ou Difícil (velocidade da bola), com um recorde para cada uma
+- Qualidade gráfica HD, SD ou Leve (no menu ou tecla Q), que se ajusta sozinha em PCs mais fracos
 - Power-ups, debuffs, caixotes surpresa, música e sons gerados por código
 - Modo desenvolvedor com velocidade da bola, troca de mundo, fase e veículo
 

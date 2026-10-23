@@ -88,6 +88,12 @@ body { background: var(--asphalt); color: var(--paper); font-family: var(--body)
 .card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 10px;
   background: repeating-linear-gradient(-45deg, var(--safety) 0 14px, #1b1b1b 14px 28px); }
 .card.narrow { width: min(430px, 100%); text-align: center; align-items: center; }
+.codeForm { display: flex; flex-direction: column; align-items: center; gap: 6px; font-family: var(--cond); font-weight: 600; }
+.codeRow { display: flex; gap: 6px; }
+.codeForm input { width: 170px; font: 600 16px var(--cond); color: var(--paper); background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; }
+.codeForm input:focus-visible { outline: 2px solid var(--safety); outline-offset: 2px; }
+#credVer { cursor: default; }
+.codeForm small { color: var(--concrete); min-height: 1.2em; }
 .title { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(34px, 7.6vw, 66px); line-height: 0.95; color: var(--safety);
   text-shadow: 4px 4px 0 var(--brick); letter-spacing: 0.01em; }
 .logoWrap { margin: 0; padding-right: 48px; }
@@ -161,7 +167,7 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 .coinBal { color: var(--paper); font-size: 15px; letter-spacing: 0.04em; text-transform: none; }
 .coinTxt { color: var(--safety); }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
-.mapOpt:focus-visible, .devToggle input:focus-visible, #dev button:focus-visible, #devSpeed:focus-visible { outline: 2px solid var(--safety); outline-offset: 2px; }
+.mapOpt:focus-visible, .devToggle input:focus-visible, #dev button:focus-visible, #dev input:focus-visible { outline: 2px solid var(--safety); outline-offset: 2px; }
 .devToggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--cond); font-size: 16px; font-weight: 600; cursor: pointer; }
 .devToggle input { width: 18px; height: 18px; accent-color: var(--safety); }
 .devToggle small { color: var(--concrete); font-weight: 500; font-size: 14px; }
@@ -172,7 +178,7 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 #devBody { overflow-y: auto; overflow-x: hidden; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 .devLbl { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--concrete); font-weight: 700; }
 .devLbl output { color: var(--safety); font-size: 20px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-#devSpeed { width: 100%; accent-color: var(--safety); }
+#devSpeed, .devRange { width: 100%; accent-color: var(--safety); }
 .devScale { display: flex; justify-content: space-between; font-size: 11px; color: var(--concrete); margin-top: -4px; }
 .devCheck { display: flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 600; cursor: pointer; }
 .devCheck input { width: 16px; height: 16px; accent-color: var(--safety); }
@@ -192,10 +198,25 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
   .lg span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { #banner, #combo, #toast { transition: none; } }
+/* dev phone simulation: a 390×844 portrait screen with the narrow-screen rules from the media queries above */
+html.mobileSim body { background: #0b0c0e; }
+html.mobileSim #app { width: 390px; height: min(844px, calc(100% - 24px)); margin: 12px auto; border-radius: 26px; box-shadow: 0 0 0 7px #2a2c30, 0 0 0 8px #44474d; }
+html.mobileSim #dev { position: fixed; right: 12px; top: 12px; width: 230px; max-height: calc(100% - 24px); }
+html.mobileSim #maps.tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html.mobileSim #maps .mapOpt.tile { padding: 10px 4px 8px; }
+html.mobileSim #maps .mapOpt.tile strong { font-size: 13px; }
+html.mobileSim .plate { padding: 4px 8px 5px; }
+html.mobileSim .lbl { font-size: 10px; }
+html.mobileSim #combo { top: 78px; font-size: 18px; }
+html.mobileSim .legend { grid-template-columns: 1fr 1fr; }
+html.mobileSim .lg span { display: none; }
+#simExit { position: fixed; left: 12px; top: 12px; z-index: 20; font-family: var(--cond); font-size: 15px; font-weight: 600; color: #1b1b1b; background: var(--safety);
+  border: 0; border-radius: 6px; padding: 8px 12px; cursor: pointer; }
 </style>
 </head>
 <body>
 
+<button id="simExit" type="button" hidden>🖥️ Sair do modo celular</button>
 <div id="app">
   <canvas id="c" aria-label="Quarteirão do jogo"></canvas>
 
@@ -235,6 +256,13 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
       <label class="devLbl" for="devSpeed">Velocidade da bola <output id="devSpeedOut" for="devSpeed">1.0×</output></label>
       <input id="devSpeed" type="range" min="0.3" max="3" step="0.1" value="1">
       <div class="devScale"><span>0,3×</span><span>1×</span><span>3×</span></div>
+      <label class="devLbl" for="devSize">Tamanho do veículo <output id="devSizeOut" for="devSize">1.00×</output></label>
+      <input id="devSize" class="devRange" type="range" min="0.5" max="2" step="0.05" value="1">
+      <div class="devScale"><span>0,5×</span><span>só visual</span><span>2×</span></div>
+      <label class="devLbl" for="devSens">Sensibilidade <output id="devSensOut" for="devSens">1.0×</output></label>
+      <input id="devSens" class="devRange" type="range" min="0.4" max="2.5" step="0.1" value="1">
+      <div class="devScale"><span>0,4×</span><span>1×</span><span>2,5×</span></div>
+      <button type="button" id="devMobile" aria-pressed="false">📱 Simular celular</button>
       <label class="devCheck" for="devInf"><input type="checkbox" id="devInf"> ♾️ Power-ups não acabam</label>
       <div class="devLbl">Mundo</div>
       <div class="devRow" id="devWorlds"></div>
@@ -301,6 +329,18 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
         <button class="btn ghost camOpt" type="button" data-cam="2">Deitada</button>
         <button class="btn ghost camOpt" type="button" data-cam="3">Rasante</button>
       </div>
+      <div class="row" role="group" aria-label="Dificuldade">
+        <span class="keys">Dificuldade:</span>
+        <button class="btn ghost camOpt diffOpt" type="button" data-diff="easy" title="Bola na velocidade original">Fácil</button>
+        <button class="btn ghost camOpt diffOpt" type="button" data-diff="normal" title="Bola 20% mais rápida">Normal</button>
+        <button class="btn ghost camOpt diffOpt" type="button" data-diff="hard" title="Bola 40% mais rápida">Difícil</button>
+      </div>
+      <div class="row" role="group" aria-label="Gráficos">
+        <span class="keys">Gráficos:</span>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="high" title="Sombras e brilho">HD</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="low" title="Sem sombras">SD</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="lite" title="Para PCs e celulares fracos">Leve</button>
+      </div>
       <h3 class="help" hidden>Power-ups</h3>
       <div class="legend help" id="legendPU" hidden></div>
       <h3 class="help" hidden>Debuffs · desvie das placas de aviso</h3>
@@ -330,6 +370,11 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
     <div class="card narrow">
       <h3 id="credTitle">Créditos</h3>
       <p class="tag">Desenvolvido em vibecode por <strong>Vinícius Costardi</strong>.<br>Versão <span id="credVer"></span></p>
+      <form id="codeForm" class="codeForm" hidden autocomplete="off">
+        <label for="codeIn" id="codeLbl">Código secreto</label>
+        <div class="codeRow"><input id="codeIn" type="password" spellcheck="false" autocapitalize="off"><button id="codeBtn" class="btn small" type="submit">Liberar</button></div>
+        <small id="codeMsg" role="status"></small>
+      </form>
       <h3>Assets de terceiros</h3>
       <ul class="credList">
         <li><strong>three.js</strong> r170: motor 3D e efeitos de pós-processamento. © autores do three.js, licença MIT.</li>
@@ -404,16 +449,16 @@ const COLS = 11, CELL_W = 2.0, CELL_D = 1.0;
 const BRICK_W = 1.94, BRICK_H = 0.9, BRICK_D = 0.94, BW2 = BRICK_W / 2, BD2 = BRICK_D / 2;
 const TOP_Z = -HD + 3.5;
 const Y = 0.55;
-// the player's line sits 4 units in front of the arena's far edge so the ball's trip up and back is shorter;
+// the player's line sits 2 units in front of the arena's far edge so the ball's trip up and back is shorter;
 // PLAY_END is where the playfield (and the camera framing) ends behind the vehicle
-const PADDLE_Z = HD - 6.2, PADDLE_HD = 0.33, PLAY_END = PADDLE_Z + 2.2;
+const PADDLE_Z = HD - 4.2, PADDLE_HD = 0.33, PLAY_END = PADDLE_Z + 2.2;
 const SHIELD_Z = PADDLE_Z + 1.5;
 const BALL_R = 0.4;
 const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.2';
+const GAME_VERSION = '1.3';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -729,7 +774,7 @@ scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.55;
 
 const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1400);
-const camTarget = new THREE.Vector3(0, 0, -1.0);
+const camTarget = new THREE.Vector3(0, 0, 0);
 const camBase = new THREE.Vector3(0, 30, 26);
 
 const composer = new EffectComposer(renderer);
@@ -2347,8 +2392,25 @@ let savedMap = 0;
 try { savedMap = clamp(parseInt(localStorage.getItem('brickstorm-map') || '0', 10) || 0, 0, MAPS.length - 1); } catch (e) { savedMap = 0; }
 let doneMaps = [];
 try { doneMaps = JSON.parse(localStorage.getItem('brickstorm-done') || '[]'); if (!Array.isArray(doneMaps)) doneMaps = []; } catch (e) { doneMaps = []; }
-let devMode = false, devSpeed = 1, devInf = false;
-try { devMode = DEV_BUILD && localStorage.getItem('brickstorm-dev') === '1'; } catch (e) { devMode = false; }
+let devMode = false, devSpeed = 1, devInf = false, devVehSize = 1, devSens = 1, mobileSim = false;
+// difficulty sets the ball's base speed: Fácil is the original speed, Normal +20%, Difícil +40%
+const DIFF = { easy: { n: 'Fácil', sp: 1 }, normal: { n: 'Normal', sp: 1.2 }, hard: { n: 'Difícil', sp: 1.4 } };
+let diff = 'normal';
+try { diff = localStorage.getItem('brickstorm-diff') || 'normal'; } catch (e) { diff = 'normal'; }
+if (!DIFF[diff]) diff = 'normal';
+// the public build hides developer mode unless this browser was unlocked with the secret code (tap the version in Créditos 5 times)
+const DEV_CODE_HASH = 323566500745557;
+let devAllowed = DEV_BUILD;
+try { devAllowed = DEV_BUILD || localStorage.getItem('brickstorm-devkey') === '1'; } catch (e) { devAllowed = DEV_BUILD; }
+try { devMode = devAllowed && localStorage.getItem('brickstorm-dev') === '1'; } catch (e) { devMode = false; }
+function codeHash(str, seed = 0) {
+  // cyrb53: a small 53-bit string hash, so the code itself is not written in the page
+  let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
 const mapLocked = (i) => !devMode && i > 0 && !doneMaps.includes(i - 1);
 function setMap(i) {
   mapIdx = clamp(i, 0, MAPS.length - 1);
@@ -3320,7 +3382,7 @@ let vehViewScale = 1;
 function layoutPaddle() {
   // scale the whole model so its length equals the paddle; keep its front on the hitbox, the rest extends back
   // lower camera angles draw the vehicle a little smaller (visual only: the hitbox keeps the paddle width)
-  const v = VEH[vehicle] || VEH.excav, k = (paddle.w / v.len) * vehViewScale;
+  const v = VEH[vehicle] || VEH.excav, k = (paddle.w / v.len) * vehViewScale * devVehSize;
   v.group.scale.setScalar(k);
   v.group.position.set(0, 0.55 * (k - 1), v.hd * k - PADDLE_HD);
   const half = (v.len * k) / 2 - 0.25;
@@ -3490,8 +3552,12 @@ let rockets = 0, laserAmmo = 0;
 let bricks = [], balls = [], lasers = [], rocketList = [], capsules = [], bolts = [], explQ = [], timers = [];
 let firing = false, laserCD = 0, rocketCD = 0, shake = 0, clearT = 0, levelName = '', theme = THEMES.manha;
 let gameTime = 0, perfT = 0, perfFrames = 0, perfChecked = false;
-try { hi = parseInt(localStorage.getItem('brickstorm-hi') || '0', 10) || 0; } catch (e) { hi = 0; }
-function saveHi() { if (score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi', String(hi)); } catch (e) {} } }
+// each difficulty keeps its own record; the single record from 1.2 and earlier (ball +40%) becomes Difícil's
+try { const old = localStorage.getItem('brickstorm-hi'); if (old && !localStorage.getItem('brickstorm-hi-hard')) localStorage.setItem('brickstorm-hi-hard', old); } catch (e) {}
+function loadHi() { try { hi = parseInt(localStorage.getItem('brickstorm-hi-' + diff) || '0', 10) || 0; } catch (e) { hi = 0; } }
+loadHi();
+function saveHi() { if (score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi-' + diff, String(hi)); } catch (e) {} } }
+const hiLabel = () => 'Recorde no ' + DIFF[diff].n + ': ' + hi.toLocaleString('pt-BR');
 
 // ---- Theme (time of day)
 function applyTheme(key) {
@@ -3670,7 +3736,7 @@ function newBall(x, z, vx, vz, stuck = false) {
   return b;
 }
 function ballSpeed() {
-  const base = (18 + Math.min(level - 1, 12) * 0.5 + Math.min(gameTime / 60, 1) * 1.5) * 1.4;
+  const base = (18 + Math.min(level - 1, 12) * 0.5 + Math.min(gameTime / 60, 1) * 1.5) * DIFF[diff].sp;
   return base * (pw.slow > 0 ? 0.62 : 1) * (pw.turbo > 0 ? 1.35 : 1) * devSpeed;
 }
 function launchBall(b) {
@@ -4853,7 +4919,7 @@ function updateHUD() {
   shownScore += (score - shownScore) * 0.2;
   if (Math.abs(score - shownScore) < 1) shownScore = score;
   $('score').textContent = Math.round(shownScore).toLocaleString('pt-BR');
-  $('hiTxt').textContent = 'Recorde ' + Math.max(hi, score).toLocaleString('pt-BR');
+  $('hiTxt').textContent = 'Recorde ' + DIFF[diff].n + ' ' + Math.max(hi, score).toLocaleString('pt-BR');
   const lv = $('lives');
   const want = devMode ? '∞' : String(lives);
   if (lv.dataset.v !== want) {
@@ -4967,7 +5033,7 @@ function gameOver() {
   state = 'over'; saveHi();
   $('finalScore').textContent = score.toLocaleString('pt-BR');
   $('overKicker').textContent = chaos ? 'Fim de jogo · Modo Caos · Rodada ' + chaosRound : 'Fim de jogo · Mundo ' + (mapIdx + 1) + ' · Fase ' + level;
-  $('overMsg').textContent = score >= hi && score > 0 ? 'Novo recorde!' : 'Recorde: ' + hi.toLocaleString('pt-BR');
+  $('overMsg').textContent = score >= hi && score > 0 ? 'Novo recorde no ' + DIFF[diff].n + '!' : hiLabel();
   $('overOv').hidden = false;
 }
 function levelCleared() {
@@ -4999,7 +5065,7 @@ function victory(prize) {
   state = 'over'; saveHi(); clearDynamic(); Snd.clear();
   $('finalScore').textContent = score.toLocaleString('pt-BR');
   $('overKicker').textContent = 'Você zerou todos os mundos!';
-  $('overMsg').textContent = (prize ? 'Você ganhou: ' + prize.n + '! ' : '') + (score >= hi && score > 0 ? 'Novo recorde!' : 'Recorde: ' + hi.toLocaleString('pt-BR'));
+  $('overMsg').textContent = (prize ? 'Você ganhou: ' + prize.n + '! ' : '') + (score >= hi && score > 0 ? 'Novo recorde no ' + DIFF[diff].n + '!' : hiLabel());
   $('overOv').hidden = false;
 }
 function setPaused(p) {
@@ -5025,15 +5091,15 @@ function worldX(e) {
 let touchRef = null;
 canvas.addEventListener('pointermove', (e) => {
   const x = worldX(e); if (x === null) return;
-  if (e.pointerType === 'mouse') paddle.target = pw.invert > 0 ? -x : x;
-  else if (touchRef) paddle.target = touchRef.px + (x - touchRef.wx) * (pw.invert > 0 ? -1.25 : 1.25);
+  if (e.pointerType === 'mouse' && !mobileSim) paddle.target = pw.invert > 0 ? -x : x;
+  else if (touchRef) paddle.target = touchRef.px + (x - touchRef.wx) * (pw.invert > 0 ? -1.25 : 1.25) * devSens;
 });
 canvas.addEventListener('pointerdown', (e) => {
   Snd.init();
   if (state !== 'play') return;
   canvas.setPointerCapture?.(e.pointerId);
   const x = worldX(e);
-  if (e.pointerType !== 'mouse' && x !== null) touchRef = { wx: x, px: paddle.target };
+  if ((e.pointerType !== 'mouse' || mobileSim) && x !== null) touchRef = { wx: x, px: paddle.target };
   else if (x !== null) paddle.target = pw.invert > 0 ? -x : x;
   pressFire();
 });
@@ -5088,8 +5154,34 @@ $('btnBuy').addEventListener('click', () => {
 });
 $('btnShopClose').addEventListener('click', closeShop);
 $('shopOv').addEventListener('click', (e) => { if (e.target === $('shopOv')) closeShop(); });
-const setCredits = (on) => { $('credOv').hidden = !on; (on ? $('btnCredClose') : $('btnCredits')).focus(); };
+const setCredits = (on) => { $('credOv').hidden = !on; if (!on) $('codeForm').hidden = true; (on ? $('btnCredClose') : $('btnCredits')).focus(); };
 $('btnCredits').addEventListener('click', () => setCredits(true));
+// secret: 5 quick taps on the version number open the code field
+let verTaps = 0, verTapT = 0;
+function renderCodeForm() {
+  const locked = !devAllowed || DEV_BUILD;
+  $('codeIn').hidden = !locked; $('codeLbl').textContent = locked ? 'Código secreto' : 'Modo desenvolvedor liberado neste navegador';
+  $('codeBtn').textContent = locked ? 'Liberar' : 'Bloquear de novo'; $('codeBtn').hidden = DEV_BUILD;
+}
+$('credVer').addEventListener('click', () => {
+  const now = performance.now(); verTaps = now - verTapT < 700 ? verTaps + 1 : 1; verTapT = now;
+  if (verTaps >= 5 && $('codeForm').hidden) { $('codeForm').hidden = false; $('codeMsg').textContent = ''; renderCodeForm(); if (!$('codeIn').hidden) $('codeIn').focus(); }
+});
+$('codeForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (DEV_BUILD) return;
+  if (devAllowed) {
+    devAllowed = false; setDevMode(false);
+    try { localStorage.removeItem('brickstorm-devkey'); } catch (er) {}
+    $('codeMsg').textContent = 'Modo desenvolvedor bloqueado.';
+  } else if (codeHash($('codeIn').value.trim().toLowerCase()) === DEV_CODE_HASH) {
+    devAllowed = true;
+    try { localStorage.setItem('brickstorm-devkey', '1'); } catch (er) {}
+    setDevMode(true);
+    $('codeMsg').textContent = 'Liberado! O modo desenvolvedor está ligado no menu.';
+  } else { $('codeMsg').textContent = 'Código errado.'; }
+  $('codeIn').value = ''; document.querySelector('.devToggle').hidden = !devAllowed; renderCodeForm();
+});
 $('btnCredClose').addEventListener('click', () => setCredits(false));
 $('credOv').addEventListener('click', (e) => { if (e.target === $('credOv')) setCredits(false); });
 $('btnResume').addEventListener('click', () => setPaused(false));
@@ -5109,13 +5201,21 @@ $('btnMusic').addEventListener('click', () => { Snd.init(); toggleMusic(); });
 window.addEventListener('pointerdown', () => Snd.init());
 $('btnQ').addEventListener('click', () => setQuality(Q_NEXT[quality], true));
 $('btnCam').addEventListener('click', () => setCamMode(camMode + 1, true));
-document.querySelectorAll('.camOpt').forEach((b) => b.addEventListener('click', () => setCamMode(+b.dataset.cam, false)));
+document.querySelectorAll('[data-cam]').forEach((b) => b.addEventListener('click', () => setCamMode(+b.dataset.cam, false)));
+function setDiff(d) {
+  diff = DIFF[d] ? d : 'normal';
+  try { localStorage.setItem('brickstorm-diff', diff); } catch (e) {}
+  document.querySelectorAll('.diffOpt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.diff === diff)));
+  loadHi(); if (state === 'menu') $('loading').textContent = hiLabel();
+}
+document.querySelectorAll('.diffOpt').forEach((b) => b.addEventListener('click', () => setDiff(b.dataset.diff)));
+document.querySelectorAll('.qOpt').forEach((b) => b.addEventListener('click', () => setQuality(b.dataset.q, false, true)));
 
 // HD: shadows, bloom, full resolution · SD: no shadows · LEVE: lower resolution, no bloom, fewer particles,
 // no tyre marks and a short view distance, for weak PCs
 const Q_LABEL = { high: 'HD', low: 'SD', lite: 'LEVE' }, Q_NEXT = { high: 'low', low: 'lite', lite: 'high' };
 function applyViewDistance() { camera.far = quality === 'lite' ? (env.fogFar || 170) + 40 : 1400; camera.updateProjectionMatrix(); }
-function setQuality(q, announce) {
+function setQuality(q, announce, save = announce) {
   quality = Q_LABEL[q] ? q : 'high';
   const hiQ = quality === 'high', lite = quality === 'lite';
   sun.castShadow = hiQ;
@@ -5125,10 +5225,13 @@ function setQuality(q, announce) {
   applyViewDistance();
   $('btnQ').textContent = Q_LABEL[quality];
   $('btnQ').setAttribute('aria-pressed', String(hiQ));
+  document.querySelectorAll('.qOpt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.q === quality)));
   resize();
-  if (announce) {
+  if (save) {
     try { localStorage.setItem('brickstorm-quality', quality); } catch (e) {}
     perfChecked = true;
+  }
+  if (announce) {
     toast(hiQ ? 'Qualidade alta: sombras e brilho' : lite ? 'Modo leve: menos efeitos, mais desempenho' : 'Qualidade média: sem sombras');
   }
 }
@@ -5146,15 +5249,29 @@ $('btnHelp').addEventListener('click', () => {
 // ---- Developer mode: ball speed, level jump, power-up sidebar, all maps unlocked
 const devEl = $('dev');
 function setDevMode(on) {
-  on = DEV_BUILD && on;
+  on = devAllowed && on;
   devMode = on; $('devMode').checked = on;
   try { localStorage.setItem('brickstorm-dev', on ? '1' : '0'); } catch (e) {}
-  if (!on) { devInf = false; $('devInf').checked = false; devSpeed = 1; $('devSpeed').value = '1'; $('devSpeedOut').textContent = '1.0×'; if (mapLocked(mapIdx)) { setMap(0); if (state === 'menu') loadLevel(1); } }
+  if (!on) { devInf = false; $('devInf').checked = false; devSpeed = 1; $('devSpeed').value = '1'; $('devSpeedOut').textContent = '1.0×'; setDevSize(1); setDevSens(1); setMobileSim(false); if (mapLocked(mapIdx)) { setMap(0); if (state === 'menu') loadLevel(1); } }
   renderMapPicker(); setVehicle(vehicle);
 }
 $('devMode').addEventListener('change', (e) => setDevMode(e.target.checked));
 $('devInf').addEventListener('change', (e) => { devInf = e.target.checked; });
 $('devSpeed').addEventListener('input', (e) => { devSpeed = +e.target.value; $('devSpeedOut').textContent = devSpeed.toFixed(1) + '×'; });
+function setDevSize(v) { devVehSize = v; $('devSize').value = String(v); $('devSizeOut').textContent = v.toFixed(2) + '×'; }
+function setDevSens(v) { devSens = v; $('devSens').value = String(v); $('devSensOut').textContent = v.toFixed(1) + '×'; }
+$('devSize').addEventListener('input', (e) => setDevSize(+e.target.value));
+$('devSens').addEventListener('input', (e) => setDevSens(+e.target.value));
+// phone simulation: the game shrinks to a portrait phone screen with the phone layout, and the mouse drags like a finger
+function setMobileSim(on) {
+  mobileSim = on;
+  document.documentElement.classList.toggle('mobileSim', on);
+  $('devMobile').setAttribute('aria-pressed', String(on)); $('devMobile').textContent = on ? '🖥️ Voltar ao PC' : '📱 Simular celular';
+  $('simExit').hidden = !on;
+  resize();
+}
+$('devMobile').addEventListener('click', () => setMobileSim(!mobileSim));
+$('simExit').addEventListener('click', () => setMobileSim(false));
 $('devFold').addEventListener('click', () => { const b = $('devBody'); b.hidden = !b.hidden; $('devFold').textContent = b.hidden ? '+' : '–'; $('devFold').setAttribute('aria-label', b.hidden ? 'Abrir painel' : 'Recolher painel'); });
 const devBtn = (k) => `<button type="button" data-pu="${k}" title="${PU[k].desc}"><span class="e">${PU[k].l}</span>${PU[k].n}</button>`;
 $('devPU').innerHTML = Object.keys(PU).filter((k) => !PU[k].bad).map(devBtn).join('');
@@ -5176,21 +5293,22 @@ devEl.addEventListener('click', (e) => {
 const fitPts = [[-HW - 0.9, 0, -HD - 0.9], [HW + 0.9, 0, -HD - 0.9], [-HW - 0.9, 0, PLAY_END + 0.4], [HW + 0.9, 0, PLAY_END + 0.4], [-HW - 0.9, BACK_H, -HD - 0.9], [HW + 0.9, BACK_H, -HD - 0.9]]
   .map((p) => new THREE.Vector3(...p));
 // Camera angle: height factor applied to the view direction (lower = more lying down)
-const CAM_MODES = [{ n: 'Câmera alta', f: 1, vs: 1 }, { n: 'Câmera média', f: 0.68, vs: 1 }, { n: 'Câmera deitada', f: 0.42, vs: 0.9 }, { n: 'Câmera rasante', f: 0.26, vs: 0.76 }];
+// fp is the factor on tall (phone) screens, where the base angle is much steeper; vs shrinks the vehicle a little at low angles
+const CAM_MODES = [{ n: 'Câmera alta', f: 1, fp: 1, vs: 1 }, { n: 'Câmera média', f: 0.68, fp: 0.68, vs: 1 }, { n: 'Câmera deitada', f: 0.42, fp: 0.3, vs: 0.95 }, { n: 'Câmera rasante', f: 0.26, fp: 0.2, vs: 0.9 }];
 let camMode = 0;
 try { camMode = clamp(parseInt(localStorage.getItem('brickstorm-cam') || '0', 10) || 0, 0, 3); } catch (e) { camMode = 0; }
 function setCamMode(m, announce) {
   camMode = ((m % CAM_MODES.length) + CAM_MODES.length) % CAM_MODES.length;
-  vehViewScale = CAM_MODES[camMode].vs;
+  if (!camReady) vehViewScale = CAM_MODES[camMode].vs;
   try { localStorage.setItem('brickstorm-cam', String(camMode)); } catch (e) {}
-  document.querySelectorAll('.camOpt').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.cam === camMode)));
+  document.querySelectorAll('[data-cam]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.cam === camMode)));
   fitCamera();
   if (announce) toast(CAM_MODES[camMode].n);
 }
 function fitCamera() {
   const a = camera.aspect;
   const t = clamp((a - 0.55) / (1.6 - 0.55), 0, 1);
-  const dir = new THREE.Vector3(0, THREE.MathUtils.lerp(3.2, 1.25, t) * CAM_MODES[camMode].f, 1).normalize();
+  const cm = CAM_MODES[camMode], dir = new THREE.Vector3(0, THREE.MathUtils.lerp(3.2 * cm.fp, 1.25 * cm.f, t), 1).normalize();
   const topLimit = a < 0.8 ? 0.74 : 0.78;
   let lo = 5, hiD = 250;
   for (let i = 0; i < 40; i++) {
@@ -5220,7 +5338,7 @@ window.addEventListener('resize', resize);
 function update(dt) {
   gameTime += dt;
   const kd = ((keys.ArrowRight || keys.KeyD ? 1 : 0) - (keys.ArrowLeft || keys.KeyA ? 1 : 0)) * (pw.invert > 0 ? -1 : 1);
-  if (kd) paddle.target += kd * 26 * dt;
+  if (kd) paddle.target += kd * 26 * devSens * dt;
   const sizeLv = clamp((pw.expand > 0 ? expandLv : 0) - (pw.shrink > 0 ? shrinkLv : 0), -2, 2);
   paddle.wantW = paddle.baseW * SIZE_W[sizeLv + 2]; paddle.wantS = SIZE_S[sizeLv + 2];
   paddle.w += (paddle.wantW - paddle.w) * Math.min(1, dt * 8);
@@ -5230,7 +5348,7 @@ function update(dt) {
     paddle.vx *= Math.max(0, 1 - 2.4 * dt);
     paddle.x += paddle.vx * dt;
     if (Math.random() < 0.3) dust.emit(paddle.x + rand(-1, 1), 0.08, PADDLE_Z + 0.4, 0, 0.05, 0, 1.2, 0.6, 0x15140f, 1, 1, 0, 0.5, 0.5);
-  } else { paddle.vx = 0; paddle.x += (paddle.target - paddle.x) * Math.min(1, dt * ((VEH[vehicle] && VEH[vehicle].agile) || 22)); }
+  } else { paddle.vx = 0; paddle.x += (paddle.target - paddle.x) * Math.min(1, dt * ((VEH[vehicle] && VEH[vehicle].agile) || 22) * devSens); }
   paddle.x = clamp(paddle.x, -HW + paddle.w / 2, HW - paddle.w / 2);
 
   for (const k in pw) if (pw[k] > 0) {
@@ -5294,6 +5412,8 @@ function animate(dt, t) {
   paddle.bump = Math.max(0, paddle.bump - dt);
   paddle.group.position.z = PADDLE_Z + paddle.bump * 0.8;
   paddle.group.position.y = Y;
+  // the vehicle eases to its size for the camera angle at the same pace as the camera moves
+  vehViewScale += (CAM_MODES[camMode].vs - vehViewScale) * Math.min(1, dt * 5);
   layoutPaddle();
   const dxp = paddle.x - paddle.lastX; paddle.lastX = paddle.x;
   const vk = (VEH[vehicle] || VEH.excav).group.scale.x;
@@ -5393,11 +5513,13 @@ function boot(data) {
   fontsP.catch(() => {}).then(() => { for (const f of wallRedraws) f(); });
   setTimeout(() => { makeVehThumbs(); renderVehiclePicker(); }, 60);
   $('devMode').checked = devMode;
-  if (!DEV_BUILD) document.querySelector('.devToggle').hidden = true;
+  document.querySelector('.devToggle').hidden = !devAllowed;
   $('btnMusic').setAttribute('aria-pressed', String(Snd.musicOn));
   setCamMode(camMode, false);
+  setDiff(diff);
+  setQuality(quality, false);
   loadLevel(1);
-  $('loading').textContent = 'Recorde: ' + hi.toLocaleString('pt-BR');
+  $('loading').textContent = hiLabel();
   window.__bsReady = true;
   renderer.setAnimationLoop(frame);
   if (data && data.level && data.lives > 0 && data.state && data.state !== 'menu' && data.state !== 'over') {
