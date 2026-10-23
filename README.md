@@ -21,7 +21,7 @@ Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único 
 
 ## Créditos
 
-Desenvolvido em vibecode por Vinícius Costardi.
+Feito por Vinícius Costardi e Claude Code. Desenvolvido em vibe code.
 
 - three.js r170 (licença MIT)
 - Fontes do Google Fonts (SIL Open Font License 1.1): Bungee, Barlow, Barlow Condensed e Sedgwick Ave
