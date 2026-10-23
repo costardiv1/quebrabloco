@@ -5,13 +5,14 @@ Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único 
 **Jogar:** https://costardiv1.github.io/quebrabloco/
 
 - 4 mundos com 5 fases e um chefão cada: (Des)Construção, Praia Praiana, Orien Tal e Euro Peu
-- Veículos no lugar da plataforma, com prêmios por mundo
+- 11 veículos no lugar da plataforma, cada um com seu som de motor (sirene na viatura, nos bombeiros e na ambulância), e um veículo de prêmio por mundo
 - Moedas que caem dos caixotes e blocos, e uma garagem para comprar veículos
 - Modo Caos: mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes caindo e blocos que andam
 - Dificuldade Fácil, Normal ou Difícil (velocidade da bola), com um recorde para cada uma
+- Quatro ângulos de câmera (alta, média, deitada e rasante), ajustados para PC e celular
 - Qualidade gráfica HD, SD ou Leve (no menu ou tecla Q), que se ajusta sozinha em PCs mais fracos
-- Power-ups, debuffs, caixotes surpresa, música e sons gerados por código
-- Modo desenvolvedor com velocidade da bola, troca de mundo, fase e veículo
+- Power-ups, debuffs (como Ventania e Bola Fantasma), caixotes surpresa, música e sons gerados por código
+- Modo desenvolvedor na versão de desenvolvimento: velocidade da bola, tamanho e sensibilidade do veículo, simulação de celular e atalhos para mundos, fases e veículos
 
 ## Arquivos
 
@@ -24,4 +25,4 @@ Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único 
 Feito por Vinícius Costardi e Claude Code. Desenvolvido em vibe code.
 
 - three.js r170 (licença MIT)
-- Fontes do Google Fonts (SIL Open Font License 1.1): Bungee, Barlow, Barlow Condensed e Sedgwick Ave
+- Fontes do Google Fonts (SIL Open Font License 1.1): Bungee, Barlow, Barlow Condensed, Sedgwick Ave, Pacifico, Potta One e Ma Shan Zheng
