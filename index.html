@@ -372,7 +372,7 @@ html.mobileSim .lg span { display: none; }
       <p class="tag">Desenvolvido em vibecode por <strong>Vinícius Costardi</strong>.<br>Versão <span id="credVer"></span></p>
       <form id="codeForm" class="codeForm" hidden autocomplete="off">
         <label for="codeIn" id="codeLbl">Código secreto</label>
-        <div class="codeRow"><input id="codeIn" type="password" spellcheck="false" autocapitalize="off"><button id="codeBtn" class="btn small" type="submit">Liberar</button></div>
+        <div class="codeRow"><input id="codeIn" type="text" inputmode="numeric" spellcheck="false" autocapitalize="off"><button id="codeBtn" class="btn small" type="submit">Liberar</button></div>
         <small id="codeMsg" role="status"></small>
       </form>
       <h3>Assets de terceiros</h3>
@@ -458,7 +458,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.3';
+const GAME_VERSION = '1.3.1';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -2399,7 +2399,7 @@ let diff = 'normal';
 try { diff = localStorage.getItem('brickstorm-diff') || 'normal'; } catch (e) { diff = 'normal'; }
 if (!DIFF[diff]) diff = 'normal';
 // the public build hides developer mode unless this browser was unlocked with the secret code (tap the version in Créditos 5 times)
-const DEV_CODE_HASH = 323566500745557;
+const DEV_CODE_HASH = 2248051642376391;
 let devAllowed = DEV_BUILD;
 try { devAllowed = DEV_BUILD || localStorage.getItem('brickstorm-devkey') === '1'; } catch (e) { devAllowed = DEV_BUILD; }
 try { devMode = devAllowed && localStorage.getItem('brickstorm-dev') === '1'; } catch (e) { devMode = false; }
