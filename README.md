@@ -1,22 +1,84 @@
 # Quebrabloco
 
-Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único arquivo HTML.
+Jogo 3D de quebrar blocos, no estilo dos Brick Breakers clássicos, em que a plataforma é um veículo e a bola põe o quarteirão abaixo. Roda no navegador, no PC e no celular, sem instalar nada.
 
 **Jogar:** https://costardiv1.github.io/quebrabloco/
 
-- 4 mundos com 5 fases e um chefão cada: (Des)Construção, Praia Praiana, Orien Tal e Euro Peu
-- 11 veículos no lugar da plataforma, cada um com seu som de motor (sirene na viatura, nos bombeiros e na ambulância), e um veículo de prêmio por mundo
-- Moedas que caem dos caixotes e blocos, e uma garagem para comprar veículos
-- Modo Caos: mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes caindo e blocos que andam
-- Dificuldade Fácil, Normal ou Difícil (velocidade da bola), com um recorde para cada uma
-- Quatro ângulos de câmera (alta, média, deitada e rasante), ajustados para PC e celular
-- Qualidade gráfica HD, SD ou Leve (no menu ou tecla Q), que se ajusta sozinha em PCs mais fracos
-- Power-ups, debuffs (como Ventania e Bola Fantasma), caixotes surpresa, música e sons gerados por código
-- Modo desenvolvedor na versão de desenvolvimento: velocidade da bola, tamanho e sensibilidade do veículo, simulação de celular e atalhos para mundos, fases e veículos
+![Fase do mundo (Des)Construção, com a escavadeira e os blocos de tijolo e vidro](imagens/construcao.jpg)
+
+## Sobre o projeto
+
+O Quebrabloco foi feito por Vinícius Costardi e Claude Code, em vibe code, em cerca de uma semana. O Vinícius dirigiu o jogo inteiro: as ideias, os mundos e os nomes, o jeito de cada veículo e os testes no PC e no celular. O Claude Code escreveu todo o código. Nenhuma linha foi digitada à mão.
+
+Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os sons, as sirenes e as músicas são gerados por código, sem arquivos de imagem ou de áudio. A única arte de fora são os ícones dos power-ups, embutidos no arquivo como desenhos vetoriais.
+
+![Menu com os mundos e os veículos](imagens/menu.jpg)
+
+## Como jogar
+
+Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, um tutorial dentro da fase 1 explica cada passo.
+
+| | PC | Celular |
+|---|---|---|
+| Mexer o veículo | mouse ou setas ← → (A e D) | arrastar o dedo |
+| Lançar a bola e atirar | clique ou Espaço | tocar na tela |
+| Pausar | P ou Esc | botão de pausa |
+| Câmera, gráficos, música e som | C, Q, N e M | botões na barra de baixo |
+
+## Mundos
+
+Cada mundo tem 5 fases e um chefão no fim. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio.
+
+| | |
+|---|---|
+| ![(Des)Construção](imagens/construcao.jpg) **(Des)Construção** · canteiro de obras na cidade | ![Praia Praiana](imagens/praia.jpg) **Praia Praiana** · quiosques, guarda-sóis e o mar |
+| ![Orien Tal](imagens/oriental.jpg) **Orien Tal** · jardim zen, cerejeiras, drones e montanhas | ![Euro Peu](imagens/europeu.jpg) **Euro Peu** · casas de enxaimel, castelo e chafariz |
+
+## Chefões
+
+Só o ponto fraco tira vida; o resto do corpo é blindado e rebate a bola. Com 2/3 e com 1/3 da vida eles ficam mais bravos, e tudo o que jogam no veículo traz um debuff.
+
+| | |
+|---|---|
+| ![Grua Monstra](imagens/chefao-construcao.jpg) **Grua Monstra** · ponto fraco: a cabine | ![Caranguejão](imagens/chefao-praia.jpg) **Caranguejão** · ponto fraco: os olhos |
+| ![Dragão Serpente](imagens/chefao-oriental.jpg) **Dragão Serpente** · ponto fraco: a cabeça | ![Rei do Xadrez](imagens/chefao-europeu.jpg) **Rei do Xadrez** · ponto fraco: o rei |
+
+## Veículos
+
+São 11 veículos, cada um com seu som de motor. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
+
+- **De fábrica:** Escavadeira e Caminhão Caçamba
+- **Prêmios dos chefões:** Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Caminhão Betoneira (Mundo 3) e Superesportivo (Mundo 4)
+- **Na garagem, com moedas:** Viatura (200), Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350) e Carro Tunado (400)
+
+As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
+
+## Power-ups e debuffs
+
+As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contorno branco; os debuffs, contorno vermelho, e é melhor desviar deles.
+
+- **Power-ups:** Laser, Foguetes, Ímã, Multibola, Expandir (às vezes ×2), Bola de Fogo, Bola Bomba, Raio em Cadeia, Tempestade, Mega Bola, Câmera Lenta, Escudo e Vida Extra
+- **Debuffs:** Encolher (às vezes ×2), Turbo, Invertido, Poeirão, Óleo na Pista, Ventania e Bola Fantasma (a bola some perto dos blocos)
+
+![Ajuda do jogo com os power-ups e debuffs](imagens/ajuda.jpg)
+
+## Modo Caos
+
+Mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para ir o mais longe que der.
+
+![Modo Caos](imagens/caos.jpg)
+
+## Opções
+
+- **Dificuldade:** Fácil, Normal ou Difícil (a velocidade da bola), com um recorde para cada uma
+- **Câmera:** alta, média, deitada ou rasante, ajustadas para PC e celular
+- **Gráficos:** HD, SD ou Leve, que se ajustam sozinhos em aparelhos mais fracos
+- **Pausa:** congela tudo, inclusive o som, e dá para trocar câmera, gráficos, música e som com o jogo parado
 
 ## Arquivos
 
-- `index.html`: o jogo inteiro (HTML, CSS e JavaScript), versão pública sem modo desenvolvedor. Modelos, texturas, sons e músicas são gerados por código.
+- `index.html`: o jogo inteiro (HTML, CSS e JavaScript), versão pública.
+- `imagens/`: as fotos desta página, tiradas do próprio jogo.
 - `scripts/gerar_index.py`: gera o `index.html` a partir da versão de desenvolvimento, que fica só no computador do autor.
 - `chefoes.md`: o desenho original dos chefões.
 
@@ -25,4 +87,5 @@ Jogo 3D de quebrar blocos (estilo Brick Breaker) feito com three.js, num único 
 Feito por Vinícius Costardi e Claude Code. Desenvolvido em vibe code.
 
 - three.js r170 (licença MIT)
+- Ícones dos power-ups e debuffs: [game-icons.net](https://game-icons.net) (Lorc, Delapouite e colaboradores), licença CC BY 3.0
 - Fontes do Google Fonts (SIL Open Font License 1.1): Bungee, Barlow, Barlow Condensed, Sedgwick Ave, Pacifico, Potta One e Ma Shan Zheng
