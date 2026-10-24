@@ -12,11 +12,13 @@ O Quebrabloco foi feito por Vinícius Costardi e Claude Code, em vibe code, em c
 
 Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os sons, as sirenes e as músicas são gerados por código, sem arquivos de imagem ou de áudio. A única arte de fora são os ícones dos power-ups, embutidos no arquivo como desenhos vetoriais.
 
-![Menu com os mundos e os veículos](imagens/menu.jpg)
+![Tela de escolha do mundo](imagens/menu.jpg)
 
 ## Como jogar
 
-Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, um tutorial dentro da fase 1 explica cada passo.
+O menu tem três botões: **Jogar** (escolha o mundo e depois o veículo), **Placar** (recordes de cada dificuldade, mundos vencidos, veículos e moedas) e **Opções**.
+
+Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
 | | PC | Celular |
 |---|---|---|
@@ -33,6 +35,7 @@ Cada mundo tem 5 fases e um chefão no fim. Vencer o chefão libera o próximo m
 |---|---|
 | ![(Des)Construção](imagens/construcao.jpg) **(Des)Construção** · canteiro de obras na cidade | ![Praia Praiana](imagens/praia.jpg) **Praia Praiana** · quiosques, guarda-sóis e o mar |
 | ![Orien Tal](imagens/oriental.jpg) **Orien Tal** · jardim zen, cerejeiras, drones e montanhas | ![Euro Peu](imagens/europeu.jpg) **Euro Peu** · casas de enxaimel, castelo e chafariz |
+| ![Gela Deira](imagens/gelo.jpg) **Gela Deira** · lago congelado, iglus, pinguins e aurora boreal; o veículo escorrega no gelo | ![Deserto Certo](imagens/deserto.jpg) **Deserto Certo** · pirâmides, oásis e camelos; tempestades de areia escondem os blocos |
 
 ## Chefões
 
@@ -42,13 +45,14 @@ Só o ponto fraco tira vida; o resto do corpo é blindado e rebate a bola. Com 2
 |---|---|
 | ![Grua Monstra](imagens/chefao-construcao.jpg) **Grua Monstra** · ponto fraco: a cabine | ![Caranguejão](imagens/chefao-praia.jpg) **Caranguejão** · ponto fraco: os olhos |
 | ![Dragão Serpente](imagens/chefao-oriental.jpg) **Dragão Serpente** · ponto fraco: a cabeça | ![Rei do Xadrez](imagens/chefao-europeu.jpg) **Rei do Xadrez** · ponto fraco: o rei |
+| ![Iéti Abominável](imagens/chefao-gelo.jpg) **Iéti Abominável** · ponto fraco: a cabeça, protegida pelos punhos | ![Múmia Faraó](imagens/chefao-deserto.jpg) **Múmia Faraó** · ponto fraco: a máscara de ouro, entre as tampas do sarcófago |
 
 ## Veículos
 
-São 11 veículos, cada um com seu som de motor. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
+São 13 veículos, cada um com seu som de motor. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
 
 - **De fábrica:** Escavadeira e Caminhão Caçamba
-- **Prêmios dos chefões:** Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Caminhão Betoneira (Mundo 3) e Superesportivo (Mundo 4)
+- **Prêmios dos chefões:** Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Caminhão Betoneira (Mundo 3), Superesportivo (Mundo 4), Trator Limpa-Neve (Mundo 5) e Caminhão Rali Dakar (Mundo 6)
 - **Na garagem, com moedas:** Viatura (200), Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350) e Carro Tunado (400)
 
 As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
@@ -58,13 +62,13 @@ As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
 As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contorno branco; os debuffs, contorno vermelho, e é melhor desviar deles.
 
 - **Power-ups:** Laser, Foguetes, Ímã, Multibola, Expandir (às vezes ×2), Bola de Fogo, Bola Bomba, Raio em Cadeia, Tempestade, Mega Bola, Câmera Lenta, Escudo e Vida Extra
-- **Debuffs:** Encolher (às vezes ×2), Turbo, Invertido, Poeirão, Óleo na Pista, Ventania e Bola Fantasma (a bola some perto dos blocos)
+- **Debuffs:** Encolher (às vezes ×2), Turbo, Invertido, Poeirão, Óleo na Pista, Ventania, Congelado (o veículo fica preso num bloco de gelo) e Bola Fantasma (a bola some perto dos blocos)
 
 ![Ajuda do jogo com os power-ups e debuffs](imagens/ajuda.jpg)
 
 ## Modo Caos
 
-Mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para ir o mais longe que der.
+Liberado depois de vencer o chefão do Mundo 2. Mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para ir o mais longe que der.
 
 ![Modo Caos](imagens/caos.jpg)
 
