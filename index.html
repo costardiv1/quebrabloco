@@ -564,7 +564,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.7.1';
+const GAME_VERSION = '1.7.2';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -4152,8 +4152,7 @@ const handles = (parent, xs, y, hz) => { for (const x of xs) for (const z of [-h
 const wipers = (parent, x, y, zs, tilt) => { for (const z of zs) det(parent, wiperGeo, blackGlossMat, x, y, z, 0.35, tilt); };
 const antenna = (parent, x, y, z, h) => det(parent, new THREE.CylinderGeometry(0.006, 0.009, h, 5), blackGlossMat, x, y + h / 2, z);
 const lamp = (parent, mat, x, y, z, r = 0.05) => det(parent, new THREE.CylinderGeometry(r, r, 0.03, 12), mat, x, y, z, 0, Math.PI / 2);
-// excavator: track rollers, house handrail, work lights, mirror, boom hoses and hazard stripes, cab frame
-for (const tz of [-0.42, 0.42]) for (const x of [-0.5, -0.17, 0.17, 0.5]) det(excavG, new THREE.CylinderGeometry(0.07, 0.07, 0.37, 10), darkMetal, x, -0.47, tz, 0, 0, Math.PI / 2);
+// excavator: house handrail, work lights, mirror, boom hoses and hazard stripes, cab frame
 tube(V3(-0.75, 0.66, 0.44), V3(0.0, 0.66, 0.44), 0.014, yellowMat, upper);
 for (const x of [-0.75, -0.38, 0.0]) tube(V3(x, 0.52, 0.44), V3(x, 0.66, 0.44), 0.012, yellowMat, upper);
 for (const z of [-0.36, -0.1]) det(upper, new THREE.BoxGeometry(0.04, 0.06, 0.08), M.headlight, 0.59, 1.08, z);
@@ -4466,7 +4465,7 @@ let combo = 0, comboShow = 0;
 const pw = { magnet: 0, expand: 0, fire: 0, bomb: 0, slow: 0, shield: 0, mega: 0, tempest: 0, shrink: 0, turbo: 0, invert: 0, poeira: 0, oil: 0, vento: 0, fantasma: 0, gelo: 0, mini: 0 };
 let windDir = 1, windT = 0;
 let stormNext = 0, stormLeft = 0, expandLv = 0, shrinkLv = 0;
-const SIZE_W = [0.5, 0.7, 1, 1.5, 1.95], SIZE_S = [0.8, 0.9, 1, 1.12, 1.25];
+const SIZE_W = [0.75, 0.85, 1, 1.25, 1.475], SIZE_S = [0.9, 0.95, 1, 1.06, 1.125];
 let rockets = 0, laserAmmo = 0;
 let bricks = [], balls = [], lasers = [], rocketList = [], capsules = [], bolts = [], explQ = [], timers = [];
 let firing = false, laserCD = 0, rocketCD = 0, shake = 0, clearT = 0, levelName = '', theme = THEMES.manha;
@@ -5218,15 +5217,15 @@ const hzMat = {
 const ringGeo = new THREE.RingGeometry(0.55, 0.75, 28); ringGeo.rotateX(-Math.PI / 2);
 hzGeo.orb = new THREE.SphereGeometry(0.3, 14, 10);
 hzMat.orb = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(1.7, 0.6, 2.8) });
-hzGeo.snowball = new THREE.SphereGeometry(0.36, 14, 10);
-hzMat.snowball = envMat({ color: 0xf6fafc, roughness: 0.9 });
+hzGeo.crystal = new THREE.OctahedronGeometry(0.34, 0); hzGeo.crystal.scale(0.8, 1.6, 0.8);
+hzMat.crystal = envMat({ color: 0x9fe4ff, roughness: 0.05, metalness: 0.3, flatShading: true, emissive: 0x2a8fd0, emissiveIntensity: 0.55, transparent: true, opacity: 0.9 });
 hzGeo.icicle = new THREE.ConeGeometry(0.24, 1.2, 7); hzGeo.icicle.rotateX(Math.PI);
 hzMat.icicle = envMat({ color: 0xbfe6f5, roughness: 0.08, metalness: 0.2, flatShading: true, emissive: 0x2a6f8a, emissiveIntensity: 0.25 });
 hzGeo.scarab = new THREE.SphereGeometry(0.3, 12, 8);
 hzMat.scarab = envMat({ color: 0x1f6a52, roughness: 0.25, metalness: 0.85, emissive: 0x0a3020, emissiveIntensity: 0.4 });
 hzGeo.sandfall = new THREE.DodecahedronGeometry(0.55, 1);
 hzMat.sandfall = envMat({ color: 0xd9b77a, roughness: 0.95, flatShading: true });
-const HZ_BAD = { fire: 'shrink', shell: 'invert', bag: 'poeira', orb: 'turbo', snowball: 'gelo', icicle: 'shrink', scarab: 'invert', sandfall: 'poeira' };
+const HZ_BAD = { fire: 'shrink', shell: 'invert', bag: 'poeira', orb: 'turbo', crystal: 'gelo', icicle: 'shrink', scarab: 'invert', sandfall: 'poeira' };
 // these fall from the sky onto a marked spot instead of flying along the floor
 const FALLING = new Set(['bag', 'icicle', 'sandfall']);
 function spawnHazard(kind, x, z, tx, speed = 8) {
@@ -5251,7 +5250,7 @@ function clearHazards() { for (let i = hazards.length - 1; i >= 0; i--) removeHa
 function hazardHit(h) {
   applyPower(h.bad); shake = Math.max(shake, 0.35); flash(h.x, h.z, h.kind === 'fire' ? 0xff6a1a : 0xffd8a0, 90);
   if (h.kind === 'fire') { sparks(h.x, Y + 0.4, h.z, 30, 0xff7a1a, 6, 0.5, 0.35, 2.6, -4); Snd.boom(0.4); }
-  else dustCloud(h.x, h.z, 6, h.kind === 'bag' ? 0xd9d2c0 : h.kind === 'snowball' || h.kind === 'icicle' ? 0xf4fbff : 0xe8d6ad, 1.4, 0.8, 0.55);
+  else dustCloud(h.x, h.z, 6, h.kind === 'bag' ? 0xd9d2c0 : h.kind === 'crystal' || h.kind === 'icicle' ? 0xf4fbff : 0xe8d6ad, 1.4, 0.8, 0.55);
 }
 function updateHazards(dt) {
   for (let i = hazards.length - 1; i >= 0; i--) {
@@ -5271,7 +5270,7 @@ function updateHazards(dt) {
     }
     h.x += h.vx * dt; h.z += h.vz * dt;
     if (h.kind === 'scarab') { h.x = clamp(h.x + Math.cos(h.t * 6) * 4 * dt, -HW + 0.4, HW - 0.4); h.mesh.rotation.y = Math.atan2(h.vx + Math.cos(h.t * 6) * 4, h.vz) - Math.PI / 2; }
-    if (h.kind === 'snowball' && Math.random() < 0.5) dust.emit(h.x, h.y, h.z, rand(-0.3, 0.3), rand(0, 0.4), rand(-0.3, 0.3), 0.5, rand(0.15, 0.3), 0xffffff, 1, 1, 0, 0.6, 0.7);
+    if (h.kind === 'crystal') { h.mesh.rotation.y += dt * 7; h.mesh.rotation.z = 0.35; if (Math.random() < 0.6) glow.emit(h.x, h.y, h.z, rand(-0.4, 0.4), rand(0.1, 0.6), rand(-0.4, 0.4), 0.4, rand(0.2, 0.35), 0x8fdcff, 1.8, 1.5, 0); }
     if (h.kind === 'orb') {
       // bishop orbs bounce off the side walls
       if (h.x < -HW + 0.3 || h.x > HW - 0.3) { h.vx = -h.vx; h.x = clamp(h.x, -HW + 0.3, HW - 0.3); }
@@ -5683,7 +5682,7 @@ function makeDragon() {
 }
 
 // ---- Boss 5 · Iéti Abominável: a huge furry yeti stomping at the back of the frozen lake. Weak point: the head.
-// His fists guard the head and sweep in front of it; he throws snowballs that freeze the vehicle, pounds the ice
+// His fists guard the head and sweep in front of it; he throws ice crystals that freeze the vehicle, pounds the ice
 // to drop icicles on the player (2/3 life) and raises walls of ice blocks (1/3 life).
 function makeYeti() {
   const B = newBoss('yeti', 'Iéti Abominável', 'a cabeça', 26);
@@ -5746,7 +5745,7 @@ function makeYeti() {
     if (B.intro > 0) return;
     if ((B.throwT -= dt) <= 0) {
       B.throwT = [2.6, 2.1, 1.7][ph - 1]; B.throwAnim = 0.5;
-      spawnHazard('snowball', B.x + 1.6, -11.5, paddle.x + rand(-1.5, 1.5), [8, 9, 10][ph - 1]); Snd.whoosh();
+      spawnHazard('crystal', B.x + 1.6, -11.5, paddle.x + rand(-1.5, 1.5), [8, 9, 10][ph - 1]); Snd.whoosh();
     }
     if (ph >= 2 && (B.poundT -= dt) <= 0) {
       // ground pound: the ice shakes and icicles fall on three spots around the player
