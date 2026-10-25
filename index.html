@@ -564,7 +564,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.7.2';
+const GAME_VERSION = '1.7.3';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -1000,10 +1000,10 @@ const BOSS_LEVELS = {
 const MAPS = [
   { key: 'obra', name: '(Des)Construção', icon: '🏗️', blurb: 'casas, prédios e obras', prize: 'buggy', levels: [...LEVELS, BOSS_LEVELS.crane] },
   { key: 'praia', name: 'Praia Praiana', icon: '🏖️', blurb: 'quiosques, castelos e coqueiros', prize: 'ae86', levels: [...PRAIA_LEVELS, BOSS_LEVELS.crab] },
-  { key: 'oriente', name: 'Orien Tal', icon: '⛩️', blurb: 'pagodes, torii e lanternas', prize: 'mixer', levels: [...ORIENTE_LEVELS, BOSS_LEVELS.dragon] },
-  { key: 'europa', name: 'Euro Peu', icon: '🏰', blurb: 'cafés, canais e castelos', prize: 'super', levels: [...EUROPA_LEVELS, BOSS_LEVELS.chess] },
-  { key: 'gelo', name: 'Gela Deira', icon: '❄️', blurb: 'lago congelado, iglus e pinheiros', prize: 'plow', levels: [...GELO_LEVELS, BOSS_LEVELS.yeti] },
-  { key: 'deserto', name: 'Deserto Certo', icon: '🏜️', blurb: 'pirâmides, dunas e oásis', prize: 'rally', levels: [...DESERTO_LEVELS, BOSS_LEVELS.mummy] },
+  { key: 'oriente', name: 'Orien Tal', icon: '⛩️', blurb: 'pagodes, torii e lanternas', prize: 'super', levels: [...ORIENTE_LEVELS, BOSS_LEVELS.dragon] },
+  { key: 'europa', name: 'Euro Peu', icon: '🏰', blurb: 'cafés, canais e castelos', prize: 'plow', levels: [...EUROPA_LEVELS, BOSS_LEVELS.chess] },
+  { key: 'gelo', name: 'Gela Deira', icon: '❄️', blurb: 'lago congelado, iglus e pinheiros', prize: 'rally', levels: [...GELO_LEVELS, BOSS_LEVELS.yeti] },
+  { key: 'deserto', name: 'Deserto Certo', icon: '🏜️', blurb: 'pirâmides, dunas e oásis', prize: 'harley', levels: [...DESERTO_LEVELS, BOSS_LEVELS.mummy] },
 ];
 let mapIdx = 0;
 // ================= Renderer / scene =================
@@ -3147,16 +3147,16 @@ const VEHICLES = [
   { k: 'dump', n: 'Caminhão Caçamba', short: 'Caçamba', icon: '🚚', blurb: 'Leva o entulho embora. Vem de fábrica.' },
   { k: 'buggy', n: 'Buggy Baja', short: 'Buggy', icon: '🚙', blurb: 'Ágil e feito para a areia.', key: 'brickstorm-buggy', lock: 'Vença o chefão do Mundo 1 para ganhar' },
   { k: 'ae86', n: 'Hatch 86', short: 'Hatch 86', icon: '🚗', blurb: 'Clássico das curvas de montanha.', key: 'brickstorm-ae86', lock: 'Vença o chefão do Mundo 2 para ganhar' },
-  { k: 'mixer', n: 'Caminhão Betoneira', short: 'Betoneira', icon: '🚛', blurb: 'O tambor não para de girar.', key: 'brickstorm-mixer', lock: 'Vença o chefão do Mundo 3 para ganhar' },
-  { k: 'super', n: 'Superesportivo', short: 'Super', icon: '🏎️', blurb: 'Motor V12, cunha baixinha e muita pressa.', key: 'brickstorm-super', lock: 'Vença o chefão do Mundo 4 para ganhar' },
-  { k: 'plow', n: 'Trator Limpa-Neve', short: 'Limpa-Neve', icon: '🚜', blurb: 'Lâmina gigante na frente e sal na traseira.', key: 'brickstorm-plow', lock: 'Vença o chefão do Mundo 5 para ganhar' },
-  { k: 'rally', n: 'Caminhão Rali Dakar', short: 'Rali', icon: '🚚', blurb: 'Suspensão alta e pneus para as dunas.', key: 'brickstorm-rally', lock: 'Vença o chefão do Mundo 6 para ganhar' },
-  { k: 'police', n: 'Viatura', short: 'Viatura', icon: '🚓', blurb: 'Giroflex azul e vermelho.', key: 'brickstorm-police', lock: 'Compre na garagem', price: 200 },
+  { k: 'mixer', n: 'Caminhão Betoneira', short: 'Betoneira', icon: '🚛', blurb: 'O tambor não para de girar.', key: 'brickstorm-mixer', lock: 'Complete a fase 2 do Mundo 1 para ganhar' },
+  { k: 'super', n: 'Superesportivo', short: 'Super', icon: '🏎️', blurb: 'Motor V12, cunha baixinha e muita pressa.', key: 'brickstorm-super', lock: 'Vença o chefão do Mundo 3 para ganhar' },
+  { k: 'plow', n: 'Trator Limpa-Neve', short: 'Limpa-Neve', icon: '🚜', blurb: 'Lâmina gigante na frente e sal na traseira.', key: 'brickstorm-plow', lock: 'Vença o chefão do Mundo 4 para ganhar' },
+  { k: 'rally', n: 'Caminhão Rali Dakar', short: 'Rali', icon: '🚚', blurb: 'Suspensão alta e pneus para as dunas.', key: 'brickstorm-rally', lock: 'Vença o chefão do Mundo 5 para ganhar' },
+  { k: 'police', n: 'Viatura', short: 'Viatura', icon: '🚓', blurb: 'Giroflex azul e vermelho.', key: 'brickstorm-police', lock: 'Complete a fase 3 do Mundo 2 para ganhar' },
   { k: 'fire', n: 'Caminhão de Bombeiros', short: 'Bombeiros', icon: '🚒', blurb: 'Escada, mangueira e sirene.', key: 'brickstorm-fire', lock: 'Compre na garagem', price: 250 },
   { k: 'ambulance', n: 'Ambulância', short: 'Ambulância', icon: '🚑', blurb: 'Sirene alta e luzes que disparam a cada rebatida.', key: 'brickstorm-ambulance', lock: 'Compre na garagem', price: 300 },
   { k: 'f1', n: 'Fórmula 1', short: 'Fórmula 1', icon: '🏎️', blurb: 'Asas, halo e muita pressa.', key: 'brickstorm-f1', lock: 'Compre na garagem', price: 350 },
   { k: 'tuned', n: 'Carro Tunado', short: 'Tunado', icon: '🚘', blurb: 'Conversível, aerofólio GT e neon rosa.', key: 'brickstorm-tuned', lock: 'Compre na garagem', price: 400 },
-  { k: 'harley', n: 'Moto Estradeira', short: 'Moto', icon: '🏍️', blurb: 'Motor V2 cromado, guidão largo e motoqueiro de jaqueta preta.', key: 'brickstorm-harley', lock: 'Compre na garagem', price: 450 },
+  { k: 'harley', n: 'Moto Estradeira', short: 'Moto', icon: '🏍️', blurb: 'Motor V2 cromado, guidão largo e motoqueiro de jaqueta preta.', key: 'brickstorm-harley', lock: 'Vença o chefão do último mundo para ganhar' },
 ];
 const ownedVeh = new Set();
 const vehThumbs = {};
@@ -3177,6 +3177,10 @@ function unlockVehicle(k) {
   try { if (v && v.key) localStorage.setItem(v.key, '1'); } catch (e) {}
   return true;
 }
+// vehicles won by finishing a regular level, keyed "world index:level"
+const LEVEL_PRIZES = { '0:2': 'mixer', '1:3': 'police' };
+// saves from before 1.7.3 had a different prize order: hand out whatever the worlds already beaten now give
+for (const i of doneMaps) { if (MAPS[i]) unlockVehicle(MAPS[i].prize); for (const lk in LEVEL_PRIZES) if (+lk.split(':')[0] === i) unlockVehicle(LEVEL_PRIZES[lk]); }
 function setVehicle(k) {
   vehicle = vehicleLocked(k) || !VEHICLES.some((v) => v.k === k) ? 'excav' : k;
   for (const key in VEH) VEH[key].group.visible = key === vehicle;
@@ -6205,7 +6209,13 @@ function levelCleared() {
 function nextLevel() {
   if (chaos) { chaosRound++; autoSwapVeh(); startChaosRound(); return; }
   if (level === 0) { endTut(true); startLevel(1); banner('FASE 1 · ' + levelName.toUpperCase(), 'Agora é pra valer · clique para lançar', 3); return; }
-  if (level < MAPS[mapIdx].levels.length) { autoSwapVeh(); startLevel(level + 1); return; }
+  if (level < MAPS[mapIdx].levels.length) {
+    const lp = LEVEL_PRIZES[mapIdx + ':' + level], lw = lp && unlockVehicle(lp) ? VEHICLES.find((v) => v.k === lp) : null;
+    if (lw) { Snd.power(); renderVehiclePicker(); setVehicle(lw.k); } else autoSwapVeh();
+    startLevel(level + 1);
+    if (lw) banner('VOCÊ GANHOU: ' + lw.n.toUpperCase() + '!', 'Fase ' + level + ' · clique para lançar', 3.8);
+    return;
+  }
   const chaosNew = mapIdx === 1 && !doneMaps.includes(1);
   markDone(mapIdx);
   // each world awards a vehicle the first time it is finished

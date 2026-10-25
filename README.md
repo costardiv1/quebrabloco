@@ -52,8 +52,9 @@ Só o ponto fraco tira vida; o resto do corpo é blindado e rebate a bola. Com 2
 São 14 veículos, cada um com seu som de motor, gravado de verdade. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
 
 - **De fábrica:** Escavadeira e Caminhão Caçamba
-- **Prêmios dos chefões:** Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Caminhão Betoneira (Mundo 3), Superesportivo (Mundo 4), Trator Limpa-Neve (Mundo 5) e Caminhão Rali Dakar (Mundo 6)
-- **Na garagem, com moedas:** Viatura (200), Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350), Carro Tunado (400) e Moto Estradeira (450), com motoqueiro de jaqueta preta e capacete
+- **Prêmios dos chefões:** cada chefão dá o veículo do próximo mundo: Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Superesportivo (Mundo 3), Trator Limpa-Neve (Mundo 4) e Caminhão Rali Dakar (Mundo 5). O chefão do último mundo dá a Moto Estradeira, com motoqueiro de jaqueta preta e capacete
+- **Prêmios de fase:** Caminhão Betoneira (fase 2 do Mundo 1) e Viatura (fase 3 do Mundo 2)
+- **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350) e Carro Tunado (400)
 
 As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
 
