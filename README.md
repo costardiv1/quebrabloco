@@ -29,7 +29,7 @@ Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os bl
 
 ## Mundos
 
-Cada mundo tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, pedra de curling e escaravelho dourado. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio.
+Cada mundo tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos) e escaravelho dourado. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio.
 
 | | |
 |---|---|

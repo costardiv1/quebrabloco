@@ -54,11 +54,6 @@ body { background: var(--asphalt); color: var(--paper); font-family: var(--body)
 #chips { display: flex; flex-wrap: wrap; gap: 6px; max-width: min(640px, 70vw); }
 .chip { position: relative; overflow: hidden; display: flex; align-items: center; gap: 7px; padding: 5px 10px 7px 6px;
   background: var(--plate); border: 1px solid var(--line); border-radius: 5px; font-family: var(--cond); font-size: 14px; font-weight: 600; letter-spacing: 0.03em; }
-.chip i { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 11px; font-weight: 700; color: #fff;
-  border: 2px solid #fff; text-shadow: 0 1px 1px rgba(0,0,0,.6); }
-.chip i, .lg i { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", var(--cond); }
-.lg i { font-size: 15px; } .chip i { font-size: 12px; }
-.chip i.warn, .lg i.warn { background: #ffc21a; color: #151515; border: none; border-radius: 0; text-shadow: none; clip-path: polygon(50% 2%, 99% 94%, 1% 94%); padding-top: 22%; font-weight: 800; }
 .chip.bad { border-color: rgba(200, 38, 28, 0.75); }
 .pui { flex: none; width: 24px; height: 24px; display: block; }
 .lg .pui { width: 32px; height: 32px; }
@@ -122,10 +117,6 @@ body { background: var(--asphalt); color: var(--paper); font-family: var(--body)
   text-shadow: 4px 4px 0 var(--brick); letter-spacing: 0.01em; }
 .logoWrap { margin: 0; padding-right: 48px; }
 .logo { display: block; width: min(560px, 100%); height: auto; }
-.helpBtn { position: absolute; top: 22px; right: 16px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--safety); background: transparent;
-  color: var(--safety); font-family: var(--display); font-size: 19px; cursor: pointer; z-index: 2; }
-.helpBtn[aria-expanded="true"] { background: var(--safety); color: #1b1b1b; }
-.helpBtn:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
 .title sup { font-size: 0.4em; vertical-align: top; margin-left: 6px; color: var(--paper); text-shadow: 2px 2px 0 var(--brick); }
 .tag { margin: 0; color: #d9d4c9; font-size: 16px; max-width: 60ch; line-height: 1.5; }
 .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -141,8 +132,6 @@ kbd { font-family: var(--cond); font-size: 13px; font-weight: 700; padding: 0 6p
 h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--safety); font-weight: 700; }
 .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 16px; }
 .lg { display: grid; grid-template-columns: 28px 1fr; gap: 9px; align-items: start; min-width: 0; }
-.lg i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 12px; color: #fff;
-  border: 2px solid #fff; font-family: var(--cond); text-shadow: 0 1px 1px rgba(0,0,0,.6); }
 .lg .sw { border-radius: 3px; border: 1px solid rgba(0,0,0,.4); }
 .lg div { min-width: 0; line-height: 1.3; }
 .lg strong { display: block; font-family: var(--cond); font-size: 16px; font-weight: 700; }
@@ -187,7 +176,6 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 .mapOpt.shop .thumb img { filter: grayscale(0.55) brightness(0.8); }
 .mapOpt.shop strong { color: var(--concrete); }
 .mapOpt .price { position: absolute; right: -2px; bottom: -4px; font-style: normal; font-family: var(--cond); font-weight: 700; font-size: 13px; color: #1b1b1b; background: var(--safety); border-radius: 10px; padding: 1px 7px; }
-.vehHead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .coinBal { color: var(--paper); font-size: 15px; letter-spacing: 0.04em; text-transform: none; }
 .coinTxt { color: var(--safety); }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
@@ -576,7 +564,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.7';
+const GAME_VERSION = '1.7.1';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -585,29 +573,29 @@ const hexCss = (h) => '#' + h.toString(16).padStart(6, '0');
 function mulberry32(a) { return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
 const PU = {
-  laser:  { n: 'Laser',        l: '🔫',  c: 0xe0283f, d: 0,  desc: '10 disparos dos canhões do veículo.' },
-  rocket: { n: 'Foguetes',     l: '🚀',  c: 0xf08a12, d: 0,  desc: '+6 mísseis teleguiados com explosão em área.' },
-  magnet: { n: 'Ímã',          l: '🧲',  c: 0x2a6fd6, d: 20, desc: 'Curva as bolas até o veículo e prende nele.' },
-  multi:  { n: 'Multibola',    l: '🎱', c: 0xe8b800, d: 0,  desc: 'Cada bola vira três.' },
-  expand: { n: 'Expandir',     l: '↔️',  c: 0x2f9e5b, d: 20, desc: 'Veículo maior. Acumula até 2×.' },
-  fire:   { n: 'Bola de Fogo', l: '🔥',  c: 0xff5a10, d: 10, desc: 'Atravessa e derrete qualquer parede.' },
-  bomb:   { n: 'Bola Bomba',   l: '💣',  c: 0x7e3fc4, d: 12, desc: 'Cada impacto explode os vizinhos.' },
-  storm:  { n: 'Raio em Cadeia', l: '⚡', c: 0x6fb21f, d: 0,  desc: 'Um raio pula de bloco em bloco e atinge 8.' },
-  tempest:{ n: 'Tempestade',   l: '⛈️', c: 0x3d5f99, d: 4,  desc: 'O céu fecha e 7 raios caem em blocos aleatórios.' },
-  mega:   { n: 'Mega Bola',    l: '🌑',  c: 0x5b6b8c, d: 12, desc: 'Bola gigante com dano triplo.' },
-  slow:   { n: 'Câmera Lenta', l: '🐢',  c: 0x2aa6c4, d: 12, desc: 'Bola mais lenta e fácil de controlar.' },
-  shield: { n: 'Escudo',       l: '🛡️',  c: 0x8a8f99, d: 15, desc: 'Cavalete de obra atrás do veículo.' },
-  life:   { n: 'Vida Extra',   l: '❤️', c: 0xd9468f, d: 0,  desc: 'Mais uma bola no estoque.' },
+  laser:  { n: 'Laser',        c: 0xe0283f, d: 0,  desc: '10 disparos dos canhões do veículo.' },
+  rocket: { n: 'Foguetes',     c: 0xf08a12, d: 0,  desc: '+6 mísseis teleguiados com explosão em área.' },
+  magnet: { n: 'Ímã',          c: 0x2a6fd6, d: 20, desc: 'Curva as bolas até o veículo e prende nele.' },
+  multi:  { n: 'Multibola',    c: 0xe8b800, d: 0,  desc: 'Cada bola vira três.' },
+  expand: { n: 'Expandir',     c: 0x2f9e5b, d: 20, desc: 'Veículo maior. Acumula até 2×.' },
+  fire:   { n: 'Bola de Fogo', c: 0xff5a10, d: 10, desc: 'Atravessa e derrete qualquer parede.' },
+  bomb:   { n: 'Bola Bomba',   c: 0x7e3fc4, d: 12, desc: 'Cada impacto explode os vizinhos.' },
+  storm:  { n: 'Raio em Cadeia', c: 0x6fb21f, d: 0,  desc: 'Um raio pula de bloco em bloco e atinge 8.' },
+  tempest:{ n: 'Tempestade',   c: 0x3d5f99, d: 4,  desc: 'O céu fecha e 7 raios caem em blocos aleatórios.' },
+  mega:   { n: 'Mega Bola',    c: 0x5b6b8c, d: 12, desc: 'Bola gigante com dano triplo.' },
+  slow:   { n: 'Câmera Lenta', c: 0x2aa6c4, d: 12, desc: 'Bola mais lenta e fácil de controlar.' },
+  shield: { n: 'Escudo',       c: 0x8a8f99, d: 15, desc: 'Cavalete de obra atrás do veículo.' },
+  life:   { n: 'Vida Extra',   c: 0xd9468f, d: 0,  desc: 'Mais uma bola no estoque.' },
   // debuffs: warning-sign capsules the player should dodge
-  shrink: { n: 'Encolher',      l: '🤏', c: 0xffc21a, d: 12, bad: true, desc: 'Veículo menor. Acumula até 2×.' },
-  turbo:  { n: 'Turbo',         l: '💨',  c: 0xffc21a, d: 10, bad: true, desc: 'A bola dispara muito mais rápido.' },
-  invert: { n: 'Invertido',     l: '🔄',  c: 0xffc21a, d: 8,  bad: true, desc: 'Esquerda vira direita.' },
-  poeira: { n: 'Poeirão',       l: '🌪️',  c: 0xffc21a, d: 10, bad: true, desc: 'Uma nuvem de poeira esconde os blocos.' },
-  oil:    { n: 'Óleo na Pista', l: '🛢️',  c: 0xffc21a, d: 10, bad: true, desc: 'A pá escorrega e demora a parar.' },
-  vento:  { n: 'Ventania',      l: '🌬️',  c: 0xffc21a, d: 10, bad: true, desc: 'Um vento lateral empurra a bola e muda de lado.' },
-  fantasma: { n: 'Bola Fantasma', l: '👻', c: 0xffc21a, d: 8, bad: true, desc: 'Perto dos blocos a bola some; ela volta a aparecer do seu lado.' },
-  gelo: { n: 'Congelado', l: '🧊', c: 0xffc21a, d: 1, bad: true, desc: 'O veículo congela e fica parado por 1 segundo.' },
-  mini: { n: 'Minibola', l: '⚪', c: 0xffc21a, d: 10, bad: true, desc: 'A bola fica pequenininha e difícil de acompanhar.' },
+  shrink: { n: 'Encolher',      c: 0xffc21a, d: 12, bad: true, desc: 'Veículo menor. Acumula até 2×.' },
+  turbo:  { n: 'Turbo',         c: 0xffc21a, d: 10, bad: true, desc: 'A bola dispara muito mais rápido.' },
+  invert: { n: 'Invertido',     c: 0xffc21a, d: 8,  bad: true, desc: 'Esquerda vira direita.' },
+  poeira: { n: 'Poeirão',       c: 0xffc21a, d: 10, bad: true, desc: 'Uma nuvem de poeira esconde os blocos.' },
+  oil:    { n: 'Óleo na Pista', c: 0xffc21a, d: 10, bad: true, desc: 'A pá escorrega e demora a parar.' },
+  vento:  { n: 'Ventania',      c: 0xffc21a, d: 10, bad: true, desc: 'Um vento lateral empurra a bola e muda de lado.' },
+  fantasma: { n: 'Bola Fantasma', c: 0xffc21a, d: 8, bad: true, desc: 'Perto dos blocos a bola some; ela volta a aparecer do seu lado.' },
+  gelo: { n: 'Congelado', c: 0xffc21a, d: 1, bad: true, desc: 'O veículo congela e fica parado por 1 segundo.' },
+  mini: { n: 'Minibola', c: 0xffc21a, d: 10, bad: true, desc: 'A bola fica pequenininha e difícil de acompanhar.' },
 };
 // Power-up and debuff icons: SVG paths (512×512) from game-icons.net, CC BY 3.0 (Lorc, Delapouite and contributors)
 const PU_ICON = {
@@ -4136,7 +4124,7 @@ for (const z of [-1, 1]) {
   tube(V3(0.56, 0.68, z * 0.26), V3(0.56, 0.86, z * 0.3), 0.01, chromeMat, harleyG);
   harP(new THREE.SphereGeometry(0.04, 10, 8), chromeMat, 0.56, 0.88, z * 0.3).scale.set(0.4, 1, 1.3);
 }
-const harTail = harP(new THREE.BoxGeometry(0.05, 0.04, 0.12), envMat({ color: 0xd8261c, emissive: 0x6a0a06, roughness: 0.4 }), -1.08, 0.08, 0);
+harP(new THREE.BoxGeometry(0.05, 0.04, 0.12), envMat({ color: 0xd8261c, emissive: 0x6a0a06, roughness: 0.4 }), -1.08, 0.08, 0);
 // rider: black leather jacket, jeans, boots on the forward pegs, gloves on the grips, black helmet with a dark visor
 const harRider = new THREE.Group(); harRider.position.set(-0.16, 0, 0); harleyG.add(harRider);
 const harTorso = harP(new RoundedBoxGeometry(0.3, 0.5, 0.4, 3, 0.1), harLeather, 0.06, 0.5, 0, harRider); harTorso.rotation.z = -0.2;
@@ -4429,17 +4417,19 @@ const footballMat = envMat({ roughness: 0.45, metalness: 0, emissive: 0x000000, 
   return toTex(c);
 })() });
 
-// Gela Deira: a curling stone in polished granite, a big red top with the chrome handle line, darker running band
-const curlingMat = envMat({ roughness: 0.3, metalness: 0.1, emissive: 0x000000, map: (() => {
-  const [c, g] = mkCanvas(512, 256); g.fillStyle = '#80848b'; g.fillRect(0, 0, 512, 256);
-  for (let i = 0; i < 7000; i++) { const v = Math.random(); g.fillStyle = v < 0.45 ? 'rgba(40,42,48,0.55)' : v < 0.8 ? 'rgba(200,204,210,0.5)' : 'rgba(150,120,110,0.45)'; g.fillRect(Math.random() * 512, Math.random() * 256, 2 + Math.random() * 2, 2 + Math.random() * 2); }
-  const top = g.createLinearGradient(0, 0, 0, 100); top.addColorStop(0, '#e8483c'); top.addColorStop(1, '#b0201a');
-  g.fillStyle = top; g.fillRect(0, 0, 512, 100); g.fillStyle = '#1d1e22'; g.fillRect(0, 100, 512, 7);
-  g.fillStyle = '#d8dadf'; g.fillRect(0, 10, 512, 8);
-  g.fillStyle = 'rgba(210,214,220,0.45)'; g.fillRect(0, 116, 512, 24); g.fillStyle = 'rgba(30,32,36,0.5)'; g.fillRect(0, 112, 512, 3); g.fillRect(0, 141, 512, 3);
-  g.fillStyle = 'rgba(20,22,26,0.35)'; g.fillRect(0, 210, 512, 46);
-  return toTex(c);
-})() });
+// Gela Deira: a packed snowball, lumpy white with cold blue shadows (it sheds snow flakes as it flies)
+const snowballMat = (() => {
+  const [c, g] = mkCanvas(256, 128), [cb, gb] = mkCanvas(256, 128);
+  g.fillStyle = '#f2f7fb'; g.fillRect(0, 0, 256, 128); gb.fillStyle = '#808080'; gb.fillRect(0, 0, 256, 128);
+  for (let i = 0; i < 140; i++) {
+    const x = Math.random() * 256, y = Math.random() * 128, r = 4 + Math.random() * 14, light = Math.random() < 0.5;
+    for (const [ctx, col] of [[g, light ? 'rgba(255,255,255,0.7)' : 'rgba(170,196,220,0.32)'], [gb, light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)']]) {
+      const rg = ctx.createRadialGradient(x, y, 0, x, y, r); rg.addColorStop(0, col); rg.addColorStop(1, 'rgba(128,128,128,0)');
+      ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+    }
+  }
+  return envMat({ roughness: 0.92, metalness: 0, emissive: 0x000000, map: toTex(c), bumpMap: toTex(cb, false), bumpScale: 3 });
+})();
 // Deserto Certo: a golden ball engraved with two winged scarabs pushing a red sun, hieroglyph bands top and bottom
 const scarabMat = envMat({ roughness: 0.3, metalness: 0.85, emissive: 0x000000, map: (() => {
   const [c, g] = mkCanvas(512, 256), gold = g.createLinearGradient(0, 0, 0, 256);
@@ -4818,6 +4808,7 @@ function updateBall(b, dt) {
   const unseen = ghostAlpha(b) < 0.5;
   if (unseen) { /* hidden ghost ball: no trail */ }
   else if (pw.fire > 0) for (let i = 0; i < 3; i++) glow.emit(b.x + rand(-0.2, 0.2), Y, b.z + rand(-0.2, 0.2), rand(-1, 1), rand(1, 3), rand(-1, 1), rand(0.3, 0.55), rand(0.45, 0.75), Math.random() < 0.5 ? 0xff3a00 : 0xffb030, 2.2, 1.5, 2);
+  else if (env === ice) { for (let i = 0; i < 2; i++) if (Math.random() < 0.9 * fxScale) dust.emit(b.x + rand(-0.25, 0.25), Y + rand(0, 0.3), b.z + rand(-0.25, 0.25), rand(-0.7, 0.7) - b.vx * 0.04, rand(0.3, 1.1), rand(-0.7, 0.7) - b.vz * 0.04, rand(0.9, 1.6), rand(0.16, 0.26), 0xcfe3f5, 1.1, 1.2, -2.5, 0, 0.95); }
   else if (env === orient) { if (Math.random() < 0.95 * fxScale) emitPetal(b.x + rand(-0.2, 0.2), Y + rand(0, 0.35), b.z + rand(-0.2, 0.2), rand(-0.8, 0.8) - b.vx * 0.04, rand(0.4, 1.2), rand(-0.8, 0.8) - b.vz * 0.04, rand(1.8, 2.8)); }
   else if (Math.random() < 0.5) dust.emit(b.x, 0.15, b.z, rand(-0.3, 0.3), 0.3, rand(-0.3, 0.3), 0.7, 0.5, env.trail, 1, 1, 0, 1.3, 0.28);
   if (!unseen && pw.bomb > 0 && Math.random() < 0.6) glow.emit(b.x, Y + b.r, b.z, rand(-1.5, 1.5), rand(2, 3), rand(-1.5, 1.5), 0.35, 0.18, 0xffd060, 3, 1, -6);
@@ -6709,7 +6700,7 @@ function animate(dt, t) {
   shield.userData.hit = Math.max(0, (shield.userData.hit || 0) - dt);
   shield.position.z = SHIELD_Z + shield.userData.hit * 1.2;
   const beachBall = env === beach || env === orient || env === europe || env === ice || env === desert;
-  const bm = env === orient ? temariMat : env === europe ? footballMat : env === ice ? curlingMat : env === desert ? scarabMat : beachBall ? beachBallMat : ballMat;
+  const bm = env === orient ? temariMat : env === europe ? footballMat : env === ice ? snowballMat : env === desert ? scarabMat : beachBall ? beachBallMat : ballMat;
   if (pw.fire > 0) { bm.color.setHex(0xff9a5a); bm.emissive.setHex(0xff4a00); bm.emissiveIntensity = 1.4; }
   else if (pw.bomb > 0) { bm.color.setHex(beachBall ? 0x4a4458 : 0x2c2833); bm.emissive.setHex(0x000000); }
   else if (beachBall) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = theme.lamps > 0.5 ? 0.12 : 0; }
