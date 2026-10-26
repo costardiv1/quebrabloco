@@ -18,7 +18,7 @@ Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os e
 
 O menu tem três botões: **Jogar** (escolha o mundo e depois o veículo), **Placar** (recordes de cada dificuldade e do Modo Caos, mundos vencidos, veículos e moedas) e **Opções**. Na escolha do veículo, a **Troca automática** coloca um veículo diferente, entre os que você já liberou, a cada fase.
 
-Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
+Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
 | | PC | Celular |
 |---|---|---|
@@ -29,7 +29,7 @@ Mexa o veículo, lance a bola e rebata para ela não passar. A bola quebra os bl
 
 ## Mundos
 
-Cada mundo tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos) e escaravelho dourado. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio.
+Cada mundo tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos) e escaravelho dourado. Vencer o chefão libera o próximo mundo e, do Mundo 1 ao 5, dá um veículo novo de prêmio.
 
 | | |
 |---|---|
@@ -52,30 +52,31 @@ Só o ponto fraco tira vida; o resto do corpo é blindado e rebate a bola. Com 2
 São 14 veículos, cada um com seu som de motor, gravado de verdade. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
 
 - **De fábrica:** Escavadeira e Caminhão Caçamba
-- **Prêmios dos chefões:** cada chefão dá o veículo do próximo mundo: Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Superesportivo (Mundo 3), Trator Limpa-Neve (Mundo 4) e Caminhão Rali Dakar (Mundo 5). O chefão do último mundo dá a Moto Estradeira, com motoqueiro de jaqueta preta e capacete
+- **Prêmios dos chefões:** cada chefão dá o veículo do próximo mundo: Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Superesportivo (Mundo 3), Trator Limpa-Neve (Mundo 4) e Caminhão Rali Dakar (Mundo 5). O chefão do Mundo 6 vai dar o veículo do Mundo 7, quando ele chegar
 - **Prêmios de fase:** Caminhão Betoneira (fase 2 do Mundo 1) e Viatura (fase 3 do Mundo 2)
-- **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350) e Carro Tunado (400)
+- **Prêmios do Modo Caos:** Carro Tunado (rodada 5) e Moto Estradeira, com motoqueiro de jaqueta preta e capacete (Modo Caos completo)
+- **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300) e Fórmula 1 (350)
 
 As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
 
 ## Power-ups e debuffs
 
-As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contorno branco; os debuffs, contorno vermelho, e é melhor desviar deles.
+As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contorno branco; os debuffs, contorno vermelho, e é melhor desviar deles. Eles caem mais no começo de cada fase e ficam mais raros perto do fim.
 
-- **Power-ups:** Laser, Foguetes, Ímã, Multibola, Expandir (às vezes ×2), Bola de Fogo, Bola Bomba, Raio em Cadeia, Tempestade, Mega Bola, Câmera Lenta, Escudo e Vida Extra
-- **Debuffs:** Encolher (às vezes ×2), Turbo, Invertido, Poeirão, Óleo na Pista, Ventania, Congelado (o veículo fica preso num bloco de gelo por 1 segundo), Minibola (a bola fica pequenininha) e Bola Fantasma (a bola some perto dos blocos)
+- **Power-ups:** Laser, Foguetes, Ímã, Multibola, Expandir (acumula até 4 vezes), Bola de Fogo, Bola Bomba, Raio em Cadeia, Tempestade, Mega Bola, Câmera Lenta, Escudo e Vida Extra
+- **Debuffs:** Encolher (acumula até 4 vezes), Turbo, Invertido, Poeirão, Óleo na Pista, Ventania, Congelado (o veículo fica preso num bloco de gelo por 1 segundo), Minibola (a bola fica pequenininha) e Bola Fantasma (a bola some perto dos blocos)
 
 ![Ajuda do jogo com os power-ups e debuffs](imagens/ajuda.jpg)
 
 ## Modo Caos
 
-Liberado depois de vencer o chefão do Mundo 2. Mundo sorteado, chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para ir o mais longe que der.
+Liberado depois de vencer o chefão do Mundo 2. Uma rodada em cada um dos 6 mundos, em ordem sorteada, com chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para chegar ao fim. Completar a rodada 5 dá o Carro Tunado, e completar o Modo Caos dá a Moto Estradeira.
 
 ![Modo Caos](imagens/caos.jpg)
 
 ## Opções
 
-- **Dificuldade:** Fácil, Normal ou Difícil (a velocidade da bola), com um recorde para cada uma
+- **Dificuldade:** Fácil, Normal ou Difícil, com um recorde para cada uma. Muda a velocidade da bola e a chance de power-ups (mais no Fácil, menos no Difícil)
 - **Câmera:** alta, média, deitada ou rasante, ajustadas para PC e celular
 - **Gráficos:** HD, SD ou Leve, que se ajustam sozinhos em aparelhos mais fracos
 - **Resetar progresso:** apaga mundos, recordes, moedas e veículos, mantendo as configurações
