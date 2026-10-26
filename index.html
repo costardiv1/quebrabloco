@@ -564,7 +564,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.8';
+const GAME_VERSION = '1.8.1';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -4300,8 +4300,8 @@ function makeVehThumbs() {
   for (const k in VEH) {
     const v = VEH[k], g = v.group, wasVis = g.visible;
     paddle.group.remove(g); g.scale.setScalar(v.vs || 1); g.position.set(0, 0, 0); g.visible = true; sc.add(g);
-    // the excavator's boom and the mixer's drum stick out of the frame, so their camera sits further back
-    const zoom = { excav: 1.6, mixer: 1.25, plow: 1.18, rally: 1.15, harley: 0.95 }[k] || 1;
+    // the excavator's boom, the mixer's drum and the dump truck's raised bed stick out of the frame, so their camera sits further back
+    const zoom = { excav: 1.6, mixer: 1.25, plow: 1.18, rally: 1.15, dump: 1.2, harley: 0.95 }[k] || 1;
     cam.position.set(2.2, 1.55, 3.3).multiplyScalar((v.len / 2.4) * zoom); if (k === 'excav') cam.lookAt(0.55, 0.05, 0); else if (k === 'harley') cam.lookAt(0.05, 0.1, 0); else cam.lookAt(0.05, -0.28, 0);
     shadowM.scale.set((v.len / 2.4) * (v.vs || 1), 1, 1);
     r2.render(sc, cam);
@@ -4698,10 +4698,10 @@ const blobMat = new THREE.MeshBasicMaterial({ map: radialTex([[0, 'rgba(0,0,0,0.
 const blobGeo = new THREE.PlaneGeometry(1, 1);
 // the sector is built pointing up the field (local +Y, world -Z); rotation.z turns it to the bounce angle
 const ARC_SPAN = 1.1, ARC_LIFE = 0.45;
-const arcGeo = new THREE.RingGeometry(0.6, 1, 40, 1, Math.PI / 2 - ARC_SPAN / 2, ARC_SPAN);
-const arcTex = radialTex([[0, 'rgba(255,255,255,0)'], [0.6, 'rgba(255,255,255,0)'], [0.86, 'rgba(255,255,255,1)'], [1, 'rgba(255,255,255,0)']]);
+const arcGeo = new THREE.RingGeometry(0.35, 1, 40, 1, Math.PI / 2 - ARC_SPAN / 2, ARC_SPAN);
+const arcTex = radialTex([[0, 'rgba(255,255,255,0)'], [0.35, 'rgba(255,255,255,0)'], [0.72, 'rgba(255,255,255,1)'], [1, 'rgba(255,255,255,0)']]);
 const bounceArcs = [];
-function bounceArc(x, z, ang) {
+function bounceArc(x, ang) {
   let a = bounceArcs.find((q) => q.t <= 0);
   if (!a) {
     if (bounceArcs.length >= 4) a = bounceArcs.reduce((m, q) => (q.t < m.t ? q : m));
@@ -4711,14 +4711,14 @@ function bounceArc(x, z, ang) {
     }
   }
   a.t = ARC_LIFE; a.mesh.visible = true;
-  a.mesh.position.set(x, Y + 0.02, z); a.mesh.rotation.set(-Math.PI / 2, 0, -ang);
+  a.mesh.position.set(x, Y + 0.02, PADDLE_Z - PADDLE_HD); a.mesh.rotation.set(-Math.PI / 2, 0, -ang);
 }
 function updateBounceArcs(dt) {
   for (const a of bounceArcs) {
     if (a.t <= 0) continue;
     a.t -= dt;
     const k = 1 - Math.max(0, a.t) / ARC_LIFE;
-    a.mesh.scale.setScalar(2.2 + 2.4 * Math.sqrt(k));
+    a.mesh.scale.setScalar(1.9 + 1.7 * Math.sqrt(k));
     a.mesh.material.opacity = 0.5 * (1 - k) * Math.min(1, k * 8);
     if (a.t <= 0) a.mesh.visible = false;
   }
@@ -4741,7 +4741,7 @@ function launchBall(b) {
   const sp = ballSpeed();
   b.vx = Math.sin(ang) * sp; b.vz = -Math.cos(ang) * sp;
   b.stuck = false; b.z -= 0.05;
-  if (b.auto) bounceArc(b.x, b.z, ang);
+  if (b.auto) bounceArc(b.x, ang);
   Snd.launch();
 }
 function serveBall() {
@@ -4769,7 +4769,7 @@ function collideBall(b) {
         b.vx = Math.sin(ang) * sp; b.vz = -Math.cos(ang) * sp;
         b.z = PADDLE_Z - PADDLE_HD - b.r;
         combo = 0;
-        if (pw.magnet <= 0) bounceArc(b.x, b.z, ang);
+        if (pw.magnet <= 0) bounceArc(b.x, ang);
         Snd.paddle();
         sparks(b.x, Y, b.z + 0.2, 8, 0xffe2b0, 4, 0.25, 0.14, 2);
         paddle.bump = 0.15;
@@ -4913,14 +4913,28 @@ function nearestTarget(x, z, exclude) {
   return best;
 }
 const claimed = new Set();
+let rocketTube = 0;
+const muzzleA = new THREE.Vector3(), muzzleB = new THREE.Vector3();
+// the front end of the current vehicle's next bazooka tube, in world space
+function rocketMuzzle() {
+  let grp = null; VEH[vehicle].group.traverse((o) => { if (pods.includes(o)) grp = o; });
+  if (!grp || !grp.children.length) return null;
+  const tube = grp.children[rocketTube++ % grp.children.length];
+  tube.updateWorldMatrix(true, false);
+  tube.localToWorld(muzzleA.set(0, 0, 0.28)); tube.localToWorld(muzzleB.set(0, 0, -0.28));
+  return muzzleA.z < muzzleB.z ? muzzleA : muzzleB;
+}
 function fireRocket() {
   if (!(devMode && devInf)) rockets--;
   const g = new THREE.Group();
   const body = new THREE.Mesh(rocketBodyGeo, rocketMat); body.castShadow = true;
   const nose = new THREE.Mesh(rocketNoseGeo, rocketNoseMat); nose.position.z = 0.48;
   g.add(body, nose);
-  const r = { g, x: paddle.x, z: PADDLE_Z - 0.6, vx: rand(-3, 3), vz: -10, sp: 10, life: 4, target: null, retarget: 0 };
-  g.position.set(r.x, Y + 0.5, r.z); scene.add(g);
+  const mz = rocketMuzzle();
+  const r = mz ? { g, x: mz.x, y: mz.y, z: mz.z - 0.3, vx: rand(-1, 1), vz: -10, sp: 10, life: 4, target: null, retarget: 0 }
+    : { g, x: paddle.x, y: Y + 0.5, z: PADDLE_Z - 0.6, vx: rand(-3, 3), vz: -10, sp: 10, life: 4, target: null, retarget: 0 };
+  g.position.set(r.x, r.y, r.z); scene.add(g);
+  if (mz) sparks(mz.x, mz.y, mz.z, 6, 0xffb040, 3, 0.2, 0.12, 2.2);
   rocketList.push(r);
   Snd.rocket();
 }
@@ -4942,10 +4956,10 @@ function updateRockets(dt) {
       ang += clamp(da, -6 * dt, 6 * dt);
     }
     r.vx = Math.sin(ang) * r.sp; r.vz = Math.cos(ang) * r.sp;
-    r.x += r.vx * dt; r.z += r.vz * dt;
-    r.g.position.set(r.x, Y + 0.5, r.z); r.g.rotation.y = ang;
-    glow.emit(r.x - Math.sin(ang) * 0.45, Y + 0.5, r.z - Math.cos(ang) * 0.45, rand(-0.5, 0.5), rand(0, 0.5), rand(-0.5, 0.5), 0.2, 0.45, 0xffa31a, 2.5, 2, 0);
-    dust.emit(r.x - Math.sin(ang) * 0.5, Y + 0.5, r.z - Math.cos(ang) * 0.5, rand(-0.4, 0.4), rand(0.3, 1), rand(-0.4, 0.4), 1.0, 0.35, 0xb9b4ac, 1, 1, 0.3, 2, 0.5);
+    r.x += r.vx * dt; r.z += r.vz * dt; r.y += (Y + 0.5 - r.y) * Math.min(1, dt * 4);
+    r.g.position.set(r.x, r.y, r.z); r.g.rotation.y = ang;
+    glow.emit(r.x - Math.sin(ang) * 0.45, r.y, r.z - Math.cos(ang) * 0.45, rand(-0.5, 0.5), rand(0, 0.5), rand(-0.5, 0.5), 0.2, 0.45, 0xffa31a, 2.5, 2, 0);
+    dust.emit(r.x - Math.sin(ang) * 0.5, r.y, r.z - Math.cos(ang) * 0.5, rand(-0.4, 0.4), rand(0.3, 1), rand(-0.4, 0.4), 1.0, 0.35, 0xb9b4ac, 1, 1, 0.3, 2, 0.5);
     let boom = r.life <= 0 || r.z < -HD + 0.2 || Math.abs(r.x) > HW - 0.2 || r.z > HD;
     if (!boom) for (const b of bricks) {
       if (b.alive && Math.abs(r.x - b.x) < (b.hw || BW2) + 0.15 && Math.abs(r.z - b.z) < (b.hd || BD2) + 0.15) { boom = true; break; }
@@ -5000,7 +5014,7 @@ const coinMat = envMat({ color: 0xffc83a, emissive: 0x8a5a00, emissiveIntensity:
   g.fillStyle = '#a87a00'; g.font = '900 34px Impact, Arial Black, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('Q', 32, 34); return toTex(c);
 })() });
 let coinDrops = [];
-function spawnCoin(x, z, vx = 0, vz = 0) { const m = new THREE.Mesh(coinGeo, coinMat); m.castShadow = true; scene.add(m); coinDrops.push({ m, x, z, vx, vz, y: Y + 0.5, vy: 4, t: 0 }); }
+function spawnCoin(x, z, vx = 0, vz = 0) { if (chaos) return; const m = new THREE.Mesh(coinGeo, coinMat); m.castShadow = true; scene.add(m); coinDrops.push({ m, x, z, vx, vz, y: Y + 0.5, vy: 4, t: 0 }); }
 function clearCoins() { for (const c of coinDrops) scene.remove(c.m); coinDrops = []; }
 function updateCoins(dt) {
   for (let i = coinDrops.length - 1; i >= 0; i--) {
@@ -6256,7 +6270,7 @@ function gameOver() {
 }
 function levelCleared() {
   state = 'clear'; clearT = 2.8;
-  const bonus = 1000 + level * 250 + lives * 200, coinBonus = boss ? 0 : 20;
+  const bonus = 1000 + level * 250 + lives * 200, coinBonus = boss || chaos ? 0 : 20;
   score += bonus; saveHi();
   if (coinBonus) addCoins(coinBonus);
   Snd.clear();

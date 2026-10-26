@@ -57,7 +57,7 @@ São 14 veículos, cada um com seu som de motor, gravado de verdade. A viatura, 
 - **Prêmios do Modo Caos:** Carro Tunado (rodada 5) e Moto Estradeira, com motoqueiro de jaqueta preta e capacete (Modo Caos completo)
 - **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300) e Fórmula 1 (350)
 
-As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais.
+As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais. O Modo Caos não dá moedas.
 
 ## Power-ups e debuffs
 
@@ -70,7 +70,7 @@ As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contor
 
 ## Modo Caos
 
-Liberado depois de vencer o chefão do Mundo 2. Uma rodada em cada um dos 6 mundos, em ordem sorteada, com chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para chegar ao fim. Completar a rodada 5 dá o Carro Tunado, e completar o Modo Caos dá a Moto Estradeira.
+Liberado depois de vencer o chefão do Mundo 2. Uma rodada em cada um dos 6 mundos, em ordem sorteada, com chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para chegar ao fim. Ali não caem moedas, só power-ups e debuffs. Completar a rodada 5 dá o Carro Tunado, e completar o Modo Caos dá a Moto Estradeira.
 
 ![Modo Caos](imagens/caos.jpg)
 
