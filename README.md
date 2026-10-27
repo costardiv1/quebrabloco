@@ -12,13 +12,13 @@ O Quebrabloco foi feito por Vinícius Costardi e Claude Code, em vibe code, em c
 
 Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os efeitos sonoros e as músicas são gerados por código. As únicas coisas de fora são os ícones dos power-ups (desenhos vetoriais), a fonte do grafite e trechos curtos de gravações de motores e sirenes, todos embutidos no próprio arquivo.
 
-![Tela de escolha do mundo](imagens/menu.jpg)
+![Mapa dos mundos, com a estrada que passa pelos 10 mundos e as ilhas do Modo Caos e do Modo Infinito](imagens/mapa.jpg)
 
 ## Como jogar
 
-O menu tem três botões: **Jogar** (escolha o mundo e depois o veículo), **Placar** (recordes de cada dificuldade e do Modo Caos, mundos vencidos, veículos e moedas) e **Opções**. Na escolha do veículo, a **Troca automática** coloca um veículo diferente, entre os que você já liberou, a cada fase.
+O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos e o Modo Infinito. Depois do mapa vem a escolha do veículo, onde a **Troca automática** coloca um veículo diferente, entre os que você já liberou, a cada fase.
 
-Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
+Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Se você perder, "Jogar de novo" recomeça na fase em que parou, com 3 vidas e a pontuação do começo da fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
 | | PC | Celular |
 |---|---|---|
@@ -29,14 +29,15 @@ Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto d
 
 ## Mundos
 
-São 8 mundos. Cada um tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos), escaravelho dourado, baiacu (que incha quando bate no veículo) e esfera de plasma. Vencer o chefão libera o próximo mundo e, do Mundo 1 ao 7, dá um veículo novo de prêmio.
+São 10 mundos. Cada um tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos), escaravelho dourado, baiacu (que incha quando bate no veículo), esfera de plasma, mini Saturno e globo de discoteca. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio. Vencer o chefão do Neon fecha o jogo.
 
 | | |
 |---|---|
-| ![(Des)Construção](imagens/construcao.jpg) **(Des)Construção** · canteiro de obras na cidade | ![Praia Praiana](imagens/praia.jpg) **Praia Praiana** · quiosques, guarda-sóis e o mar |
-| ![Orien Tal](imagens/oriental.jpg) **Orien Tal** · jardim zen, cerejeiras, drones e montanhas | ![Euro Peu](imagens/europeu.jpg) **Euro Peu** · casas de enxaimel, castelo e chafariz |
+| ![(Des)Construção](imagens/construcao.jpg) **(Des)Construção** · canteiro de obras na cidade | ![Praia Praiana](imagens/praia.jpg) **Praia Praiana** · quiosques e o mar; guarda-sóis no meio da arena rebatem a bola como num pinball |
+| ![Orien Tal](imagens/oriental.jpg) **Orien Tal** · jardim zen, cerejeiras, drones e montanhas; o gongo do templo solta uma onda de choque que racha os blocos por perto | ![Euro Peu](imagens/europeu.jpg) **Euro Peu** · casas de enxaimel, castelo e chafariz; um bondinho atravessa a arena e funciona como uma parede que anda |
 | ![Gela Deira](imagens/gelo.jpg) **Gela Deira** · lago congelado, iglus, pinguins e aurora boreal; o veículo escorrega no gelo | ![Deserto Certo](imagens/deserto.jpg) **Deserto Certo** · pirâmides, oásis e camelos; tempestades de areia escondem os blocos |
 | ![Aqua Rio](imagens/aqua.jpg) **Aqua Rio** · fundo do mar com corais, naufrágio, cardumes e arraia; correntezas empurram a bola, baús soltam moedas e águas-vivas dão choque | ![Fu Turista](imagens/futuro.jpg) **Fu Turista** · cidade do futuro com torres de vidro, jardins, trem maglev e carros voadores; portais teletransportam a bola |
+| ![Lua de Mel](imagens/lua.jpg) **Lua de Mel** · crateras, a Terra no céu, base lunar e o módulo dos recém-casados; a bola faz curvas com a gravidade baixa e meteoros caem na arena | ![Neon](imagens/neon.jpg) **Neon** · dentro de um computador, com placa-mãe, memórias e cooler, e o Quebrabloco rodando na tela ao fundo; tudo pulsa no ritmo da música |
 
 ## Chefões
 
@@ -48,18 +49,23 @@ Só o ponto fraco tira vida; o resto do corpo é blindado e rebate a bola. Com 2
 | ![Dragão Serpente](imagens/chefao-oriental.jpg) **Dragão Serpente** · ponto fraco: a cabeça | ![Rei do Xadrez](imagens/chefao-europeu.jpg) **Rei do Xadrez** · ponto fraco: o rei |
 | ![Iéti Abominável](imagens/chefao-gelo.jpg) **Iéti Abominável** · ponto fraco: a cabeça, protegida pelos punhos | ![Múmia Faraó](imagens/chefao-deserto.jpg) **Múmia Faraó** · ponto fraco: a máscara de ouro, entre as tampas do sarcófago |
 | ![Tubarão](imagens/chefao-aqua.jpg) **Tubarão** · ponto fraco: as guelras; a cauda rebate a bola e a boca abocanha e cospe de volta | ![IA Suprema](imagens/chefao-futuro.jpg) **IA Suprema** · ponto fraco: a tela; dois tentáculos de cabo varrem a arena e drones atiram laser |
+| ![ET Bilu](imagens/chefao-lua.jpg) **ET Bilu** · ponto fraco: a cabeça, dentro da cúpula; mini discos voadores abduzem a bola e chovem meteoros | ![DJ Robô](imagens/chefao-neon.jpg) **DJ Robô** · ponto fraco: o robô; os toca-discos rebatem a bola, e ele joga notas, discos e o bass drop |
 
 ## Veículos
 
-São 17 veículos, cada um com seu som de motor, gravado de verdade. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles.
+São 33 veículos, cada um com seu som de motor. A viatura, os bombeiros e a ambulância ligam a sirene quando a bola volta depois de muito tempo sem bater neles. Na garagem, cada veículo mostra embaixo do nome como ele é liberado.
 
 - **De fábrica:** Escavadeira e Caminhão Caçamba
-- **Prêmios dos chefões:** cada chefão dá o veículo do próximo mundo: Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Superesportivo (Mundo 3), Trator Limpa-Neve (Mundo 4), Caminhão Rali Dakar (Mundo 5), Submarino Amarelo (Mundo 6) e Carro Voador, que flutua sobre quatro hélices (Mundo 7). O chefão do Mundo 8 vai dar o veículo do Mundo 9, quando ele chegar
+- **Prêmios dos chefões:** cada chefão dá o veículo do próximo mundo: Buggy Baja (Mundo 1), Hatch 86 (Mundo 2), Superesportivo (Mundo 3), Trator Limpa-Neve (Mundo 4), Caminhão Rali Dakar (Mundo 5), Submarino Amarelo (Mundo 6), Carro Voador, que flutua sobre quatro hélices (Mundo 7), Jipe Lunar com astronauta (Mundo 8) e Moto de Luz, com rodas de neon e uma parede de luz por onde passa (Mundo 9). O chefão final, no Mundo 10, dá a Escavadeira Dourada
 - **Prêmios de fase:** Caminhão Betoneira (fase 2 do Mundo 1) e Viatura (fase 3 do Mundo 2)
 - **Prêmios do Modo Caos:** Carro Tunado (rodada 5) e Moto Estradeira, com motoqueiro de jaqueta preta e capacete (Modo Caos completo)
-- **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350) e Moto Esportiva, com piloto deitado no tanque (400)
+- **Na garagem, com moedas:** Caminhão de Bombeiros (250), Ambulância (300), Fórmula 1 (350), Moto Esportiva (400), Kart (450), Moto de Trilha (500), Tuk-tuk (550), Rolo Compressor (600), Monster Truck (650), Ônibus Escolar (700), Food Truck de Sorvete (750), Caminhão de Lixo (800), Perua Hippie (850), Muscle Car (900), Limusine (950), Capivara (1000) e Tanque de Brinquedo (1050)
 
-As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais. O Modo Caos não dá moedas.
+| | |
+|---|---|
+| ![Capivara](imagens/capivara.jpg) **Capivara** · com a laranja na cabeça e um passarinho nas costas; no Aqua Rio ela nada | ![Moto de Luz](imagens/moto-de-luz.jpg) **Moto de Luz** · prêmio do chefão da Lua de Mel |
+
+As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais. O Modo Caos e o Modo Infinito não dão moedas.
 
 ## Power-ups e debuffs
 
@@ -72,9 +78,15 @@ As cápsulas caem dos caixotes de madeira e dos blocos. Os power-ups têm contor
 
 ## Modo Caos
 
-Liberado depois de vencer o chefão do Mundo 2. Uma rodada em cada um dos 8 mundos, em ordem sorteada, com chefão, chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para chegar ao fim. Ali não caem moedas, só power-ups e debuffs. Completar a rodada 5 dá o Carro Tunado, e completar o Modo Caos dá a Moto Estradeira.
+Fica na ilha do vulcão, no mapa, e libera depois de vencer o chefão do Mundo 1. Tem uma rodada para cada mundo que você já venceu, em ordem sorteada, sempre no chefão, com chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos que andam de um lado para o outro. Você tem 5 vidas para chegar ao fim. Ali não caem moedas, só power-ups e debuffs. Vencer 5 chefões no Modo Caos dá o Carro Tunado, e completar o Modo Caos com os 10 mundos dá a Moto Estradeira.
 
 ![Modo Caos](imagens/caos.jpg)
+
+## Modo Infinito
+
+Fica na ilha do pântano, no mapa, e libera depois de vencer o chefão do Mundo 3. É uma fase só, no Pântano do Ogro, com a casa no tronco e o ogro tomando banho de lama ao fundo. Os blocos não param de cair, chovem power-ups e debuffs e tudo vai ficando mais rápido. As vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Cada minuto sem errar dá um bônus. A bola é uma cebola.
+
+![Modo Infinito no Pântano do Ogro](imagens/infinito.jpg)
 
 ## Opções
 
