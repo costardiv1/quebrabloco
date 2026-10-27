@@ -84,7 +84,16 @@ body { background: var(--asphalt); color: var(--paper); font-family: var(--body)
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px;
   background: radial-gradient(ellipse at 50% 40%, rgba(20, 20, 22, 0.25), rgba(20, 20, 22, 0.78)); }
 .card { position: relative; width: min(780px, 100%); margin: auto; background: rgba(26, 28, 31, 0.94); border: 1px solid var(--line); border-radius: 8px;
-  padding: clamp(18px, 3vw, 30px); padding-top: clamp(26px, 3.6vw, 38px); display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+  padding: clamp(18px, 3vw, 30px); padding-top: clamp(26px, 3.6vw, 38px); display: flex; flex-direction: column; gap: 16px; overflow: hidden; overflow: clip; }
+.autoTgl { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--paper); font-family: var(--display); text-align: left; cursor: pointer; }
+.autoTgl .ico { width: 26px; height: 26px; flex: none; color: #8a8f98; }
+.autoTgl .txt { min-width: 0; } .autoTgl b { display: block; font-size: 16px; font-weight: 400; } .autoTgl small { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; color: #aaa59b; }
+.autoTgl .sw { position: relative; width: 40px; height: 22px; flex: none; border-radius: 11px; background: #3a3d42; transition: background 0.15s; }
+.autoTgl .sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #c9ccd1; transition: transform 0.15s; }
+.autoTgl[aria-pressed="true"] { border-color: var(--safety); } .autoTgl[aria-pressed="true"] .ico { color: var(--safety); }
+.autoTgl[aria-pressed="true"] .sw { background: var(--safety); } .autoTgl[aria-pressed="true"] .sw::after { transform: translateX(18px); background: #1b1b1b; }
+.startBar { position: sticky; bottom: 0; z-index: 2; padding: 12px; margin-inline: -8px; border-radius: 10px; background: rgba(26, 28, 31, 0.97); border: 1px solid var(--line); box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.45); }
+@media (max-width: 560px) { .startBar { flex-wrap: nowrap; gap: 8px; padding: 8px; } .startBar .btn { flex: 1; min-width: 0; padding: 12px 8px; } .startBar .autoTgl { flex: 1; min-width: 0; padding: 10px; gap: 8px; } .startBar .autoTgl small { display: none; } .startBar .autoTgl b { font-size: 13px; } .startBar .autoTgl { justify-content: center; } .startBar .autoTgl .sw { display: none; } .startBar .autoTgl[aria-pressed="true"] { background: rgba(255, 194, 26, 0.14); } .startBar .autoTgl[aria-pressed="true"] b { color: var(--safety); } .startBar #btnStart { flex: 0 0 auto; padding: 12px 16px; } .startBar .autoTgl .ico { width: 22px; height: 22px; } .startBar #btnStart { font-size: 20px; } }
 .card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 10px;
   background: repeating-linear-gradient(-45deg, var(--safety) 0 14px, #1b1b1b 14px 28px); }
 .card.narrow { width: min(430px, 100%); text-align: center; align-items: center; }
@@ -414,7 +423,7 @@ html.mobileSim #tut p { font-size: 17px; }
         <div class="scrHead"><button class="back" type="button" data-go="scrWorld" id="vehBack">← Voltar</button><h2 id="hVeh">Escolha o veículo</h2><span id="coinBal" class="coinBal">🪙 0</span></div>
         <p class="scrSub" id="vehSub"></p>
         <div class="maps tiles" id="vehicles" role="group" aria-label="Escolha o veículo"></div>
-        <div class="row center"><button id="btnAutoVeh" class="btn ghost" type="button" aria-pressed="false" title="A cada fase o jogo troca para outro veículo que você já liberou"></button><button id="btnStart" class="btn big" type="button">Demolir!</button></div>
+        <div class="row center startBar"><button id="btnAutoVeh" class="autoTgl" type="button" aria-pressed="false" title="A cada fase o jogo troca para outro veículo que você já liberou"></button><button id="btnStart" class="btn big" type="button">Demolir!</button></div>
       </section>
       <section class="scr" id="scrScore" hidden aria-labelledby="hScore">
         <div class="scrHead"><button class="back" type="button" data-go="scrMain">← Voltar</button><h2 id="hScore">Placar</h2></div>
@@ -455,7 +464,7 @@ html.mobileSim #tut p { font-size: 17px; }
       </section>
       <section class="scr" id="scrHelp" hidden aria-labelledby="hHelp">
         <div class="scrHead"><button class="back" type="button" data-go="scrOpts">← Voltar</button><h2 id="hHelp">Como jogar?</h2></div>
-      <p class="tag">Toque em Jogar, escolha um mundo e um veículo, rebata a bola e ponha tudo abaixo. Cada mundo tem 5 fases e um chefão no fim; vencer o chefão dá um veículo novo de prêmio. Na Praia Praiana os guarda-sóis rebatem a bola como num fliperama; no Orien Tal a bola que acerta o gongo solta uma onda que racha os blocos em volta; no Euro Peu um bonde atravessa a arena (o sino toca antes) e rebate a bola; na Gela Deira o chão é de gelo e o veículo escorrega; no Deserto Certo tempestades de areia escondem os blocos de vez em quando; no Aqua Rio as correntezas empurram a bola para o lado (as setas no chão mostram para onde); no Fu Turista a bola que entra num portal sai pelo outro; na Lua de Mel a gravidade é baixa e a bola faz curvas, e meteoros caem na arena trazendo power-ups; no Neon tudo pulsa no ritmo da música. No Modo Infinito, no Pântano do Ogro, os blocos não param de cair, chovem power-ups e debuffs, não caem moedas e tudo fica mais rápido com o tempo; as vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Ele fica numa ilha do mapa e libera ao vencer o chefão do Mundo 3. Os caixotes de madeira escondem surpresas: um power-up, um punhado de moedas ou, às vezes, um debuff. Junte moedas 🪙 (caem de alguns blocos e dos caixotes, e cada fase vencida dá mais) e compre veículos na garagem. O Modo Caos fica numa ilha do mapa e libera quando você vence o chefão do Mundo 1: você passa pelos mundos que já venceu (ganha uma rodada a cada mundo novo), um de cada vez em ordem sorteada, sempre no chefão, com chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos andando de um lado para o outro; você tem 5 vidas para chegar ao fim. Por onde você passa ficam as marcas dos pneus.</p>
+      <p class="tag">Toque em Jogar, escolha um mundo e um veículo, rebata a bola e ponha tudo abaixo. Cada mundo tem 5 fases e um chefão no fim; vencer o chefão dá um veículo novo de prêmio. Na Praia Praiana os guarda-sóis rebatem a bola como num fliperama; no Orien Tal a bola que acerta o gongo solta uma onda que racha os blocos em volta; no Euro Peu um bonde atravessa a arena (o sino toca antes) e rebate a bola; na Gela Deira o chão é de gelo e o veículo escorrega; no Deserto Certo tempestades de areia escondem os blocos de vez em quando; no Aqua Rio as correntezas empurram a bola para o lado (as setas no chão mostram para onde); no Fu Turista a bola que entra num portal sai pelo outro; na Lua de Mel a gravidade é baixa e a bola faz curvas, e meteoros caem na arena trazendo power-ups; no Neon a bola é um disco de luz, tudo pulsa no ritmo da música, os vírus se copiam para os espaços vazios do lado se você demorar e as setas de neon no chão aceleram a bola rumo aos blocos. No Modo Infinito, no Pântano do Ogro, os blocos não param de cair, de vez em quando cai um power-up ou debuff, não caem moedas e tudo fica mais rápido com o tempo; as vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Ele fica numa ilha do mapa e libera ao vencer o chefão do Mundo 3. Os caixotes de madeira escondem surpresas: um power-up, um punhado de moedas ou, às vezes, um debuff. Junte moedas 🪙 (caem de alguns blocos e dos caixotes, e cada fase vencida dá mais) e compre veículos na garagem. O Modo Caos fica numa ilha do mapa e libera quando você vence o chefão do Mundo 1: você passa pelos mundos que já venceu (ganha uma rodada a cada mundo novo), um de cada vez em ordem sorteada, sempre no chefão, com chuva de power-ups e debuffs, caixotes e TNT caindo do céu e blocos andando de um lado para o outro; você tem 5 vidas para chegar ao fim. Por onde você passa ficam as marcas dos pneus.</p>
       <p class="tag">Chefões: só o ponto fraco tira vida (a cabine da Grua Monstra, os olhos do Caranguejão, a cabeça do Dragão Serpente, o Rei do Xadrez, a cabeça do Iéti Abominável, a máscara da Múmia Faraó); o resto é blindado e só rebate a bola. Com 2/3 e com 1/3 da vida eles ficam mais bravos. Desvie do que eles jogam no seu veículo: tudo traz um debuff.</p>
       <div class="keys">
         <kbd>Mouse</kbd> ou arrastar o dedo: mover &nbsp;·&nbsp; <kbd>Clique</kbd> / <kbd>Espaço</kbd>: lançar e atirar (segure para rajada) &nbsp;·&nbsp;
@@ -581,7 +590,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.10';
+const GAME_VERSION = '1.10.1';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -768,6 +777,7 @@ const BLOCKS = {
   'á': { kind: 'normal', hp: 1, chip: 0xff3ad8, dust: 0x3af0ff, snd: 'glass', pts: 50 },
   'Á': { kind: 'hard', hp: 2, chip: 0x18181e, dust: 0x6a6a7a, snd: 'panel', pts: 120 },
   'é': { kind: 'normal', hp: 1, chip: 0x4a8af0, dust: 0xe4e6ec, snd: 'glass', pts: 60 },
+  'ý': { kind: 'normal', hp: 1, chip: 0x5aff7a, dust: 0xff3a5a, snd: 'glass', pts: 80 },
   'É': { kind: 'tnt', hp: 1, chip: 0x3a3ad8, dust: 0xc8c8f0, snd: 'panel', pts: 80 },
   'í': { kind: 'prop', hp: 1, chip: 0xffc83a, dust: 0xffe8a0, snd: 'wood', pts: 70 },
   'Ó': { kind: 'steel', hp: Infinity, chip: 0xb8bec8, dust: 0xd8dce4, snd: 'metal', pts: 0 },
@@ -1182,41 +1192,41 @@ const LUA_LEVELS = [
 ];
 // World 10: Neon — á pixel · Á chip (2) · é janela de erro · É capacitor · í pasta · Ó dissipador; everything pulses with the music
 const NEON_LEVELS = [
-  { name: 'Placa-Mãe', theme: 'manha', rows: [
+  { name: 'Placa-Mãe', theme: 'manha', turbo: [[-5, 3], [5, 3]], rows: [
     '..ááááááá..',
     '.áéáááááéá.',
     'ááááá.ááááá',
-    'ÁÁÁÁÁbÁÁÁÁÁ',
+    'ÁýÁÁÁbÁÁÁýÁ',
     '...........',
     'í..É.?.É..í' ] },
-  { name: 'Memória RAM', theme: 'meiodia', rows: [
+  { name: 'Memória RAM', theme: 'meiodia', turbo: [[0, 2], [-7, 5], [7, 5]], rows: [
     'Á.Á.Á.Á.Á.Á',
     'ááááá.ááááá',
     'éméééééééfé',
-    'ááááÉ.Éáááá',
+    'ýáááÉ.Éáááý',
     '...........',
     '...........',
     'í.í.....í.í' ] },
-  { name: 'Processador', theme: 'tarde', rows: [
+  { name: 'Processador', theme: 'tarde', turbo: [[-4, 1.5], [4, 1.5]], rows: [
     'ÓáÓáÓ.ÓáÓáÓ',
-    'ááááá.ááááá',
+    'áááááýááááá',
     'ÁÁéÁÁzÁÁéÁÁ',
-    '.ááÉ.É.Éáá.',
+    '.ýáÉ.É.Éáý.',
     '...........',
     'É..í...í..É' ] },
-  { name: 'Lixeira', theme: 'porDoSol', rows: [
+  { name: 'Lixeira', theme: 'porDoSol', turbo: [[-7, 3], [0, 0.5], [7, 3]], rows: [
     '....ííí....',
     '...éétéé...',
-    '..ááááááá..',
+    '..áýáááýá..',
     '.áÁáÉáÉáÁá.',
-    '..Ó.....Ó..',
+    '..Ó..ý..Ó..',
     '...........',
     'í..?...?..í' ] },
-  { name: 'Tela Azul', theme: 'noite', rows: [
+  { name: 'Tela Azul', theme: 'noite', turbo: [[-5, 5], [5, 5], [0, 1]], rows: [
     'ééééé.ééééé',
     'ÁxÁÓÁ.ÁÓÁ?Á',
     'ááááÉáÉáááá',
-    'á.á.á.á.á.á',
+    'ý.á.á.ý.á.ý',
     '...........',
     '...........',
     'í.É.....É.í' ] },
@@ -1803,7 +1813,7 @@ function buildTextures() {
   tex.sandstone = brickWall([200, 138, 78], '#a8804a', 256, 128, 3, 2.6); tex.limestone = { 2: limestoneTex(2), 1: limestoneTex(1) }; tex.hiero = hieroTex(); tex.tent = tentTex();
   tex.mossLog = mossLogTex(); tex.mossStone = { 2: mossStoneTex(2), 1: mossStoneTex(1) };
   tex.moonRock = moonRockTex(); tex.basalt = { 2: basaltTex(2), 1: basaltTex(1) }; tex.moonCrystal = moonCrystalTex();
-  tex.pixels = ['#3af0ff', '#ff3ad8', '#ffe03a', '#5aff7a'].map(pixelTex); tex.chip = { 2: chipTex(2), 1: chipTex(1) }; tex.popup = popupTex();
+  tex.pixels = ['#3af0ff', '#ff3ad8', '#ffe03a', '#5aff7a'].map(pixelTex); tex.chip = { 2: chipTex(2), 1: chipTex(1) }; tex.popup = popupTex(); tex.virus = virusTex();
   tex.panel = panelTex(); tex.alloy = { 2: alloyTex(2), 1: alloyTex(1) }; tex.neonGlass = neonGlassTex(); tex.hexField = hexFieldTex();
   tex.coral = coralTex(); tex.reef = { 2: reefTex(2), 1: reefTex(1) }; tex.wreck = wreckTex();
   tex.halfTimber = halfTimberTex(); tex.slate = slateTex(); tex.castle = { 2: castleStoneTex(2), 1: castleStoneTex(1) }; tex.vitral = vitralTex();
@@ -2035,6 +2045,7 @@ M.moonCrystal = envMat({ map: tex.moonCrystal.map, emissiveMap: tex.moonCrystal.
 M['ã'] = [M.moonCrystal];
 M['á'] = tex.pixels.map((t) => envMat({ map: t, emissiveMap: t, emissive: 0xffffff, emissiveIntensity: 0.6, roughness: 0.3, metalness: 0.3 }));
 M['Á'] = { 2: brickMat(tex.chip[2], { bumpScale: 1.6, roughness: 0.35, metalness: 0.4 }), 1: brickMat(tex.chip[1], { bumpScale: 2, roughness: 0.4, metalness: 0.4 }) };
+M['ý'] = [envMat({ map: tex.virus, emissiveMap: tex.virus, emissive: 0xffffff, emissiveIntensity: 1.1, roughness: 0.3, metalness: 0.2 })];
 M['é'] = [envMat({ map: tex.popup, emissiveMap: tex.popup, emissive: 0xffffff, emissiveIntensity: 0.12, roughness: 0.4 })];
 M.jelly = envMat({ color: 0xf0b8ff, emissive: 0xc060ff, emissiveIntensity: 0.6, transparent: true, opacity: 0.7, roughness: 0.15, depthWrite: false });
 M.kelp = [0x2f7a3a, 0x3f8f3f, 0x5a9a32].map((c) => envMat({ color: c, roughness: 0.7, side: THREE.DoubleSide }));
@@ -4251,7 +4262,7 @@ const saturnRingMat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, t
 // capacitors and cables stand around it like a city, data rains in the dark, and far behind, the giant screen of the computer shows its desktop
 // with Quebrabloco itself running in a window. Everything pulses with the beat of the music.
 const neon = { root: new THREE.Group(), facades: [], lampLights: [], bulbMat: null, lampLevel: 0, trail: 0xff5ad8, markColor: 'rgba(120,255,240,0.22)',
-  fogFar: 300, fogNear: 70, built: false, expMul: 1, bloomTh: 1.1, discoBall: true, fans: [], rgb: [], pulse: [], screen: null, beat: 0, scrT: 0, pulseT: 0 };
+  fogFar: 300, fogNear: 70, built: false, expMul: 1, bloomTh: 1.1, discBall: true, fans: [], rgb: [], pulse: [], screen: null, beat: 0, scrT: 0, pulseT: 0 };
 // ---- block textures: neon pixels in four colours, a black chip (2 → 1), an error pop-up window
 function pixelTex(col) {
   const [c, g] = mkCanvas(128, 64);
@@ -4287,6 +4298,22 @@ function popupTex() {
   g.strokeStyle = '#8a8e9a'; g.lineWidth = 3; g.strokeRect(1.5, 1.5, 253, 125);
   return toTex(c);
 }
+function virusTex() {
+  const [c, g] = mkCanvas(128, 64);
+  g.fillStyle = '#3a0a18'; g.fillRect(0, 0, 128, 64);
+  // glitch strips, the bug (body, head, six legs, antennae) and its red X eyes
+  for (let k = 0; k < 6; k++) { g.fillStyle = k % 2 ? 'rgba(255,58,90,0.35)' : 'rgba(90,255,122,0.25)'; g.fillRect(rand(0, 90), rand(4, 58), rand(20, 50), rand(2, 4)); }
+  g.strokeStyle = '#5aff7a'; g.lineWidth = 4; g.lineCap = 'round';
+  for (const sd of [-1, 1]) for (const dy of [-8, 0, 8]) { g.beginPath(); g.moveTo(64 + sd * 8, 36 + dy); g.lineTo(64 + sd * 20, 32 + dy * 1.4); g.stroke(); }
+  for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(64 + sd * 4, 16); g.lineTo(64 + sd * 10, 6); g.stroke(); }
+  g.fillStyle = '#5aff7a'; g.beginPath(); g.ellipse(64, 38, 13, 17, 0, 0, 7); g.fill(); g.beginPath(); g.arc(64, 19, 8, 0, 7); g.fill();
+  g.strokeStyle = '#16060e'; g.lineWidth = 2; g.beginPath(); g.moveTo(64, 26); g.lineTo(64, 52); g.stroke();
+  g.strokeStyle = '#ff3a5a'; g.lineWidth = 2;
+  for (const sd of [-1, 1]) { const x = 64 + sd * 3.5; g.beginPath(); g.moveTo(x - 2, 17); g.lineTo(x + 2, 21); g.moveTo(x + 2, 17); g.lineTo(x - 2, 21); g.stroke(); }
+  g.strokeStyle = '#ff3a5a'; g.lineWidth = 5; g.strokeRect(3, 3, 122, 58);
+  g.fillStyle = '#ff3a5a'; g.font = '700 12px "Barlow Condensed", Arial, sans-serif'; g.fillText('VÍRUS', 10, 18);
+  return toTex(c);
+}
 // ---- props used as blocks: a bulging capacitor (it blows), a folder icon, an aluminium heatsink (indestructible)
 function makeCapacitor() {
   const g = new THREE.Group();
@@ -4315,20 +4342,19 @@ function makeHeatsink() {
 // ---- scenery helpers
 function pcbCanvas(w, h, arena, seed) {
   const r = mulberry32(seed), [c, g] = mkCanvas(w, h), [ce, ge] = mkCanvas(w, h);
-  g.fillStyle = arena ? '#0e2a22' : '#0a1f1a'; g.fillRect(0, 0, w, h); ge.fillStyle = '#000'; ge.fillRect(0, 0, w, h);
+  g.fillStyle = arena ? '#081a16' : '#0a1f1a'; g.fillRect(0, 0, w, h); ge.fillStyle = '#000'; ge.fillRect(0, 0, w, h);
   speckle(g, w, h, w * h / 30, 0.06);
   // copper traces running in straight lines with 45° bends, ending in round pads; the glow copy lights them in neon colours
-  const n = arena ? 90 : 40, step = arena ? 16 : 8;
+  const n = arena ? 18 : 40, step = arena ? 16 : 8;
   for (let i = 0; i < n; i++) {
     let x = Math.round(r() * w / step) * step, y = Math.round(r() * h / step) * step, dir = Math.floor(r() * 4);
-    const col = r() < 0.5 ? '#3af0ff' : '#ff3ad8', pts = [[x, y]];
+    const col = arena ? (r() < 0.75 ? 'rgba(58,240,255,0.55)' : 'rgba(255,58,216,0.55)') : r() < 0.5 ? '#3af0ff' : '#ff3ad8', pts = [[x, y]];
     for (let k = 0; k < 4; k++) { const len = (2 + Math.floor(r() * 8)) * step, a = dir * Math.PI / 2; x += Math.round(Math.cos(a)) * len; y += Math.round(Math.sin(a)) * len; pts.push([x, y]); dir = (dir + (r() < 0.5 ? 1 : 3)) % 4; }
-    for (const [ctx, sc, lw] of [[g, '#2a7a5a', arena ? 4 : 2], [ge, col, arena ? 2.2 : 1.2]]) { ctx.strokeStyle = sc; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.beginPath(); pts.forEach(([px, py], k) => (k ? ctx.lineTo(px, py) : ctx.moveTo(px, py))); ctx.stroke(); }
-    for (const [px, py] of [pts[0], pts[pts.length - 1]]) { g.fillStyle = '#c8b060'; g.beginPath(); g.arc(px, py, arena ? 5 : 2.5, 0, 7); g.fill(); ge.fillStyle = col; ge.beginPath(); ge.arc(px, py, arena ? 3 : 1.5, 0, 7); ge.fill(); }
+    for (const [ctx, sc, lw] of [[g, arena ? '#173a30' : '#2a7a5a', arena ? 3 : 2], [ge, col, arena ? 1.6 : 1.2]]) { ctx.strokeStyle = sc; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.beginPath(); pts.forEach(([px, py], k) => (k ? ctx.lineTo(px, py) : ctx.moveTo(px, py))); ctx.stroke(); }
+    for (const [px, py] of [pts[0], pts[pts.length - 1]]) { g.fillStyle = arena ? '#5a5a3a' : '#c8b060'; g.beginPath(); g.arc(px, py, arena ? 3.5 : 2.5, 0, 7); g.fill(); ge.fillStyle = col; ge.beginPath(); ge.arc(px, py, arena ? 3 : 1.5, 0, 7); ge.fill(); }
   }
   // little surface-mount parts and white silkscreen labels
-  for (let i = 0; i < (arena ? 70 : 30); i++) { const x = r() * w, y = r() * h; g.fillStyle = r() < 0.5 ? '#1a1a1e' : '#c8a878'; g.fillRect(x, y, arena ? 10 : 5, arena ? 5 : 3); }
-  if (arena) { g.fillStyle = 'rgba(230,240,235,0.55)'; g.font = '600 14px "Barlow Condensed", Arial, sans-serif'; for (let i = 0; i < 24; i++) g.fillText(['C' + (i + 3), 'R' + (i * 7 % 50), 'U' + i, 'QBR', 'D' + i][i % 5], r() * w, r() * h); }
+  for (let i = 0; i < (arena ? 10 : 30); i++) { const x = r() * w, y = r() * h; g.fillStyle = r() < 0.5 ? '#1a1a1e' : '#c8a878'; g.fillRect(x, y, arena ? 10 : 5, arena ? 5 : 3); }
   return { c, ce };
 }
 function neonWallCanvas(w, h) {
@@ -4394,7 +4420,7 @@ function buildNeon() {
   flat(700, 700, 0, 0, -0.02, outM); neon.pulse.push([outM, 0.45, 0.6]);
   const ap = pcbCanvas(W * 32, D * 32, true, 88);
   const floorM = envMat({ map: toTex(ap.c), emissiveMap: toTex(ap.ce), emissive: 0xffffff, emissiveIntensity: 0.6, roughness: 0.4, metalness: 0.25 });
-  flat(W, D, 0, 0, 0, floorM); neon.pulse.push([floorM, 0.5, 0.9]);
+  flat(W, D, 0, 0, 0, floorM); neon.pulse.push([floorM, 0.35, 0.6]);
   // dark side rails with neon strips, the back wall with the NEON sign
   const dark = envMat({ color: 0x14101e, roughness: 0.35, metalness: 0.5 });
   for (const [side, col] of [[-1, [2.4, 0.4, 2.0]], [1, [0.4, 2.2, 2.6]]]) {
@@ -4444,7 +4470,31 @@ function buildNeon() {
   for (const [x, z, col] of [[-16, -12, 0xff3ad8], [16, -12, 0x3af0ff], [-16, 6, 0x3af0ff], [16, 6, 0xff3ad8]]) { const l = new THREE.PointLight(col, 18, 22, 1.6); l.position.set(x, 3.5, z); add(l); neon.lampLights.push(l); }
 }
 neon.themeFor = (T) => ({ ...T, bg: 0x090418, sky: 0x4a2a8a, gnd: 0x06030c, sun: 0xc8a8ff, sunI: 1.1, hemiI: 0.55, env: 0.22, exp: 0.95, win: 1.2, lamps: 1 });
-neon.setLevel = () => { neon.drop = 0; };
+neon.setLevel = () => { neon.drop = 0; neon.virusT = 6; };
+const VIRUS_MAX = 12, VIRUS_EVERY = 5.5;
+function neonVirus(dt) {
+  const vs = bricks.filter((b) => b.alive && b.ch === 'ý');
+  for (const b of vs) if (b.mesh) {
+    // a newborn virus pops up from nothing; all of them twitch now and then
+    b.grow = Math.min(1, (b.grow == null ? 1 : b.grow) + dt * 3);
+    const tw = Math.random() < 0.04 ? rand(-0.08, 0.08) : 0;
+    b.mesh.scale.set(b.grow, b.grow, b.grow); b.mesh.position.x = tw;
+  }
+  M['ý'][0].emissiveIntensity = 0.9 + (Math.random() < 0.08 ? 0.9 : 0) + Math.sin(gameTime * 8) * 0.2;
+  if (!vs.length || (neon.virusT -= dt) > 0) return;
+  neon.virusT = VIRUS_EVERY;
+  if (vs.length >= VIRUS_MAX) return;
+  for (const src of vs.sort(() => Math.random() - 0.5)) {
+    const opts = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dc, dr]) => [src.c + dc, src.r + dr]).filter(([c, r]) => c >= 0 && c < COLS && r >= 0 && r <= 8 && cellFree(c, r));
+    if (!opts.length) continue;
+    const [c, r] = opts[Math.floor(Math.random() * opts.length)], nb = placeBrick('ý', c, r);
+    if (!nb) continue;
+    nb.grow = 0;
+    sparks((src.x + nb.x) / 2, Y + 0.4, (src.z + nb.z) / 2, 14, 0x5aff7a, 5, 0.3, 0.16, 2.4, -8);
+    Snd.tone(180, 0.09, 'square', 0.05, 90); Snd.tone(140, 0.09, 'square', 0.05, 70, 0.08);
+    return;
+  }
+}
 // the DJ's bass drop pushes every ball sideways for a moment
 neon.flow = (b, dt) => { if (neon.drop > 0 && !b.stuck && !b.held) b.vx += neon.dropDir * 18 * dt; };
 // the beat: each kick drum of the music lights everything up; with the music off it follows the song's tempo on its own
@@ -4458,6 +4508,7 @@ function neonBeat(dt, t) {
 function updateNeon(dt, t) {
   const bt = neonBeat(dt, t);
   neon.drop = Math.max(0, (neon.drop || 0) - dt);
+  if (state === 'play' && dt > 0) neonVirus(dt);
   for (const [m, lo, hi] of neon.pulse) m.emissiveIntensity = lo + (hi - lo) * bt;
   for (const f of neon.fans) f.rotation.z += dt * 9;
   const hue = (t * 0.08) % 1;
@@ -4474,14 +4525,25 @@ function updateNeon(dt, t) {
     if ((neon.pulseT -= dt) <= 0) { neon.pulseT = rand(0.05, 0.15); const alongX = Math.random() < 0.5, sp = rand(7, 12) * (Math.random() < 0.5 ? -1 : 1); glow.emit(alongX ? -sp * 1.2 : Math.round(rand(-HW, HW)), 0.06, alongX ? Math.round(rand(-HD, HD)) : -sp * 1.2, alongX ? sp : 0, 0, alongX ? 0 : sp, 2.2, 0.35, Math.random() < 0.5 ? 0xff3ad8 : 0x3af0ff, 2.6, 0, 0); }
   }
 }
-// ---- the disco ball: a sphere of little mirror tiles that spins and throws glints
-const discoTex = (() => {
-  const [c, g] = mkCanvas(256, 128);
-  for (let y = 0; y < 128; y += 8) for (let x = 0; x < 256; x += 8) { const v = 120 + Math.random() * 135 | 0; g.fillStyle = `rgb(${v},${v},${v + 10 > 255 ? 255 : v + 10})`; g.fillRect(x, y, 7, 7); }
+// ---- the light disc: a flat dark disc with glowing rings on its faces and a glowing rim, spinning flat like a thrown frisbee
+const discTex = (() => {
+  const [c, g] = mkCanvas(256, 256);
+  g.fillStyle = '#3af0ff'; g.fillRect(0, 0, 256, 256);
+  g.fillStyle = '#0a0d16'; g.beginPath(); g.arc(128, 128, 116, 0, 7); g.fill();
+  g.strokeStyle = '#3af0ff'; g.lineWidth = 9; g.beginPath(); g.arc(128, 128, 84, 0, 7); g.stroke();
+  g.lineWidth = 4; for (let k = 0; k < 4; k++) { g.beginPath(); g.arc(128, 128, 102, k * Math.PI / 2 + 0.2, k * Math.PI / 2 + 1.25); g.stroke(); }
+  g.fillStyle = '#1a2230'; g.beginPath(); g.arc(128, 128, 40, 0, 7); g.fill();
+  g.strokeStyle = '#e8fcff'; g.lineWidth = 5; g.beginPath(); g.arc(128, 128, 22, 0, 7); g.stroke();
   return toTex(c);
 })();
-const discoGeo = (() => { const geo = new THREE.IcosahedronGeometry(1, 3); geo.computeVertexNormals(); return geo; })();
-const discoMat = envMat({ map: discoTex, emissiveMap: discoTex, emissive: 0xffffff, emissiveIntensity: 0.25, roughness: 0.12, metalness: 1, flatShading: true });
+const discGeo = (() => {
+  const geo = new THREE.CylinderGeometry(1.15, 1.15, 0.36, 40, 1);
+  // the side samples the glowing border at the top of the texture, so the rim glows all round
+  const uv = geo.attributes.uv, side = geo.groups[0];
+  for (let i = side.start; i < side.start + side.count; i++) { const v = geo.index.getX(i); uv.setXY(v, 0.5, 0.995); }
+  geo.computeVertexNormals(); return geo;
+})();
+const discMat = envMat({ map: discTex, emissiveMap: discTex, emissive: 0xffffff, emissiveIntensity: 1.2, roughness: 0.25, metalness: 0.6 });
 
 // ================= Modo Infinito · Pântano do Ogro: a muddy clearing in a misty swamp. A big stump house with a round door and a smoking
 // chimney, a wooden outhouse, a bubbling mud pool, reeds, lily pads, crooked trees with hanging moss, fireflies, frogs, and the ogre
@@ -4741,7 +4803,7 @@ const onionTopMat = envMat({ color: 0x6aa83a, roughness: 0.6 });
 // nothing drops coins and everything speeds up as the minutes pass. Lives never run out, but losing the ball sets the score back
 // to zero (the clock and the speed start over too, the blocks stay), so only a run without a single miss makes a big record
 let infinite = false, recInf = false, infPrevMap = null;
-const inf = { t: 0, drop: 1.5, cap: 2, wave: 40, minute: 60, lbl: 0 };
+const inf = { t: 0, drop: 1.5, cap: 8, wave: 40, minute: 60, lbl: 0 };
 const INF_LEVEL = { name: 'Pântano do Ogro', theme: 'tarde', rows: [
   '...ú.ú.ú...',
   '.úúúú?úúúú.',
@@ -4749,14 +4811,14 @@ const INF_LEVEL = { name: 'Pântano do Ogro', theme: 'tarde', rows: [
   '..ü.....ü..',
   '...........',
   'ö..Ö...Ö..ö' ] };
-const INF_MIX = [['ú', 34], ['Ú', 14], ['ü', 8], ['Ö', 7], ['ö', 5], ['?', 18], ['crate', 14]];
+const INF_MIX = [['ú', 48], ['Ú', 18], ['ü', 10], ['Ö', 8], ['ö', 6], ['?', 5], ['crate', 5]];
 const infSpeed = () => 1 + Math.min(inf.t / 200, 0.9);
 function infPick() { let r = Math.random() * 100; for (const [ch, w] of INF_MIX) { r -= w; if (r <= 0) return ch === 'crate' ? 'lrmbefxzgsdv'[Math.floor(Math.random() * 12)] : ch; } return 'ú'; }
 function infDrop(ch, c, r) { const b = placeBrick(ch, c, r); if (b) { b.obj.position.y = 14 + Math.random() * 4; b.vy = 0; } return b; }
 function newInfinite() {
   infinite = true; recInf = true; chaos = false; recChaos = false; infPrevMap = mapIdx; loadHi();
   score = 0; shownScore = 0; lives = 5; combo = 0;
-  Object.assign(inf, { t: 0, drop: 1.5, cap: 2, wave: 40, minute: 60, lbl: 0 });
+  Object.assign(inf, { t: 0, drop: 1.5, cap: 8, wave: 40, minute: 60, lbl: 0 });
   $('menu').hidden = true; $('overOv').hidden = true; $('pauseOv').hidden = true; $('hud').hidden = false;
   setSwamp();
   startLevel(1);
@@ -4783,8 +4845,8 @@ function updateInfinite(dt) {
   if ((inf.drop -= dt) <= 0) { inf.drop = Math.max(0.45, 1.9 - inf.t / 100); for (let tries = 0; tries < 8; tries++) if (infDrop(infPick(), Math.floor(Math.random() * COLS), Math.floor(Math.random() * 9))) break; }
   if ((inf.wave -= dt) <= 0) { inf.wave = 40; let n = 0; const r0 = Math.floor(Math.random() * 3); for (let c = 0; c < COLS; c++) if (infDrop(infPick(), c, r0)) n++; if (n) { banner('ONDA DE BLOCOS!', 'Velocidade ×' + k.toFixed(1), 1.6); Snd.roar(); } }
   if (destructibleLeft() < 6) for (let i = 0; i < 4; i++) infDrop(infPick(), Math.floor(Math.random() * COLS), Math.floor(Math.random() * 6));
-  // capsules rain from the sky: plenty of power-ups and plenty of debuffs
-  if ((inf.cap -= dt) <= 0) { inf.cap = rand(2.2, 3.6) / Math.sqrt(k); spawnCapsule(Math.random() < 0.4 ? randomBad() : randomPU(), rand(-HW + 1, HW - 1), rand(-6, -2)); }
+  // now and then a capsule falls from the sky, power-up or debuff
+  if ((inf.cap -= dt) <= 0) { inf.cap = rand(9, 14); spawnCapsule(Math.random() < 0.4 ? randomBad() : randomPU(), rand(-HW + 1, HW - 1), rand(-6, -2)); }
   // every full minute alive is worth a bonus
   if ((inf.minute -= dt) <= 0) { inf.minute = 60; const m = Math.round(inf.t / 60), bonus = 500 * m; score += bonus; popText(0, -2, (m === 1 ? '1 MINUTO!' : m + ' MINUTOS!') + ' +' + bonus.toLocaleString('pt-BR'), '#d8ff5a', true); Snd.power(); }
   if ((inf.lbl -= dt) <= 0) { inf.lbl = 0.5; const s = Math.floor(inf.t); $('lvlLbl').textContent = 'Modo Infinito · ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + ' · velocidade ×' + k.toFixed(1); }
@@ -7422,7 +7484,7 @@ function destroyBrick(b, src) {
     dustCloud(b.x, b.z, 8, 0x8ab84a, 1.8, 1.2, 0.5);
   } else if (b.ch === 'ö') {
     dustCloud(b.x, b.z, 4, 0xd8e8a0, 1, 0.6, 0.4); Snd.tone(220, 0.08, 'square', 0.05, 140); Snd.tone(260, 0.08, 'square', 0.05, 160, 0.1);
-  } else if (b.ch === 'á' || b.ch === 'Á') {
+  } else if (b.ch === 'á' || b.ch === 'Á' || b.ch === 'ý') {
     // a pixel bursts into little neon squares
     sparks(b.x, Y + 0.4, b.z, 26, Math.random() < 0.5 ? 0xff3ad8 : 0x3af0ff, 6, 0.45, 0.22, 2.8, -8);
     spawnDebris(b.x, Y + 0.2, b.z, def.chip, 6, 5);
@@ -7645,6 +7707,22 @@ propMat.tramSide = envMat({ roughness: 0.35, map: (() => {
   g.fillStyle = '#c8302a'; g.fillRect(0, 96, 512, 32); g.fillStyle = '#e8b33a'; g.fillRect(0, 92, 512, 5);
   return toTex(c);
 })() });
+const turboTex = (() => {
+  const [c, g] = mkCanvas(64, 128);
+  g.fillStyle = '#000'; g.fillRect(0, 0, 64, 128);
+  g.lineWidth = 9; g.lineJoin = 'round'; g.lineCap = 'round';
+  for (let k = 0; k < 3; k++) { const y = 18 + k * 42; g.strokeStyle = k === 1 ? '#3af0ff' : '#ff3ad8'; g.beginPath(); g.moveTo(10, y + 22); g.lineTo(32, y); g.lineTo(54, y + 22); g.stroke(); }
+  const t = toTex(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+})();
+const turboFrameMat = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(0.4, 1.6, 2.0), fog: false });
+function makeTurbo(x, z, i) {
+  const g = new THREE.Group(); g.position.set(x, 0.03, z);
+  const mat = new THREE.MeshBasicMaterial({ map: turboTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false, color: new THREE.Color().setRGB(1.2, 1.2, 1.2) });
+  const pad = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 2.4), mat); pad.rotation.x = -Math.PI / 2; pad.renderOrder = 2; g.add(pad);
+  for (const sx of [-1, 1]) { const rail = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.03, 2.5), turboFrameMat); rail.position.set(sx * 0.83, 0, 0); g.add(rail); }
+  props.root.add(g);
+  return { type: 'turbo', x, z, hw: 0.8, hd: 1.2, g, mat, flash: 0, ph: i * 0.3 };
+}
 function clearProps() {
   for (const p of props.list) { props.root.remove(p.g); if (p.rails) props.root.remove(p.rails); }
   props.list = [];
@@ -7703,6 +7781,7 @@ function setProps(def) {
   (def.bumpers || []).forEach(([x, z], i) => props.list.push(makeBumper(x, z, i)));
   if (def.gong) props.list.push(makeGong(def.gong[0], def.gong[1]));
   if (def.tram != null) props.list.push(makeTram(def.tram));
+  (def.turbo || []).forEach(([x, z], i) => props.list.push(makeTurbo(x, z, i)));
 }
 function gongHit(p) {
   if (p.cd > 0) return;
@@ -7761,10 +7840,19 @@ function collideProps(b) {
       } else if (boxBounce(b, p, p.x)) gongHit(p);
     } else if (p.type === 'tram' && p.phase === 'run') {
       if (boxBounce(b, p, p.x)) { if (Snd.gate('tramHit', 150)) Snd.wall(); }
+    } else if (p.type === 'turbo') {
+      // only on the way up, toward the blocks, and once per pass
+      if (b.vz >= 0 || Math.abs(b.x - p.x) > p.hw || Math.abs(b.z - p.z) > p.hd || gameTime - (b.turboAt || -9) < 0.8) continue;
+      b.turboAt = gameTime;
+      const sp = Math.hypot(b.vx, b.vz) || 1, base = ballSpeed(), want = Math.min(Math.max(sp, base) * 1.35, base * 1.6);
+      b.vx *= want / sp; b.vz *= want / sp;
+      p.flash = 0.35; Snd.whoosh(); addScore(10, p.x, p.z, '#3af0ff');
+      sparks(b.x, Y, b.z, 14, 0x3af0ff, 6, 0.3, 0.16, 2.4, -6);
     }
   }
 }
 function updateProps(dt, t) {
+  turboTex.offset.y -= dt * 1.4;
   for (const p of props.list) {
     if (p.type === 'bump') {
       p.pulse = Math.max(0, p.pulse - dt);
@@ -7772,6 +7860,9 @@ function updateProps(dt, t) {
     } else if (p.type === 'gong') {
       p.cd = Math.max(0, p.cd - dt); p.swing = Math.max(0, p.swing - dt * 0.6);
       p.hang.rotation.x = Math.sin(t * 9) * 0.28 * p.swing;
+    } else if (p.type === 'turbo') {
+      p.flash = Math.max(0, p.flash - dt);
+      const k = 1 + p.flash * 5 + Math.sin(t * 6 + p.ph) * 0.15; p.mat.color.setRGB(1.2 * k, 1.2 * k, 1.2 * k);
     } else if (p.type === 'tram') {
       p.t -= dt;
       if (p.phase === 'wait' && p.t <= 0) { p.phase = 'warn'; p.t = 1.8; Snd.tramBell(); }
@@ -7847,7 +7938,7 @@ function updateBall(b, dt) {
   else if (env === futuro) { if (Math.random() < 0.8 * fxScale) glow.emit(b.x + rand(-0.2, 0.2), Y + rand(-0.1, 0.2), b.z + rand(-0.2, 0.2), rand(-1.2, 1.2), rand(0, 0.8), rand(-1.2, 1.2), rand(0.15, 0.3), rand(0.12, 0.25), Math.random() < 0.6 ? 0xb88aff : 0x8af0ff, 2.6, 2, 0); }
   else if (env === swamp) { if (Math.random() < 0.6 * fxScale) dust.emit(b.x + rand(-0.2, 0.2), 0.12, b.z + rand(-0.2, 0.2), rand(-0.6, 0.6), rand(0.8, 1.6), rand(-0.6, 0.6), rand(0.6, 1), rand(0.25, 0.4), 0x5a4a2a, 1, 1, -6, 0.6, 0.6); }
   else if (env === lua) { if (Math.random() < 0.6 * fxScale) dust.emit(b.x + rand(-0.2, 0.2), 0.12, b.z + rand(-0.2, 0.2), rand(-0.4, 0.4), rand(0.6, 1.2), rand(-0.4, 0.4), rand(1, 1.6), rand(0.3, 0.5), 0xc8c8d0, 1, 0.4, -0.6, 1.2, 0.35); }
-  else if (env === neon) { if (Math.random() < 0.8 * fxScale) glow.emit(b.x + rand(-0.3, 0.3), Y + rand(-0.1, 0.4), b.z + rand(-0.3, 0.3), rand(-1, 1), rand(0, 1), rand(-1, 1), rand(0.2, 0.4), rand(0.12, 0.22), [0xffffff, 0xff3ad8, 0x3af0ff, 0xffe03a][Math.floor(Math.random() * 4)], 2.8, 2, 0); }
+  else if (env === neon) { for (let k = 0; k < 2; k++) if (Math.random() < 0.9 * fxScale) glow.emit(b.x + rand(-0.08, 0.08), Y + rand(-0.05, 0.05), b.z + rand(-0.08, 0.08), rand(-0.2, 0.2), 0, rand(-0.2, 0.2), rand(0.35, 0.5), rand(0.16, 0.26), Math.random() < 0.8 ? 0x3af0ff : 0xe8fcff, 3, 0, 0); }
   else if (env === orient) { if (Math.random() < 0.95 * fxScale) emitPetal(b.x + rand(-0.2, 0.2), Y + rand(0, 0.35), b.z + rand(-0.2, 0.2), rand(-0.8, 0.8) - b.vx * 0.04, rand(0.4, 1.2), rand(-0.8, 0.8) - b.vz * 0.04, rand(1.8, 2.8)); }
   else if (Math.random() < 0.5) dust.emit(b.x, 0.15, b.z, rand(-0.3, 0.3), 0.3, rand(-0.3, 0.3), 0.7, 0.5, env.trail, 1, 1, 0, 1.3, 0.28);
   if (!unseen && pw.bomb > 0 && Math.random() < 0.6) glow.emit(b.x, Y + b.r, b.z, rand(-1.5, 1.5), rand(2, 3), rand(-1.5, 1.5), 0.35, 0.18, 0xffd060, 3, 1, -6);
@@ -7969,7 +8060,7 @@ for (const k in PU) capsuleMats[k] = PU[k].bad ? envMat({ map: capHazard, roughn
 let lvBricks = 1;
 function puChance() {
   if (chaos) return 0.08 * DIFF[diff].pu;
-  if (infinite) return 0.13 * DIFF[diff].pu;
+  if (infinite) return 0.05 * DIFF[diff].pu;
   const p = clamp(1 - destructibleLeft() / Math.max(1, lvBricks), 0, 1);
   return (0.12 - 0.056 * p) * DIFF[diff].pu;
 }
@@ -9807,7 +9898,11 @@ $('btnStart').addEventListener('click', () => { Snd.init(); if (playMode === 'ch
 $('btnScore').addEventListener('click', () => showScreen('scrScore'));
 let autoVeh = false;
 try { autoVeh = localStorage.getItem('brickstorm-autoveh') === '1'; } catch (e) { autoVeh = false; }
-function syncAutoVeh() { const b = $('btnAutoVeh'); b.textContent = '🔀 Troca automática: ' + (autoVeh ? 'sim' : 'não'); b.setAttribute('aria-pressed', String(autoVeh)); }
+function syncAutoVeh() {
+  const b = $('btnAutoVeh');
+  if (!b.firstChild) b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3c4 0 6 10 10 10h5M3 17h3c1.6 0 2.8-1.6 3.9-3.5M14.1 10.5C15.2 8.6 16.4 7 18 7h3M18 4l3 3-3 3M18 14l3 3-3 3"/></svg><span class="txt"><b>Aleatório</b><small>troca de veículo a cada fase</small></span><span class="sw" aria-hidden="true"></span>';
+  b.setAttribute('aria-pressed', String(autoVeh));
+}
 $('btnAutoVeh').addEventListener('click', () => { autoVeh = !autoVeh; try { localStorage.setItem('brickstorm-autoveh', autoVeh ? '1' : '0'); } catch (e) {} syncAutoVeh(); });
 syncAutoVeh();
 function autoSwapVeh() {
@@ -10228,11 +10323,11 @@ function animate(dt, t) {
   shield.userData.hit = Math.max(0, (shield.userData.hit || 0) - dt);
   shield.position.z = SHIELD_Z + shield.userData.hit * 1.2;
   const beachBall = env === beach || env === orient || env === europe || env === ice || env === desert || env === aqua || env === futuro || env === lua || env === neon || env === swamp;
-  const bm = env === orient ? temariMat : env === europe ? footballMat : env === ice ? snowballMat : env === desert ? scarabMat : env === aqua ? pufferMat : env === futuro ? plasmaMat : env === lua ? saturnMat : env === neon ? discoMat : env === swamp ? onionMat : beachBall ? beachBallMat : ballMat;
+  const bm = env === orient ? temariMat : env === europe ? footballMat : env === ice ? snowballMat : env === desert ? scarabMat : env === aqua ? pufferMat : env === futuro ? plasmaMat : env === lua ? saturnMat : env === neon ? discMat : env === swamp ? onionMat : beachBall ? beachBallMat : ballMat;
   if (pw.fire > 0) { bm.color.setHex(0xff9a5a); bm.emissive.setHex(0xff4a00); bm.emissiveIntensity = 1.4; }
   else if (pw.bomb > 0) { bm.color.setHex(beachBall ? 0x4a4458 : 0x2c2833); bm.emissive.setHex(0x000000); }
   else if (bm === plasmaMat) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 1.6 + Math.sin(t * 23) * 0.3; plasmaTex.offset.x += dt * 0.6; plasmaTex.offset.y = Math.sin(t * 1.7) * 0.05; }
-  else if (bm === discoMat) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 0.25 + neon.beat * 0.9; }
+  else if (bm === discMat) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 1.1 + neon.beat * 0.9; }
   else if (beachBall) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = theme.lamps > 0.5 ? 0.3 : 0; }
   else { bm.color.setHex(theme.lamps > 0.5 ? 0x5d636c : 0x2b2d31); bm.emissive.setHex(0x9aa8c0); bm.emissiveIntensity = theme.lamps > 0.5 ? 0.14 : 0; }
   for (const b of balls) {
@@ -10248,7 +10343,7 @@ function animate(dt, t) {
     const shown = a > 0.5;
     if (pw.fantasma > 0 && b.ghostShown !== undefined && shown !== b.ghostShown) for (let i = 0; i < 12; i++) glow.emit(b.x + rand(-0.3, 0.3), Y + rand(0, 0.4), b.z + rand(-0.3, 0.3), rand(-1.6, 1.6), rand(0.6, 2.6), rand(-1.6, 1.6), rand(0.35, 0.6), rand(0.25, 0.45), 0xcfe6ff, 2, 1, 0);
     b.ghostShown = shown;
-    const bgeo = env === aqua ? pufferGeo : env === neon ? discoGeo : ballGeo; if (b.mesh.geometry !== bgeo) b.mesh.geometry = bgeo;
+    const bgeo = env === aqua ? pufferGeo : env === neon ? discGeo : ballGeo; if (b.mesh.geometry !== bgeo) b.mesh.geometry = bgeo;
     b.puff = Math.max(0, (b.puff || 0) - dt);
     b.mesh.position.set(b.x, Y + (b.r - BALL_R), b.z); b.mesh.scale.setScalar(b.r * (env === aqua && b.puff > 0 ? 1 + Math.sin((b.puff / 0.4) * Math.PI) * 0.35 : 1));
     // the baiacu swims nose first (wiggling) instead of rolling
@@ -10260,7 +10355,8 @@ function animate(dt, t) {
     if (env.onionBall && !sprout) { sprout = new THREE.Mesh(onionTopGeo, onionTopMat); b.mesh.add(sprout); b.mesh.userData.sprout = sprout; }
     if (sprout) sprout.visible = !!env.onionBall;
     if (env.onionBall) { b.spin = (b.spin || 0) + dt * 3; b.mesh.rotation.set(Math.sin(t * 7 + b.x) * 0.25, b.spin, Math.cos(t * 6 + b.z) * 0.2); }
-    else if (env.planetBall || env.discoBall) { b.spin = (b.spin || 0) + dt * 2.4; b.mesh.rotation.set(env.planetBall ? 0.45 : 0, b.spin, env.planetBall ? 0.2 : 0); }
+    else if (env.discBall) { b.spin = (b.spin || 0) + dt * 10; b.mesh.rotation.set(0, b.spin, 0); }
+    else if (env.planetBall) { b.spin = (b.spin || 0) + dt * 2.4; b.mesh.rotation.set(0.45, b.spin, 0.2); }
     else if (env.fishBall) b.mesh.rotation.set(0, b.stuck ? Math.PI / 2 : Math.atan2(-b.vz, b.vx), Math.sin(t * 11 + b.x) * 0.1);
     else if (!b.stuck) { b.mesh.rotation.x += (b.vz * dt) / b.r; b.mesh.rotation.z -= (b.vx * dt) / b.r; }
   }

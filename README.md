@@ -16,7 +16,7 @@ Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os e
 
 ## Como jogar
 
-O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos e o Modo Infinito. Depois do mapa vem a escolha do veículo, onde a **Troca automática** coloca um veículo diferente, entre os que você já liberou, a cada fase.
+O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos e o Modo Infinito. Depois do mapa vem a escolha do veículo, onde o botão **Aleatório** coloca um veículo diferente, entre os que você já liberou, a cada fase. O botão Demolir! fica sempre embaixo da tela, sem precisar rolar a lista.
 
 Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Se você perder, "Jogar de novo" recomeça na fase em que parou, com 3 vidas e a pontuação do começo da fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
@@ -29,7 +29,7 @@ Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto d
 
 ## Mundos
 
-São 10 mundos. Cada um tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos), escaravelho dourado, baiacu (que incha quando bate no veículo), esfera de plasma, mini Saturno e globo de discoteca. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio. Vencer o chefão do Neon fecha o jogo.
+São 10 mundos. Cada um tem 5 fases, um chefão no fim e uma bola própria: bola de demolição, bola de praia, Temari, bola de futebol, bola de neve (que solta flocos), escaravelho dourado, baiacu (que incha quando bate no veículo), esfera de plasma, mini Saturno e disco de luz. Vencer o chefão libera o próximo mundo e dá um veículo novo de prêmio. Vencer o chefão do Neon fecha o jogo.
 
 | | |
 |---|---|
@@ -37,7 +37,7 @@ São 10 mundos. Cada um tem 5 fases, um chefão no fim e uma bola própria: bola
 | ![Orien Tal](imagens/oriental.jpg) **Orien Tal** · jardim zen, cerejeiras, drones e montanhas; o gongo do templo solta uma onda de choque que racha os blocos por perto | ![Euro Peu](imagens/europeu.jpg) **Euro Peu** · casas de enxaimel, castelo e chafariz; um bondinho atravessa a arena e funciona como uma parede que anda |
 | ![Gela Deira](imagens/gelo.jpg) **Gela Deira** · lago congelado, iglus, pinguins e aurora boreal; o veículo escorrega no gelo | ![Deserto Certo](imagens/deserto.jpg) **Deserto Certo** · pirâmides, oásis e camelos; tempestades de areia escondem os blocos |
 | ![Aqua Rio](imagens/aqua.jpg) **Aqua Rio** · fundo do mar com corais, naufrágio, cardumes e arraia; correntezas empurram a bola, baús soltam moedas e águas-vivas dão choque | ![Fu Turista](imagens/futuro.jpg) **Fu Turista** · cidade do futuro com torres de vidro, jardins, trem maglev e carros voadores; portais teletransportam a bola |
-| ![Lua de Mel](imagens/lua.jpg) **Lua de Mel** · crateras, a Terra no céu, base lunar e o módulo dos recém-casados; a bola faz curvas com a gravidade baixa e meteoros caem na arena | ![Neon](imagens/neon.jpg) **Neon** · dentro de um computador, com placa-mãe, memórias e cooler, e o Quebrabloco rodando na tela ao fundo; tudo pulsa no ritmo da música |
+| ![Lua de Mel](imagens/lua.jpg) **Lua de Mel** · crateras, a Terra no céu, base lunar e o módulo dos recém-casados; a bola faz curvas com a gravidade baixa e meteoros caem na arena | ![Neon](imagens/neon.jpg) **Neon** · dentro de um computador, com placa-mãe, memórias e cooler, e o Quebrabloco rodando na tela ao fundo; tudo pulsa no ritmo da música, vírus se copiam para os espaços vazios e setas turbo no chão aceleram a bola |
 
 ## Chefões
 
@@ -84,7 +84,7 @@ Fica na ilha do vulcão, no mapa, e libera depois de vencer o chefão do Mundo 1
 
 ## Modo Infinito
 
-Fica na ilha do pântano, no mapa, e libera depois de vencer o chefão do Mundo 3. É uma fase só, no Pântano do Ogro, com a casa no tronco e o ogro tomando banho de lama ao fundo. Os blocos não param de cair, chovem power-ups e debuffs e tudo vai ficando mais rápido. As vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Cada minuto sem errar dá um bônus. A bola é uma cebola.
+Fica na ilha do pântano, no mapa, e libera depois de vencer o chefão do Mundo 3. É uma fase só, no Pântano do Ogro, com a casa no tronco e o ogro tomando banho de lama ao fundo. Os blocos não param de cair, de vez em quando cai um power-up ou debuff e tudo vai ficando mais rápido. As vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Cada minuto sem errar dá um bônus. A bola é uma cebola.
 
 ![Modo Infinito no Pântano do Ogro](imagens/infinito.jpg)
 
