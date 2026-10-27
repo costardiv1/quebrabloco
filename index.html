@@ -590,7 +590,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.10.1';
+const GAME_VERSION = '1.10.2';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -5285,14 +5285,14 @@ const SONGS = {
       { root: 34, tri: [4, 7, 12], mel: [70, 0, 0, 0, 74, 0, 77, 0, 82, 0, 81, 0] },
       { root: 36, tri: [4, 7, 10], mel: [79, 0, 0, 0, 77, 0, 76, 0, 72, 0, 0, 0] },
     ] },
-  // Neon: four-on-the-floor house with offbeat stabs and a saw lead
-  neon: { bpm: 124, swing: 0, lead: 'sawtooth',
-    kick: 'x...x...x...x...', snare: '....x.......x...', hat: '..x...x...x...x.', bass: 'x.xox.xox.xox.xo', chord: '..x...x...x...x.',
+  // Neon: driving synthwave, square arpeggio lead
+  neon: { bpm: 128, swing: 0, lead: 'square',
+    kick: 'x...x...x...x...', snare: '....x.......x...', hat: 'x.xxx.xxx.xxx.xx', bass: 'xoxoxoxoxoxoxoxo', chord: 'x.......x.......',
     bars: [
-      { root: 33, tri: [3, 7, 12], mel: [81, 0, 84, 0, 88, 0, 84, 81, 0, 79, 0, 81, 0, 0, 76, 0] },
-      { root: 29, tri: [4, 7, 12], mel: [77, 0, 81, 0, 84, 0, 81, 77, 0, 76, 0, 77, 0, 0, 72, 0] },
-      { root: 36, tri: [4, 7, 12], mel: [79, 0, 84, 0, 88, 0, 91, 88, 0, 84, 0, 79, 0, 0, 84, 0] },
-      { root: 31, tri: [4, 7, 12], mel: [83, 0, 79, 0, 74, 0, 79, 83, 0, 86, 0, 83, 0, 0, 79, 0] },
+      { root: 33, tri: [3, 7, 12], mel: [69, 72, 76, 81, 76, 72, 69, 72, 76, 81, 84, 81, 76, 72, 76, 81] },
+      { root: 29, tri: [4, 7, 12], mel: [65, 69, 72, 77, 72, 69, 65, 69, 72, 77, 81, 77, 72, 69, 72, 77] },
+      { root: 36, tri: [4, 7, 12], mel: [72, 76, 79, 84, 79, 76, 72, 76, 79, 84, 88, 84, 79, 76, 79, 84] },
+      { root: 31, tri: [4, 7, 12], mel: [67, 71, 74, 79, 74, 71, 67, 71, 74, 79, 83, 79, 74, 71, 74, 79] },
     ] },
   // Aqua Rio: a lazy reggae-ish skank with a bubbly triangle lead
   aqua: { bpm: 96, swing: 0.1, lead: 'triangle',
@@ -5303,14 +5303,18 @@ const SONGS = {
       { root: 31, tri: [3, 7, 10], mel: [74, 0, 0, 77, 0, 79, 0, 82, 0, 79, 0, 77, 0, 74, 0, 0] },
       { root: 36, tri: [4, 7, 10], mel: [72, 0, 76, 0, 79, 0, 82, 0, 84, 0, 0, 0, 79, 0, 0, 0] },
     ] },
-  // Fu Turista: driving synthwave, square arpeggio lead
-  futuro: { bpm: 128, swing: 0, lead: 'square',
-    kick: 'x...x...x...x...', snare: '....x.......x...', hat: 'x.xxx.xxx.xxx.xx', bass: 'xoxoxoxoxoxoxoxo', chord: 'x.......x.......',
+  // Fu Turista: sunny city-pop of the future, an airy sine lead with echo over seventh and ninth chords
+  futuro: { bpm: 112, swing: 0.08, lead: 'sine',
+    kick: 'x.....x...x.....', snare: '....x.......x...', hat: 'x.x.x.x.x.x.x.x.', bass: 'x..o..x.5..o..x.', chord: '..x..x....x..x..',
     bars: [
-      { root: 33, tri: [3, 7, 12], mel: [69, 72, 76, 81, 76, 72, 69, 72, 76, 81, 84, 81, 76, 72, 76, 81] },
-      { root: 29, tri: [4, 7, 12], mel: [65, 69, 72, 77, 72, 69, 65, 69, 72, 77, 81, 77, 72, 69, 72, 77] },
-      { root: 36, tri: [4, 7, 12], mel: [72, 76, 79, 84, 79, 76, 72, 76, 79, 84, 88, 84, 79, 76, 79, 84] },
-      { root: 31, tri: [4, 7, 12], mel: [67, 71, 74, 79, 74, 71, 67, 71, 74, 79, 83, 79, 74, 71, 74, 79] },
+      { root: 29, tri: [4, 7, 11, 14], mel: [76, 0, 79, 0, 81, 0, 0, 84, 0, 83, 0, 81, 79, 0, 0, 0] },
+      { root: 28, tri: [3, 7, 10, 14], mel: [79, 0, 0, 76, 0, 74, 0, 76, 0, 0, 79, 0, 83, 0, 0, 0] },
+      { root: 33, tri: [3, 7, 10, 14], mel: [84, 0, 83, 0, 81, 0, 79, 0, 81, 0, 0, 76, 0, 0, 72, 0] },
+      { root: 31, tri: [4, 7, 9, 14], mel: [74, 0, 76, 0, 79, 0, 0, 0, 74, 0, 72, 0, 74, 0, 0, 0] },
+      { root: 29, tri: [4, 7, 11, 14], mel: [76, 0, 79, 0, 81, 0, 0, 84, 0, 86, 0, 84, 81, 0, 0, 0] },
+      { root: 28, tri: [3, 7, 10, 14], mel: [83, 0, 0, 79, 0, 76, 0, 79, 0, 0, 83, 0, 86, 0, 0, 0] },
+      { root: 26, tri: [3, 7, 10, 14], mel: [84, 0, 81, 0, 77, 0, 81, 0, 84, 0, 0, 86, 0, 84, 0, 81] },
+      { root: 31, tri: [5, 7, 10, 14], mel: [79, 0, 0, 0, 77, 0, 76, 0, 74, 0, 0, 0, 0, 0, 0, 0] },
     ] },
   // Gela Deira: a music-box waltz-free lullaby, bells on top
   gelo: { bpm: 96, swing: 0, lead: 'triangle',
