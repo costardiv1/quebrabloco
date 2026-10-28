@@ -18,7 +18,7 @@ Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os e
 
 O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos e o Modo Infinito. Depois do mapa vem a escolha do veículo, onde o botão **Aleatório** coloca um veículo diferente, entre os que você já liberou, a cada fase. O botão Demolir! fica sempre embaixo da tela, sem precisar rolar a lista.
 
-Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Se você perder, "Jogar de novo" recomeça na fase em que parou, com 3 vidas e a pontuação do começo da fase. Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
+Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Se você perder, "Jogar de novo" recomeça na fase em que parou, com 3 vidas e a pontuação zerada (o recorde fica salvo). Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
 | | PC | Celular |
 |---|---|---|

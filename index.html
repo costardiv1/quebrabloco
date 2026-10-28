@@ -65,6 +65,8 @@ body { background: var(--asphalt); color: var(--paper); font-family: var(--body)
 .ctrls button:hover { border-color: rgba(255, 194, 26, 0.6); }
 .ctrls button:focus-visible, .btn:focus-visible { outline: 2px solid var(--safety); outline-offset: 2px; }
 .ctrls button[aria-pressed="false"] { color: var(--concrete); }
+#fps { position: fixed; left: max(8px, env(safe-area-inset-left, 0px)); bottom: max(8px, env(safe-area-inset-bottom, 0px)); z-index: 30; pointer-events: none; padding: 3px 7px; border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6); color: #8dff8d; font: 600 13px/1.2 ui-monospace, Consolas, monospace; }
 #combo { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 92px; font-family: var(--display); font-size: 22px;
   color: var(--safety); text-shadow: 2px 2px 0 #000, 0 0 2px #000; opacity: 0; transition: opacity 0.2s; }
 
@@ -200,6 +202,8 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 .devLbl { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--concrete); font-weight: 700; }
 .devLbl output { color: var(--safety); font-size: 20px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 #devSpeed, .devRange { width: 100%; accent-color: var(--safety); }
+#optSens { flex: 1; min-width: 140px; accent-color: var(--safety); }
+#optSensOut { min-width: 3.2em; text-align: right; font-weight: 600; }
 .devScale { position: relative; height: 14px; margin-bottom: 4px; font-size: 11px; color: var(--concrete); margin-top: -4px; }
 .devScale span { position: absolute; left: calc(8px + (100% - 16px) * var(--p)); transform: translateX(-50%); white-space: nowrap; }
 .devCheck { display: flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 600; cursor: pointer; }
@@ -347,6 +351,7 @@ html.mobileSim #tut p { font-size: 17px; }
     </div>
   </div>
   <div id="combo"></div>
+  <div id="fps" hidden></div>
   <div id="popups"></div>
   <div id="banner"><h2 id="bannerT"></h2><p id="bannerS"></p></div>
   <div id="toast"></div>
@@ -454,6 +459,15 @@ html.mobileSim #tut p { font-size: 17px; }
           <span class="keys">Áudio:</span>
           <button id="optMusic" class="btn ghost camOpt" type="button"></button>
           <button id="optSound" class="btn ghost camOpt" type="button"></button>
+        </div>
+        <div class="row" role="group" aria-label="Sensibilidade">
+          <span class="keys">Sensibilidade:</span>
+          <input id="optSens" type="range" min="0.7" max="1.4" step="0.05" value="1" aria-label="Sensibilidade do toque e do teclado">
+          <output id="optSensOut" for="optSens">1,00×</output>
+        </div>
+        <div class="row" role="group" aria-label="Tela">
+          <span class="keys">Tela:</span>
+          <button id="optFps" class="btn ghost camOpt" type="button" title="Mostra quantos quadros por segundo o jogo desenha"></button>
         </div>
         <div class="optBtns">
           <button id="btnHow" class="btn ghost" type="button">Como jogar?</button>
@@ -574,6 +588,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // ================= Constants =================
 const W = 22, D = 32, HW = W / 2, HD = D / 2;
@@ -590,7 +605,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.10.2';
+const GAME_VERSION = '1.10.3';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -1271,9 +1286,11 @@ try {
 }
 const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
 let quality = 'high', fxScale = 1;
+// phones (touch screens) get a lighter HD: plain shadows on a smaller map, a lower resolution and a coarser glow
+const PHONE = matchMedia('(pointer: coarse)').matches;
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = PHONE ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 
@@ -1298,7 +1315,7 @@ composer.addPass(new OutputPass());
 const hemi = new THREE.HemisphereLight(0xcfe2ff, 0x5c5246, 1.0); scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xffffff, 3);
 sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.mapSize.set(PHONE ? 1024 : 2048, PHONE ? 1024 : 2048);
 Object.assign(sun.shadow.camera, { left: -26, right: 26, top: 26, bottom: -26, near: 1, far: 120 });
 sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.035;
 scene.add(sun);
@@ -2406,6 +2423,7 @@ function buildCity() {
     const car = makeCar(CAR_COLORS[Math.floor(rng() * CAR_COLORS.length)], tail); car.scale.setScalar(1.3); city.root.add(car);
     city.cars.push({ car, tail, loop: loops[L], len: loops[L].getLength(), u: i / 4 + rng() * 0.05, speed: 8.5, v: null, dir: L ? -1 : 1 });
   }
+  instanceCars();
 
   // street lamps along the arena sidewalks (they light up at dusk/night)
   const poleMat = envMat({ color: 0x3a4440, roughness: 0.6, metalness: 0.5 });
@@ -3126,6 +3144,32 @@ function updateEurope(dt, t) {
 }
 
 const _cp = new THREE.Vector2(), _ct = new THREE.Vector2();
+// ---- the street cars are drawn as instances: one draw per kind of part for all 8 cars instead of a handful per car
+// (phones slowed down whenever several cars were on screen). Each car keeps its empty group, which the loop still drives.
+const _cm = new THREE.Matrix4(), _cc = new THREE.Color();
+function instanceCars() {
+  const kinds = new Map();
+  for (const [ci, c] of city.cars.entries()) {
+    for (const m of [...c.car.children]) {
+      const kind = m.material === c.tail ? 'tail' : Object.values(M.car).includes(m.material) ? 'paint' : m.material.uuid;
+      const key = m.geometry.uuid + kind;
+      if (!kinds.has(key)) kinds.set(key, { geo: m.geometry, mat: m.material, kind, recv: m.receiveShadow, list: [] });
+      m.updateMatrix(); kinds.get(key).list.push({ ci, local: m.matrix.clone(), color: m.material.color });
+      c.car.remove(m);
+    }
+  }
+  city.carParts = [];
+  for (const k of kinds.values()) {
+    // instanced meshes get their own materials: a material shared with ordinary meshes (tyres, glass, lights are used all
+    // over the game) makes three.js switch shader programs on every draw, which slowed every frame down on phones
+    const mat = k.kind === 'tail' ? new THREE.MeshBasicMaterial({ color: 0xffffff }) : k.mat.clone();
+    if (k.kind === 'paint') mat.color.setHex(0xffffff);
+    const im = new THREE.InstancedMesh(k.geo, mat, k.list.length);
+    im.receiveShadow = k.recv; im.frustumCulled = false;
+    k.list.forEach((e, i) => { if (k.kind === 'paint') im.setColorAt(i, e.color); else if (k.kind === 'tail') im.setColorAt(i, _cc.setRGB(1, 0.1, 0.1)); });
+    city.root.add(im); city.carParts.push({ im, list: k.list, tail: k.kind === 'tail' });
+  }
+}
 function updateCity(dt, t) {
   for (const c of city.cars) {
     // every car follows the same speed profile along the loop, so nobody overtakes: slow into corners, brake lights on
@@ -3133,11 +3177,22 @@ function updateCity(dt, t) {
     const straight = Math.max(Math.abs(_ct.x), Math.abs(_ct.y));
     const want = c.speed * (1 - (1 - straight) * 1.5), v0 = c.v ?? want;
     c.v = v0 + clamp(want - v0, -9 * dt, 4 * dt);
-    c.tail.emissiveIntensity = want < v0 - 0.2 ? 3 : 0.3 + city.lampLevel * 0.8;
+    c.brake = want < v0 - 0.2 ? 3 : 0.3 + city.lampLevel * 0.8;
     c.u = (c.u + c.dir * c.v * dt / c.len + 1) % 1;
     c.loop.getPointAt(c.u, _cp); c.loop.getTangentAt(c.u, _ct);
     c.car.position.set(_cp.x, 0, _cp.y);
     c.car.rotation.y = Math.atan2(-_ct.y * c.dir, _ct.x * c.dir);
+    c.car.updateMatrix();
+  }
+  for (const p of city.carParts || []) {
+    p.list.forEach((e, i) => {
+      const c = city.cars[e.ci];
+      p.im.setMatrixAt(i, _cm.multiplyMatrices(c.car.matrix, e.local));
+      // a tail light glows like the old emissive one: dim red, bright red when braking
+      if (p.tail) p.im.setColorAt(i, _cc.setRGB(0.35 + c.brake * 0.9, 0.05 + c.brake * 0.09, 0.05 + c.brake * 0.09));
+    });
+    p.im.instanceMatrix.needsUpdate = true;
+    if (p.tail) p.im.instanceColor.needsUpdate = true;
   }
   if (city.crane) city.crane.rotation.y = 0.6 + Math.sin(t * 0.07) * 0.7;
 }
@@ -4835,7 +4890,7 @@ function setSwamp() {
   if (env !== swamp) clearPetals();
   env = swamp;
   if (quality === 'lite') applyViewDistance();
-  if (!swamp.built) { swamp.build(); swamp.built = true; pullCloser(swamp); swamp.update(0, 0); trimShadows(swamp.root); }
+  if (!swamp.built) { swamp.build(); swamp.built = true; pullCloser(swamp); swamp.update(0, 0); trimShadows(swamp.root); mergeStatic(swamp); }
   swamp.root.visible = true;
 }
 function updateInfinite(dt) {
@@ -4848,7 +4903,7 @@ function updateInfinite(dt) {
   // now and then a capsule falls from the sky, power-up or debuff
   if ((inf.cap -= dt) <= 0) { inf.cap = rand(9, 14); spawnCapsule(Math.random() < 0.4 ? randomBad() : randomPU(), rand(-HW + 1, HW - 1), rand(-6, -2)); }
   // every full minute alive is worth a bonus
-  if ((inf.minute -= dt) <= 0) { inf.minute = 60; const m = Math.round(inf.t / 60), bonus = 500 * m; score += bonus; popText(0, -2, (m === 1 ? '1 MINUTO!' : m + ' MINUTOS!') + ' +' + bonus.toLocaleString('pt-BR'), '#d8ff5a', true); Snd.power(); }
+  if ((inf.minute -= dt) <= 0) { inf.minute = 60; const m = Math.round(inf.t / 60), bonus = 500 * m; if (!devMode) score += bonus; popText(0, -2, (m === 1 ? '1 MINUTO!' : m + ' MINUTOS!') + ' +' + bonus.toLocaleString('pt-BR'), '#d8ff5a', true); Snd.power(); }
   if ((inf.lbl -= dt) <= 0) { inf.lbl = 0.5; const s = Math.floor(inf.t); $('lvlLbl').textContent = 'Modo Infinito · ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + ' · velocidade ×' + k.toFixed(1); }
 }
 
@@ -4874,7 +4929,14 @@ let savedMap = 0;
 try { savedMap = clamp(parseInt(localStorage.getItem('brickstorm-map') || '0', 10) || 0, 0, MAPS.length - 1); } catch (e) { savedMap = 0; }
 let doneMaps = [];
 try { doneMaps = JSON.parse(localStorage.getItem('brickstorm-done') || '[]'); if (!Array.isArray(doneMaps)) doneMaps = []; } catch (e) { doneMaps = []; }
+// campaign levels already beaten ("world:level"): Aqua Rio's treasure chests pay out in full only until their level is beaten
+let beatenLv = [];
+try { beatenLv = JSON.parse(localStorage.getItem('brickstorm-beaten') || '[]'); if (!Array.isArray(beatenLv)) beatenLv = []; } catch (e) { beatenLv = []; }
+const lvKey = () => mapIdx + ':' + level;
 let devMode = false, devSpeed = 1, devInf = false, devVehSize = 1, devSens = 1, mobileSim = false;
+// the player's own sensitivity (Opções): how far the vehicle goes for a finger drag or a key press, 0.7× to 1.4×
+let userSens = 1;
+try { userSens = clamp(+localStorage.getItem('brickstorm-sens') || 1, 0.7, 1.4); } catch (e) { userSens = 1; }
 // difficulty sets the ball's base speed: Fácil is the original speed, Normal +20%, Difícil +40%
 const DIFF = { easy: { n: 'Fácil', sp: 1, pu: 1.3 }, normal: { n: 'Normal', sp: 1.2, pu: 1 }, hard: { n: 'Difícil', sp: 1.4, pu: 0.75 } };
 let diff = 'normal';
@@ -4905,6 +4967,60 @@ function trimShadows(root) {
     if (Math.abs(c.x) > HW + 4 || c.z < -HD - 4 || c.z > PLAY_END + 4) o.castShadow = false;
   });
 }
+// ---- scenery in a few big pieces: phones choke on hundreds of separate draws per frame, so every mesh that never moves is
+// baked into one mesh per material (same look, far fewer draws). Things the world keeps a handle to (cars, cranes...) are
+// baked the same way inside themselves, so a car still drives as one piece. Anything that moves on its own stays as it is.
+function mergeStatic(e) {
+  const root = e.root, owners = new Set([root]);
+  const collect = (v, depth) => {
+    if (!v || typeof v !== 'object' || v.isMaterial || v.isTexture || v.isColor) return;
+    if (v.isObject3D) { owners.add(v); return; }
+    if (depth <= 0) return;
+    for (const x of Array.isArray(v) ? v : Object.values(v)) collect(x, depth - 1);
+  };
+  for (const [k, v] of Object.entries(e)) if (k !== 'root') collect(v, 3);
+  const ownerOf = (o) => { for (let p = o.parent; p; p = p.parent) { if (owners.has(p)) return p.visible || p === root ? p : null; if (!p.visible) return null; } return null; };
+  const rel = (o, ow) => ow.matrixWorld.clone().invert().multiply(o.matrixWorld);
+  root.updateMatrixWorld(true);
+  const cands = [];
+  root.traverse((o) => {
+    if (!o.isMesh || owners.has(o) || !o.visible || o.isInstancedMesh || o.isSkinnedMesh || o.children.length || o.renderOrder || o.geometry.morphAttributes.position) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    if (mats.some((m) => m.transparent) || (Array.isArray(o.material) && !o.geometry.index)) return;
+    const ow = ownerOf(o);
+    if (ow) cands.push({ o, ow, m: rel(o, ow) });
+  });
+  // anything that moves inside its owner while the world runs is animated by code we do not see here: leave it alone
+  for (let i = 0; i < 4; i++) e.update(0.7, 3 + i * 5.3);
+  root.updateMatrixWorld(true);
+  const groups = new Map();
+  for (const { o, ow, m } of cands) {
+    const mtx = rel(o, ow);
+    if (mtx.elements.some((v, k) => Math.abs(v - m.elements[k]) > 1e-4)) continue;
+    const g0 = o.geometry, sig = Object.keys(g0.attributes).sort().map((k) => k + g0.attributes[k].itemSize).join() + (g0.index ? 'i' : 'n') + o.castShadow + o.receiveShadow;
+    const parts = Array.isArray(o.material) ? g0.groups.map((gr) => [o.material[gr.materialIndex], gr]) : [[o.material, null]];
+    for (const [mat, gr] of parts) {
+      if (!mat) continue;
+      const g = g0.clone();
+      if (gr) g.setIndex(Array.from(g.index.array.slice(gr.start, gr.start + gr.count)));
+      g.clearGroups(); g.applyMatrix4(mtx);
+      const key = ow.uuid + mat.uuid + sig;
+      if (!groups.has(key)) groups.set(key, { ow, mat, cast: o.castShadow, recv: o.receiveShadow, geos: [], src: [] });
+      groups.get(key).geos.push(g); groups.get(key).src.push(o);
+    }
+  }
+  // every group becomes one mesh (a group of one too, so a multi-material mesh is always replaced by all of its parts)
+  const failed = new Set(), done = new Set();
+  for (const gp of groups.values()) {
+    const merged = mergeGeometries(gp.geos, false);
+    if (!merged) { for (const o of gp.src) failed.add(o); continue; }
+    const mesh = new THREE.Mesh(merged, gp.mat); mesh.castShadow = gp.cast; mesh.receiveShadow = gp.recv;
+    if (gp.ow === root) mesh.matrixAutoUpdate = false;
+    gp.ow.add(mesh); for (const o of gp.src) done.add(o);
+  }
+  for (const o of done) if (!failed.has(o)) o.parent.remove(o);
+  return [done.size, groups.size];
+}
 function setMap(i) {
   mapIdx = clamp(i, 0, MAPS.length - 1);
   for (const e of ENVS) e.root.visible = false;
@@ -4912,7 +5028,7 @@ function setMap(i) {
   if (env && env !== ENVS[mapIdx]) clearPetals();
   env = ENVS[mapIdx];
   if (quality === 'lite') applyViewDistance();
-  if (!env.built) { env.build(); env.built = true; if (env.pull) pullCloser(env); env.update(0, 0); trimShadows(env.root); }
+  if (!env.built) { env.build(); env.built = true; if (env.pull) pullCloser(env); env.update(0, 0); trimShadows(env.root); mergeStatic(env); }
   env.root.visible = true;
   try { localStorage.setItem('brickstorm-map', String(mapIdx)); } catch (e) {}
   document.querySelectorAll('.mapOpt').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.map === mapIdx)));
@@ -4963,13 +5079,16 @@ let coins = 0;
 try { coins = Math.max(0, parseInt(localStorage.getItem('brickstorm-coins') || '0', 10) || 0); } catch (e) { coins = 0; }
 function saveCoins() { try { localStorage.setItem('brickstorm-coins', String(coins)); } catch (e) {} }
 function renderCoins() { const t = '🪙 ' + coins.toLocaleString('pt-BR'); for (const id of ['coinTxt', 'coinBal']) { const el = document.getElementById(id); if (el && el.textContent !== t) el.textContent = t; } }
-function addCoins(n, x, z) { coins += n; saveCoins(); renderCoins(); Snd.coin(); if (x !== undefined) popText(x, z, '+' + n + ' 🪙', '#ffd23a'); }
+// developer mode earns nothing (no coins, points or records), so testing never touches the player's real progress;
+// only the panel's own "+100 moedas" button (force) still adds coins
+function addCoins(n, x, z, force) { if (devMode && !force) return; coins += n; saveCoins(); renderCoins(); Snd.coin(); if (x !== undefined) popText(x, z, '+' + n + ' 🪙', '#ffd23a'); }
 let vehicle = 'excav';
 try { for (const v of VEHICLES) if (!v.key || localStorage.getItem(v.key) === '1') ownedVeh.add(v.k); vehicle = localStorage.getItem('brickstorm-vehicle') || 'excav'; }
 catch (e) { for (const v of VEHICLES) if (!v.key) ownedVeh.add(v.k); vehicle = 'excav'; }
 const vehicleLocked = (k) => !devMode && !ownedVeh.has(k);
-function unlockVehicle(k) {
-  if (ownedVeh.has(k)) return false;
+// prizes won in play (earned) do not count in developer mode; the startup sync and the shop pass earned = false
+function unlockVehicle(k, earned = true) {
+  if (ownedVeh.has(k) || (devMode && earned)) return false;
   ownedVeh.add(k);
   const v = VEHICLES.find((x) => x.k === k);
   try { if (v && v.key) localStorage.setItem(v.key, '1'); } catch (e) {}
@@ -4978,7 +5097,7 @@ function unlockVehicle(k) {
 // vehicles won by finishing a regular level, keyed "world index:level"
 const LEVEL_PRIZES = { '0:2': 'mixer', '1:3': 'police' };
 // saves from before 1.7.3 had a different prize order: hand out whatever the worlds already beaten now give
-for (const i of doneMaps) { if (MAPS[i] && MAPS[i].prize) unlockVehicle(MAPS[i].prize); for (const lk in LEVEL_PRIZES) if (+lk.split(':')[0] === i) unlockVehicle(LEVEL_PRIZES[lk]); }
+for (const i of doneMaps) { if (MAPS[i] && MAPS[i].prize) unlockVehicle(MAPS[i].prize, false); for (const lk in LEVEL_PRIZES) if (+lk.split(':')[0] === i) unlockVehicle(LEVEL_PRIZES[lk], false); }
 function setVehicle(k) {
   vehicle = vehicleLocked(k) || !VEHICLES.some((v) => v.k === k) ? 'excav' : k;
   for (const key in VEH) VEH[key].group.visible = key === vehicle;
@@ -4999,6 +5118,7 @@ function renderVehiclePicker() {
   if (dv) dv.innerHTML = VEHICLES.map((v) => `<button type="button" data-veh="${v.k}" title="${v.n}" aria-pressed="${v.k === vehicle}"><span class="e">${v.icon}</span>${v.short}</button>`).join('');
 }
 function markDone(i) {
+  if (devMode) return; // worlds beaten in developer mode do not count
   if (!doneMaps.includes(i)) doneMaps.push(i);
   try { localStorage.setItem('brickstorm-done', JSON.stringify(doneMaps)); } catch (e) {}
   renderMapPicker();
@@ -5876,15 +5996,26 @@ for (let i = 0; i < 7; i++) { const r = new THREE.Mesh(rubbleGeo, rubbleMats[i %
 const podD = new THREE.Group();
 for (const dz of [-0.12, 0.12]) { const pd = new THREE.Mesh(podGeo, podMat); pd.position.set(0.75, 0.92, dz); podD.add(pd); }
 dumpG.add(podD);
-// ---- Concrete mixer: white cab, orange-striped drum that never stops turning
+// ---- Concrete mixer: yellow cab, yellow drum with blue VINICODE letters that never stops turning
 const mixerG = new THREE.Group();
-const mixCab = truckCab(0xeeeeea); mixCab.position.set(0.8, -0.14, 0); mixerG.add(mixCab);
+const mixCab = truckCab(0xffd21a); mixCab.children[0].material = envMat({ color: 0xffd21a, roughness: 0.32, metalness: 0.08 }); mixCab.position.set(0.8, -0.14, 0); mixerG.add(mixCab);
 const mWheels = truckChassis(mixerG);
-const drumTex = (() => { const [c, g] = mkCanvas(256, 128); g.fillStyle = '#f4f1ea'; g.fillRect(0, 0, 256, 128); g.fillStyle = '#ff6a1a'; for (let x = -128; x < 384; x += 64) { g.beginPath(); g.moveTo(x, 128); g.lineTo(x + 28, 128); g.lineTo(x + 28 + 128, 0); g.lineTo(x + 128, 0); g.fill(); } return toTex(c, true, [2, 1]); })();
+const drumTex = (() => {
+  // u runs round the drum and v along it, so the word is written turned on its side, once for each side of the truck
+  const [c, g] = mkCanvas(512, 512); g.fillStyle = '#ffd21a'; g.fillRect(0, 0, 512, 512);
+  for (const [u, flip] of [[128, 1], [384, -1]]) {
+    g.save(); g.translate(u, 256); g.rotate(flip * Math.PI / 2); g.transform(1, 0, -0.22, 1, 0, 0);
+    g.font = '74px Bungee, "Arial Black", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+    g.lineWidth = 18; g.strokeStyle = '#ffffff'; g.strokeText('VINICODE', 0, 4);
+    g.fillStyle = '#1d4fb8'; g.fillText('VINICODE', 0, 4);
+    g.restore();
+  }
+  return toTex(c, true, [1, 1]);
+})();
 const drumHolder = new THREE.Group(); drumHolder.position.set(-0.42, 0.36, 0); drumHolder.rotation.z = 0.16; mixerG.add(drumHolder);
 const drumGeo = new THREE.CylinderGeometry(0.3, 0.46, 1.35, 22, 1); drumGeo.rotateZ(Math.PI / 2);
 const mixDrum = new THREE.Mesh(drumGeo, envMat({ map: drumTex, roughness: 0.45, metalness: 0.3 })); mixDrum.castShadow = true; drumHolder.add(mixDrum);
-const drumCap = new THREE.Mesh(new THREE.ConeGeometry(0.3, 0.28, 18), chromeMat); drumCap.rotation.z = Math.PI / 2; drumCap.position.x = 0.81; drumHolder.add(drumCap);
+const drumCap = new THREE.Mesh(new THREE.SphereGeometry(0.46, 22, 10, 0, Math.PI * 2, 0, Math.PI / 2), envMat({ color: 0xffd21a, roughness: 0.4, metalness: 0.2 })); drumCap.rotation.z = -Math.PI / 2; drumCap.scale.set(1, 0.42, 1); drumCap.position.x = 0.675; drumCap.castShadow = true; drumHolder.add(drumCap);
 const chute = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.04, 0.16), darkMetal); chute.position.set(-1.25, 0.12, 0); chute.rotation.z = 0.45; mixerG.add(chute);
 const tank = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.5, 12), chromeMat); tank.rotation.x = Math.PI / 2; tank.position.set(0.3, 0.05, 0); mixerG.add(tank);
 const podM = new THREE.Group();
@@ -6541,8 +6672,13 @@ function updateCapy(dt, t, dl) {
   capyOrange.visible = capyBird.visible = !swim;
   const sp = Math.abs(dl) / Math.max(dt, 1e-3);
   capyAnim.amp += ((swim ? 0.9 : Math.min(1, sp / 2.5)) - capyAnim.amp) * Math.min(1, dt * 8);
-  capyAnim.phase += swim ? dt * 7 : dl * 9;
-  for (const l of capyLegs) l.rotation.z = Math.sin(capyAnim.phase + (l.userData.k ? Math.PI : 0)) * (swim ? 0.9 : 0.55) * capyAnim.amp;
+  capyAnim.phase += swim ? dt * 3.2 : dl * 9;
+  for (const l of capyLegs) {
+    const sw = Math.sin(capyAnim.phase + (l.userData.k ? Math.PI : 0));
+    // in the water she swims "wrong": slow, splayed legs flapping out to the sides instead of paddling
+    if (swim) { const side = Math.sign(l.position.z); l.rotation.set(-side * (0.7 + 0.4 * sw) * capyAnim.amp, 0, sw * 0.15); }
+    else l.rotation.set(0, 0, sw * 0.55 * capyAnim.amp);
+  }
   capyBody.position.y = swim ? 0.05 + Math.sin(t * 2.2) * 0.05 : Math.abs(Math.sin(capyAnim.phase)) * 0.03 * capyAnim.amp;
   capyBody.rotation.z = swim ? Math.sin(t * 1.6) * 0.04 : 0;
   // a little nod on every hit, and a slow idle sway
@@ -6953,7 +7089,7 @@ det(bBody, new THREE.BoxGeometry(0.16, 0.2, 0.1), envMat({ color: 0xc8261c, roug
 const truckBits = (g, rearX) => {
   for (const z of [-0.33, 0.33]) det(g, new THREE.CylinderGeometry(0.1, 0.1, 0.36, 12), chromeMat, 0.12, -0.2, z, 0, Math.PI / 2);
   det(g, new THREE.CylinderGeometry(0.035, 0.035, 0.5, 8), chromeMat, 0.42, 0.5, 0.43);
-  for (const z of [-0.36, 0.36]) { det(g, new THREE.BoxGeometry(0.02, 0.2, 0.22), blackGlossMat, -1.18, -0.36, z); det(g, new THREE.BoxGeometry(0.03, 0.06, 0.12), M.tail, rearX, -0.16, z * 0.85); det(g, new THREE.BoxGeometry(0.22, 0.03, 0.12), darkMetal, 0.8, -0.32, z * 1.25); }
+  for (const z of [-0.36, 0.36]) { det(g, new THREE.BoxGeometry(0.02, 0.2, 0.22), blackGlossMat, -1.18, -0.36, z); det(g, new THREE.BoxGeometry(0.03, 0.06, 0.12), M.tail, rearX, -0.16, z * 0.85); }
   plates(g, 1.235, rearX - 0.01, -0.16, -0.26);
 };
 truckBits(dumpG, -1.36); truckBits(mixerG, -1.36);
@@ -7115,8 +7251,10 @@ const markTex = new THREE.CanvasTexture(markCanvas); markTex.colorSpace = THREE.
 const markMesh = new THREE.Mesh(new THREE.PlaneGeometry(W, MARK_Z1 - MARK_Z0), new THREE.MeshStandardMaterial({ map: markTex, transparent: true, depthWrite: false, roughness: 1, polygonOffset: true, polygonOffsetFactor: -2 }));
 markMesh.rotation.x = -Math.PI / 2; markMesh.position.set(0, 0.012, (MARK_Z0 + MARK_Z1) / 2); markMesh.receiveShadow = true; markMesh.renderOrder = 1; scene.add(markMesh);
 const treadPattern = (() => { const [c, g] = mkCanvas(12, 12); g.fillStyle = '#fff'; g.fillRect(0, 0, 7, 12); return c; })();
-let markPat = null, markColorKey = '', markLastX = null, markFadeT = 0;
-function clearMarks() { markCtx.clearRect(0, 0, markCanvas.width, markCanvas.height); markTex.needsUpdate = true; markLastX = null; }
+// each piece of track is kept with its age and the strip is redrawn with fading alpha, so marks fade evenly and are fully gone after MARK_LIFE seconds
+const MARK_LIFE = 4;
+let markPat = null, markColorKey = '', markLastX = null, markFadeT = 0, markSegs = [];
+function clearMarks() { markCtx.clearRect(0, 0, markCanvas.width, markCanvas.height); markTex.needsUpdate = true; markLastX = null; markSegs = []; }
 function paintMarks(dt) {
   const v = VEH[vehicle] || VEH.excav, k = v.group.scale.x, col = env.markColor || 'rgba(45,30,18,0.5)';
   if (markColorKey !== col) {
@@ -7126,19 +7264,21 @@ function paintMarks(dt) {
   let dirty = false;
   if (markLastX !== null && Math.abs(paddle.x - markLastX) > 0.02) {
     const halfL = (v.len * k) / 2 * 0.9, x0 = Math.min(markLastX, paddle.x) - halfL, x1 = Math.max(markLastX, paddle.x) + halfL;
-    markCtx.fillStyle = markPat;
     for (const tz of v.tz) {
       const zc = PADDLE_Z + v.group.position.z + tz * k, tw = v.tw * k;
-      markCtx.fillRect((x0 + HW) * MARK_S, (zc - tw / 2 - MARK_Z0) * MARK_S, (x1 - x0) * MARK_S, tw * MARK_S);
+      markSegs.push({ t: 0, r: [(x0 + HW) * MARK_S, (zc - tw / 2 - MARK_Z0) * MARK_S, (x1 - x0) * MARK_S, tw * MARK_S] });
     }
     dirty = true;
   }
   markLastX = paddle.x;
+  for (const m of markSegs) m.t += dt;
   markFadeT += dt;
-  if (markFadeT > 0.25) {
+  if (markSegs.length && (dirty || markFadeT > 0.1)) {
     markFadeT = 0;
-    markCtx.globalCompositeOperation = 'destination-out'; markCtx.fillStyle = 'rgba(0,0,0,0.035)'; markCtx.fillRect(0, 0, markCanvas.width, markCanvas.height);
-    markCtx.globalCompositeOperation = 'source-over'; dirty = true;
+    markSegs = markSegs.filter((m) => m.t < MARK_LIFE);
+    markCtx.clearRect(0, 0, markCanvas.width, markCanvas.height); markCtx.fillStyle = markPat;
+    for (const m of markSegs) { markCtx.globalAlpha = 1 - m.t / MARK_LIFE; markCtx.fillRect(...m.r); }
+    markCtx.globalAlpha = 1; dirty = true;
   }
   if (dirty) markTex.needsUpdate = true;
 }
@@ -7315,7 +7455,7 @@ for (const m of [beachBallMat, temariMat, footballMat, snowballMat, scarabMat, p
 
 // ================= State =================
 let state = 'menu';
-let level = 1, score = 0, shownScore = 0, lives = 3, hi = 0, lvScore0 = 0, overKind = 'dead';
+let level = 1, score = 0, shownScore = 0, lives = 3, hi = 0, overKind = 'dead';
 let combo = 0, comboShow = 0;
 const pw = { magnet: 0, expand: 0, fire: 0, bomb: 0, slow: 0, shield: 0, mega: 0, tempest: 0, shrink: 0, turbo: 0, invert: 0, poeira: 0, oil: 0, vento: 0, fantasma: 0, gelo: 0, mini: 0 };
 let windDir = 1, windT = 0;
@@ -7332,7 +7472,7 @@ let recChaos = false;
 const hiKey = () => (recInf ? 'infinito' : recChaos ? 'chaos' : diff), recName = () => (recInf ? 'Modo Infinito' : recChaos ? 'Modo Caos' : DIFF[diff].n);
 function loadHi() { try { hi = parseInt(localStorage.getItem('brickstorm-hi-' + hiKey()) || '0', 10) || 0; } catch (e) { hi = 0; } }
 loadHi();
-function saveHi() { if (score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi-' + hiKey(), String(hi)); } catch (e) {} } }
+function saveHi() { if (!devMode && score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi-' + hiKey(), String(hi)); } catch (e) {} } }
 const hiLabel = () => 'Recorde no ' + recName() + ': ' + hi.toLocaleString('pt-BR');
 
 // ---- Theme (time of day)
@@ -7446,6 +7586,7 @@ function loadLevel(n) {
 function destructibleLeft() { let n = 0; for (const b of bricks) if (b.alive && b.kind !== 'steel' && !b.boss) n++; return n; }
 
 function addScore(base, x, z, color) {
+  if (devMode) return;
   const mult = 1 + Math.min(combo, 30) * 0.1;
   const pts = Math.round(base * mult / 5) * 5;
   score += pts;
@@ -7501,7 +7642,8 @@ function destroyBrick(b, src) {
   } else if (b.ch === '=') {
     // the chest bursts open in a shower of gold
     sparks(b.x, Y + 0.5, b.z, 40, 0xffd23a, 7, 0.6, 0.25, 2.6, -8);
-    for (let i = 0; i < 4; i++) spawnCoin(b.x + rand(-0.5, 0.5), b.z, rand(-3, 3), rand(-1, 1));
+    // 4 coins the first time round; once the level is beaten a chest gives just 1, so Aqua Rio is no coin farm
+    for (let i = 0, n = beatenLv.includes(lvKey()) ? 1 : 4; i < n; i++) spawnCoin(b.x + rand(-0.5, 0.5), b.z, rand(-3, 3), rand(-1, 1));
     spawnDebris(b.x, Y + 0.3, b.z, def.chip, 10, 6);
   } else if (b.ch === '!') {
     for (let i = 0; i < 26; i++) glow.emit(b.x + rand(-0.5, 0.5), Y + rand(0.2, 1.2), b.z + rand(-0.4, 0.4), rand(-2, 2), rand(0.5, 2.5), rand(-2, 2), rand(0.4, 0.8), rand(0.2, 0.4), Math.random() < 0.5 ? 0xd88aff : 0x7fe8ff, 2.4, 1.5, 0);
@@ -7653,7 +7795,8 @@ function collideBall(b) {
         vehicleHit();
         if (pw.magnet > 0) { b.stuck = true; b.off = dx; b.stuckT = 0; b.auto = true; }
       } else {
-        b.vx = Math.sign(dx || 1) * Math.max(Math.abs(b.vx), 4);
+        if (pw.magnet > 0) { b.stuck = true; b.off = dx; b.stuckT = 0; b.auto = true; combo = 0; Snd.paddle(); }
+        else b.vx = Math.sign(dx || 1) * Math.max(Math.abs(b.vx), 4);
       }
     }
   }
@@ -7908,7 +8051,7 @@ function updateBall(b, dt) {
   }
   if (pw.magnet > 0 && b.vz > 0) {
     // bend the ball's path toward the vehicle while it comes back (a ball just released flies straight); the pull grows as it gets closer
-    const tx = paddle.x - b.x, tz = PADDLE_Z - 0.8 - b.z, dist = Math.hypot(tx, tz) || 1;
+    const tx = clamp(b.x, paddle.x - paddle.w * 0.45, paddle.x + paddle.w * 0.45) - b.x, tz = PADDLE_Z - 0.8 - b.z, dist = Math.hypot(tx, tz) || 1;
     const cur = Math.atan2(b.vx, b.vz), want = Math.atan2(tx, tz);
     let da = want - cur; while (da > Math.PI) da -= Math.PI * 2; while (da < -Math.PI) da += Math.PI * 2;
     const turn = clamp(10 / dist, 0.35, 3.2) * dt, sp0 = Math.hypot(b.vx, b.vz), na = cur + clamp(da, -turn, turn);
@@ -8340,7 +8483,7 @@ function bossDie() {
   B.dead = true; B.deathT = 2.6; B.hp = 0;
   clearHazards(); Snd.roar();
   banner('CHEFÃO DERROTADO!', B.name, 2.6);
-  score += 5000; popText(B.parts[0] ? B.parts[0].x : 0, B.parts[0] ? B.parts[0].z : -9, '+5.000', '#ffc21a', true);
+  if (!devMode) score += 5000; popText(B.parts[0] ? B.parts[0].x : 0, B.parts[0] ? B.parts[0].z : -9, '+5.000', '#ffc21a', true);
   addCoins(100); popText(B.parts[0] ? B.parts[0].x : 0, (B.parts[0] ? B.parts[0].z : -9) + 1.2, '+100 🪙', '#ffd23a', true);
 }
 function updateBoss(dt) {
@@ -9641,7 +9784,7 @@ function clearDynamic() {
 }
 function resetPowers() { for (const k in pw) pw[k] = 0; rockets = 0; laserAmmo = 0; stormLeft = 0; expandLv = 0; shrinkLv = 0; paddle.wantW = paddle.baseW; }
 function startLevel(n) {
-  level = n; lvScore0 = score;
+  level = n;
   clearDynamic(); resetPowers();
   loadLevel(n); lvBricks = destructibleLeft();
   clearMarks();
@@ -9756,12 +9899,15 @@ function gameOver() {
 }
 function levelCleared() {
   state = 'clear'; clearT = 2.8;
-  const bonus = 1000 + level * 250 + lives * 200, coinBonus = boss || chaos ? 0 : 20;
-  score += bonus; saveHi();
+  if (!devMode && !chaos && !infinite && !tut && !beatenLv.includes(lvKey())) { beatenLv.push(lvKey()); try { localStorage.setItem('brickstorm-beaten', JSON.stringify(beatenLv)); } catch (e) {} }
+  const bonus = 1000 + level * 250 + lives * 200, coinBonus = boss || chaos || devMode ? 0 : 20;
+  if (!devMode) score += bonus; saveHi();
   if (coinBonus) addCoins(coinBonus);
   Snd.clear();
-  banner(chaos ? 'RODADA ' + chaosRound + ' CONCLUÍDA!' : level >= MAPS[mapIdx].levels.length ? 'MUNDO CONCLUÍDO!' : 'FASE CONCLUÍDA', '+' + bonus.toLocaleString('pt-BR') + ' de bônus' + (coinBonus ? ' · +' + coinBonus + ' 🪙' : ''), 2.6);
+  banner(chaos ? 'RODADA ' + chaosRound + ' CONCLUÍDA!' : level >= MAPS[mapIdx].levels.length ? 'MUNDO CONCLUÍDO!' : 'FASE CONCLUÍDA', (devMode ? 'Modo dev: sem pontos nem moedas' : '+' + bonus.toLocaleString('pt-BR') + ' de bônus') + (coinBonus ? ' · +' + coinBonus + ' 🪙' : ''), 2.6);
   for (const b of balls) dustCloud(b.x, b.z, 6, 0xcfc8bb, 1.2, 0.6, 0.4);
+  // coins still rolling down when the last block falls go straight to the player's purse instead of vanishing
+  if (coinDrops.length) { addCoins(coinDrops.length * 5, paddle.x, PADDLE_Z - 1); for (const c of coinDrops) sparks(c.x, Y + 0.4, c.z, 6, 0xffd23a, 4, 0.3, 0.15, 2.4); }
   clearDynamic();
 }
 function nextLevel() {
@@ -9841,7 +9987,7 @@ let touchRef = null;
 canvas.addEventListener('pointermove', (e) => {
   const x = worldX(e); if (x === null) return;
   if (e.pointerType === 'mouse' && !mobileSim) paddle.target = pw.invert > 0 ? -x : x;
-  else if (touchRef) paddle.target = touchRef.px + (x - touchRef.wx) * (pw.invert > 0 ? -1.25 : 1.25) * devSens;
+  else if (touchRef) paddle.target = touchRef.px + (x - touchRef.wx) * (pw.invert > 0 ? -1.25 : 1.25) * devSens * userSens;
 });
 canvas.addEventListener('pointerdown', (e) => {
   Snd.init();
@@ -9882,7 +10028,15 @@ window.addEventListener('keydown', (e) => {
   if (state === 'paused') syncPauseCtl();
 });
 window.addEventListener('keyup', (e) => { keys[e.code] = false; if (e.code === 'Space') firing = false; });
-document.addEventListener('visibilitychange', () => { if (document.hidden) setPaused(true); });
+// leaving the game (another tab or window, the phone locked, the app in the background) pauses a run and silences
+// everything, menus included; coming back brings the sound back unless the run is paused
+function muteAway(away) {
+  if (away) { setPaused(true); Snd.ctx?.suspend(); }
+  else if (state !== 'paused' && !document.hidden && document.hasFocus()) Snd.ctx?.resume();
+}
+document.addEventListener('visibilitychange', () => muteAway(document.hidden));
+window.addEventListener('blur', () => muteAway(true));
+window.addEventListener('focus', () => muteAway(false));
 
 // ---- Menu screens
 let playMode = 'normal';
@@ -9928,7 +10082,22 @@ function renderScore() {
     + `<div class="scoreRow"><span>Veículos na garagem</span><b>${owned}/${VEHICLES.length}</b></div>`
     + `<div class="scoreRow"><span>Moedas</span><b>🪙 ${coins.toLocaleString('pt-BR')}</b></div>`;
 }
-function syncOptCtl() { $('optMusic').textContent = 'Música: ' + (Snd.musicOn ? 'sim' : 'não'); $('optSound').textContent = 'Som: ' + (Snd.muted ? 'não' : 'sim'); }
+function syncOptCtl() { $('optMusic').textContent = 'Música: ' + (Snd.musicOn ? 'sim' : 'não'); $('optSound').textContent = 'Som: ' + (Snd.muted ? 'não' : 'sim'); $('optFps').textContent = 'Mostrar FPS: ' + (showFps ? 'sim' : 'não'); }
+// FPS counter: frames drawn per second, counted over half a second, in the bottom-left corner
+// test builds of the app write their build time here, so the FPS counter tells which build is running
+const BUILD_TAG = '';
+let showFps = false, fpsN = 0, fpsT0 = performance.now();
+try { showFps = localStorage.getItem('brickstorm-fps') === '1'; } catch (e) { showFps = false; }
+$('fps').hidden = !showFps;
+function setUserSens(v, save) { userSens = v; $('optSens').value = String(v); $('optSensOut').textContent = v.toFixed(2).replace('.', ',') + '×'; if (save) try { localStorage.setItem('brickstorm-sens', String(v)); } catch (e) {} }
+setUserSens(userSens, false);
+$('optSens').addEventListener('input', (e) => setUserSens(+e.target.value, true));
+$('optFps').addEventListener('click', () => { showFps = !showFps; $('fps').hidden = !showFps; try { localStorage.setItem('brickstorm-fps', showFps ? '1' : '0'); } catch (e) {} syncOptCtl(); });
+function tickFps() {
+  if (!showFps) return;
+  fpsN++; const now = performance.now();
+  if (now - fpsT0 >= 500) { $('fps').textContent = Math.round(fpsN * 1000 / (now - fpsT0)) + ' FPS · ' + Q_LABEL[quality] + BUILD_TAG; fpsN = 0; fpsT0 = now; }
+}
 $('optMusic').addEventListener('click', () => { Snd.init(); toggleMusic(); syncOptCtl(); });
 $('optSound').addEventListener('click', () => { Snd.init(); toggleSound(); syncOptCtl(); });
 $('credVer').textContent = GAME_VERSION;
@@ -9945,7 +10114,7 @@ function openShop(k) {
 function closeShop() { $('shopOv').hidden = true; shopVeh = null; }
 $('btnBuy').addEventListener('click', () => {
   const v = shopVeh; if (!v || coins < v.price) return;
-  coins -= v.price; saveCoins(); renderCoins(); unlockVehicle(v.k); closeShop(); setVehicle(v.k);
+  coins -= v.price; saveCoins(); renderCoins(); unlockVehicle(v.k, false); closeShop(); setVehicle(v.k);
   Snd.init(); Snd.power(); toast(v.n + ' agora é seu!');
 });
 $('btnShopClose').addEventListener('click', closeShop);
@@ -9962,7 +10131,7 @@ $('btnReset').addEventListener('click', () => {
     return;
   }
   clearTimeout(resetArm); resetArm = 0;
-  const keys = ['brickstorm-done', 'brickstorm-coins', 'brickstorm-tutorial', 'brickstorm-map', 'brickstorm-vehicle', 'brickstorm-hi', 'brickstorm-hi-chaos', 'brickstorm-hi-infinito', ...Object.keys(DIFF).map((d) => 'brickstorm-hi-' + d), ...VEHICLES.filter((v) => v.key).map((v) => v.key)];
+  const keys = ['brickstorm-done', 'brickstorm-beaten', 'brickstorm-coins', 'brickstorm-tutorial', 'brickstorm-map', 'brickstorm-vehicle', 'brickstorm-hi', 'brickstorm-hi-chaos', 'brickstorm-hi-infinito', ...Object.keys(DIFF).map((d) => 'brickstorm-hi-' + d), ...VEHICLES.filter((v) => v.key).map((v) => v.key)];
   try { for (const k of keys) localStorage.removeItem(k); } catch (e) {}
   location.reload();
 });
@@ -9997,7 +10166,7 @@ $('credOv').addEventListener('click', (e) => { if (e.target === $('credOv')) set
 $('btnResume').addEventListener('click', () => setPaused(false));
 $('btnQuit').addEventListener('click', toMenu);
 function retryLevel() {
-  score = lvScore0; shownScore = score; lives = 3; combo = 0;
+  score = 0; shownScore = 0; lives = 3; combo = 0;
   $('overOv').hidden = true; $('leaveOv').hidden = true; $('pauseOv').hidden = true; $('hud').hidden = false;
   startLevel(level);
 }
@@ -10048,8 +10217,8 @@ function setQuality(q, announce, save = announce) {
   quality = Q_LABEL[q] ? q : 'high';
   const hiQ = quality === 'high', lite = quality === 'lite';
   sun.castShadow = hiQ;
-  // phones have 3× screens: HD there draws at 1.5× (half the pixels of 2×, hardly visible on a small screen)
-  const hiCap = matchMedia('(pointer: coarse)').matches ? 1.5 : 2;
+  // phones have 3× screens: HD there draws at 1× like SD and keeps only the shadows (on a small screen the extra pixels hardly show)
+  const hiCap = PHONE ? 1 : 2;
   renderer.setPixelRatio(hiQ ? Math.min(devicePixelRatio, hiCap) : lite ? Math.min(devicePixelRatio, 1) * 0.7 : Math.min(devicePixelRatio, 1));
   fxScale = lite ? 0.4 : 1;
   markMesh.visible = !lite;
@@ -10106,14 +10275,17 @@ $('devFold').addEventListener('click', () => { const b = $('devBody'); b.hidden 
 const devBtn = (k) => `<button type="button" data-pu="${k}" title="${PU[k].desc}">${puIcon(k)}${PU[k].n}</button>`;
 $('devPU').innerHTML = Object.keys(PU).filter((k) => !PU[k].bad).map(devBtn).join('');
 $('devDB').innerHTML = BAD_KEYS.map(devBtn).join('');
+// jumping to a world or level from the developer panel leaves Modo Caos and Modo Infinito: they turn coins off and reset
+// the score on every miss, so a jump made from inside them looked like a game that gave neither coins nor points
+function devLeaveModes() { chaos = false; infinite = false; }
 devEl.addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b || b.id === 'devFold') return;
   if (b.dataset.pu) { if (state === 'play') applyPower(b.dataset.pu); }
-  else if (b.dataset.lv) { $('pauseOv').hidden = true; startLevel(+b.dataset.lv); }
+  else if (b.dataset.lv) { $('pauseOv').hidden = true; devLeaveModes(); startLevel(+b.dataset.lv); }
   else if (b.dataset.veh) setVehicle(b.dataset.veh);
-  else if (b.dataset.world) { $('pauseOv').hidden = true; setMap(+b.dataset.world); startLevel(1); }
+  else if (b.dataset.world) { $('pauseOv').hidden = true; devLeaveModes(); setMap(+b.dataset.world); startLevel(1); }
   else if (b.dataset.dev === 'life') lives = Math.min(lives + 1, 9);
-  else if (b.dataset.dev === 'coins') addCoins(100);
+  else if (b.dataset.dev === 'coins') addCoins(100, undefined, undefined, true);
   else if (b.dataset.dev === 'clear') { if (state === 'play') { if (boss && !boss.dead) { boss.hp = 0; bossDie(); } else for (const br of bricks) if (br.alive && br.kind !== 'steel' && !br.boss) { br.alive = false; scene.remove(br.obj); } } }
   else if (b.dataset.dev === 'reset') resetPowers();
   b.blur();
@@ -10157,7 +10329,7 @@ function resize() {
   renderer.setSize(w, h, false);
   composer.setSize(w, h);
   composer.setPixelRatio(renderer.getPixelRatio());
-  bloom.resolution.set(w / 2, h / 2);
+  bloom.resolution.set(w / (PHONE ? 4 : 2), h / (PHONE ? 4 : 2));
   camera.aspect = w / h; camera.updateProjectionMatrix();
   fitCamera();
   const pr = renderer.getPixelRatio();
@@ -10171,7 +10343,7 @@ function update(dt) {
   gameTime += dt;
   if (tut) updateTut(dt);
   const kd = ((keys.ArrowRight || keys.KeyD ? 1 : 0) - (keys.ArrowLeft || keys.KeyA ? 1 : 0)) * (pw.invert > 0 ? -1 : 1);
-  if (kd) paddle.target += kd * 26 * devSens * dt;
+  if (kd) paddle.target += kd * 26 * devSens * userSens * dt;
   const sizeLv = clamp((pw.expand > 0 ? expandLv : 0) - (pw.shrink > 0 ? shrinkLv : 0), -4, 4);
   paddle.wantW = paddle.baseW * SIZE_W[sizeLv + 4]; paddle.wantS = SIZE_S[sizeLv + 4];
   paddle.w += (paddle.wantW - paddle.w) * Math.min(1, dt * 8);
@@ -10375,7 +10547,9 @@ function animate(dt, t) {
 const clock = new THREE.Clock();
 const camCur = new THREE.Vector3();
 let camReady = false, elapsed = 0;
+let shadowTick = 0;
 function frame() {
+  tickFps();
   // while paused the scene clock stops (dt = 0); the camera, the vehicle size and the toasts still use the real time
   const rdt = Math.min(0.033, clock.getDelta()), frozen = state === 'paused' || state === 'tip', dt = frozen ? 0 : rdt;
   if (frozen && vehViewScale !== CAM_MODES[camMode].vs) { vehViewScale = CAM_MODES[camMode].vs; layoutPaddle(); }
@@ -10404,6 +10578,8 @@ function frame() {
   camCur.lerp(camBase, reduce ? 1 : Math.min(1, rdt * 5));
   camera.position.set(camCur.x + sx + rand(-1, 1) * sh, camCur.y + rand(-1, 1) * sh, camCur.z + rand(-1, 1) * sh);
   camera.lookAt(camTarget.x + sx * 0.4, camTarget.y, camTarget.z);
+  // phones redraw the shadow map every other frame: half the shadow work, and a one-frame lag nobody sees
+  if (PHONE) { renderer.shadowMap.autoUpdate = false; shadowTick = (shadowTick + 1) % 2; if (!shadowTick) renderer.shadowMap.needsUpdate = true; }
   if (quality === 'lite') renderer.render(scene, camera); else composer.render();
 }
 
