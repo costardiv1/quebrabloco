@@ -199,6 +199,10 @@ h3 { margin: 0; font-family: var(--cond); font-size: 13px; letter-spacing: 0.2em
 .devHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 7px 10px; border-bottom: 1px solid var(--line);
   background: repeating-linear-gradient(-45deg, rgba(255, 194, 26, 0.16) 0 8px, transparent 8px 16px); font-size: 15px; }
 #devBody { overflow-y: auto; overflow-x: hidden; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.devSec { display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
+.devSec:not([open]) { gap: 0; }
+.devSec > summary { cursor: pointer; font-weight: 700; font-size: 14px; list-style: none; user-select: none; }
+.devSec > summary::before { content: '▸ '; color: var(--safety); } .devSec[open] > summary::before { content: '▾ '; }
 .devLbl { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--concrete); font-weight: 700; }
 .devLbl output { color: var(--safety); font-size: 20px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 #devSpeed, .devRange { width: 100%; accent-color: var(--safety); }
@@ -359,6 +363,7 @@ html.mobileSim #tut p { font-size: 17px; }
   <aside id="dev" hidden aria-label="Modo desenvolvedor">
     <div class="devHead"><strong>🛠️ Modo dev</strong><button id="devFold" type="button" aria-label="Recolher painel">–</button></div>
     <div id="devBody">
+      <details class="devSec" open><summary>🎮 Jogo</summary>
       <label class="devLbl" for="devSpeed">Velocidade da bola <output id="devSpeedOut" for="devSpeed">1.0×</output></label>
       <input id="devSpeed" type="range" min="0.3" max="3" step="0.1" value="1">
       <div class="devScale"><span style="--p:0">0,3×</span><span style="--p:0.2593">1×</span><span style="--p:1">3×</span></div>
@@ -369,19 +374,34 @@ html.mobileSim #tut p { font-size: 17px; }
       <input id="devSens" class="devRange" type="range" min="0.4" max="2.5" step="0.1" value="1">
       <div class="devScale"><span style="--p:0">0,4×</span><span style="--p:0.2857">1×</span><span style="--p:1">2,5×</span></div>
       <button type="button" id="devMobile" aria-pressed="false">📱 Simular celular</button>
-      <label class="devCheck" for="devInf"><input type="checkbox" id="devInf"> ♾️ Power-ups não acabam</label>
+      <div class="devRow"><button type="button" data-dev="clear">🧹 Limpar fase</button></div>
+      </details>
+      <details class="devSec"><summary>🖥️ Gráficos</summary>
+      <label class="devLbl" for="devRes">Resolução <output id="devResOut" for="devRes">auto</output></label>
+      <input id="devRes" class="devRange" type="range" min="0.25" max="4" step="0.25" value="1">
+      <label class="devLbl" for="devShadow">Sombras</label>
+      <div class="devRow" id="devShadow"><button type="button" data-sh="0">Sem</button><button type="button" data-sh="1024">1K</button><button type="button" data-sh="2048">2K</button><button type="button" data-sh="4096">4K</button></div>
+      <label class="devLbl" for="devBloom">Brilho <output id="devBloomOut" for="devBloom">0.35</output></label>
+      <input id="devBloom" class="devRange" type="range" min="0" max="1.5" step="0.05" value="0.35">
+      </details>
+      <details class="devSec"><summary>🗺️ Mundo e fase</summary>
       <div class="devLbl">Mundo</div>
       <div class="devRow" id="devWorlds"></div>
       <div class="devLbl">Ir para a fase</div>
       <div class="devRow" id="devLevels"></div>
+      </details>
+      <details class="devSec"><summary>🚜 Veículo</summary>
       <div class="devLbl">Veículo</div>
       <div class="devGrid" id="devVeh"></div>
+      </details>
+      <details class="devSec"><summary>⚡ Power-ups e debuffs</summary>
+      <label class="devCheck" for="devInf"><input type="checkbox" id="devInf"> ♾️ Power-ups não acabam</label>
+      <div class="devRow"><button type="button" data-dev="reset">✖ Tirar efeitos</button></div>
       <div class="devLbl">Power-ups</div>
       <div class="devGrid" id="devPU"></div>
       <div class="devLbl">Debuffs</div>
       <div class="devGrid" id="devDB"></div>
-      <div class="devLbl">Atalhos</div>
-      <div class="devRow"><button type="button" data-dev="life">❤️ +1 vida</button><button type="button" data-dev="clear">🧹 Limpar fase</button><button type="button" data-dev="reset">✖ Tirar efeitos</button><button type="button" data-dev="coins">🪙 +100 moedas</button></div>
+      </details>
     </div>
   </aside>
 
@@ -451,9 +471,11 @@ html.mobileSim #tut p { font-size: 17px; }
       </div>
       <div class="row" role="group" aria-label="Gráficos">
         <span class="keys">Gráficos:</span>
-        <button class="btn ghost camOpt qOpt" type="button" data-q="high" title="Sombras e brilho">HD</button>
-        <button class="btn ghost camOpt qOpt" type="button" data-q="low" title="Sem sombras">SD</button>
-        <button class="btn ghost camOpt qOpt" type="button" data-q="lite" title="Para PCs e celulares fracos">Leve</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="ultra" title="Resolução máxima, sombras finas e brilho caprichado">Nave</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="high" title="Sombras e brilho">Alta</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="low" title="Sem sombras">Média</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="lite" title="Para PCs e celulares fracos">Baixa</button>
+        <button class="btn ghost camOpt qOpt" type="button" data-q="potato" title="O mínimo possível, para máquinas bem fracas">Batata</button>
       </div>
         <div class="row" role="group" aria-label="Música e som">
           <span class="keys">Áudio:</span>
@@ -605,7 +627,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.10.3';
+const GAME_VERSION = '1.10.4';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -699,7 +721,9 @@ function randomPU() {
   return pick;
 }
 // a power-up capsule; an Expandir often brings a second one beside it
+let lastPU = 0;
 function dropPU(k, x, z) {
+  if (infinite) { const now = performance.now(); if (now - lastPU < 8000) return; lastPU = now; }
   spawnCapsule(k, x, z);
   if (k === 'expand' && Math.random() < 0.35) spawnCapsule('expand', clamp(x + (x > 0 ? -1.2 : 1.2), -HW + 0.8, HW - 0.8), z - 0.7);
 }
@@ -1279,13 +1303,14 @@ const canvas = $('c');
 let renderer, savedQuality = null;
 try { savedQuality = localStorage.getItem('brickstorm-quality'); } catch (e) { savedQuality = null; }
 try {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: savedQuality !== 'lite', powerPreference: 'high-performance' });
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: savedQuality !== 'lite' && savedQuality !== 'potato', powerPreference: 'high-performance' });
 } catch (e) {
   $('loading').textContent = 'Seu navegador não conseguiu iniciar o WebGL.';
   throw e;
 }
 const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
 let quality = 'high', fxScale = 1;
+const liteQ = () => quality === 'lite' || quality === 'potato';
 // phones (touch screens) get a lighter HD: plain shadows on a smaller map, a lower resolution and a coarser glow
 const PHONE = matchMedia('(pointer: coarse)').matches;
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -3325,7 +3350,7 @@ function buildIce() {
 ice.setLevel = (def) => { ice.auroraOn = !!def.aurora || def.theme === 'noite'; };
 function updateIce(dt, t) {
   // snowfall over the arena (a light wind from the left)
-  if (dt > 0) { const n = (quality === 'lite' ? 12 : 34) * dt * 60 / 60; for (let i = 0; i < n * 1.2; i++) dust.emit(rand(-HW - 12, HW + 12), rand(8, 15), rand(-HD - 10, HD + 4), rand(0.4, 1), rand(-1.8, -1.2), rand(-0.2, 0.2), 7, rand(0.07, 0.14), 0xffffff, 1, 0, 0, 0, 0.85); }
+  if (dt > 0) { const n = (liteQ() ? 12 : 34) * dt * 60 / 60; for (let i = 0; i < n * 1.2; i++) dust.emit(rand(-HW - 12, HW + 12), rand(8, 15), rand(-HD - 10, HD + 4), rand(0.4, 1), rand(-1.8, -1.2), rand(-0.2, 0.2), 7, rand(0.07, 0.14), 0xffffff, 1, 0, 0, 0, 0.85); }
   for (const p of ice.penguins) {
     const u = p.userData; u.t -= dt;
     if (u.t <= 0) { u.t = rand(1, 4); u.tx = u.hx + rand(-2, 2); u.tz = u.hz + rand(-2, 2); }
@@ -4889,7 +4914,7 @@ function setSwamp() {
   for (const e of ENVS) { e.root.visible = false; }
   if (env !== swamp) clearPetals();
   env = swamp;
-  if (quality === 'lite') applyViewDistance();
+  if (liteQ()) applyViewDistance();
   if (!swamp.built) { swamp.build(); swamp.built = true; pullCloser(swamp); swamp.update(0, 0); trimShadows(swamp.root); mergeStatic(swamp); }
   swamp.root.visible = true;
 }
@@ -5027,7 +5052,7 @@ function setMap(i) {
   swamp.root.visible = false;
   if (env && env !== ENVS[mapIdx]) clearPetals();
   env = ENVS[mapIdx];
-  if (quality === 'lite') applyViewDistance();
+  if (liteQ()) applyViewDistance();
   if (!env.built) { env.build(); env.built = true; if (env.pull) pullCloser(env); env.update(0, 0); trimShadows(env.root); mergeStatic(env); }
   env.root.visible = true;
   try { localStorage.setItem('brickstorm-map', String(mapIdx)); } catch (e) {}
@@ -8266,6 +8291,10 @@ function applyPower(k) {
     popText(paddle.x, PADDLE_Z - 1, name, hexCss(new THREE.Color(def.c).offsetHSL(0, 0, 0.12).getHex()), true);
     addScore(100);
   }
+  if (infinite && k in pw && pw[k] <= 0) {
+    const on = Object.keys(pw).filter((j) => pw[j] > 0);
+    if (on.length >= 4) pw[on.reduce((a, j) => (pw[j] < pw[a] ? j : a))] = 0;
+  }
   if (k in pw) pw[k] = Math.min(pw[k] + def.d, def.d * 1.6);
   if (k === 'tempest') { if (stormLeft === 0) stormNext = 0.6; stormLeft += 7; }
   if (k === 'expand') expandLv = Math.min(4, expandLv + 1);
@@ -10211,20 +10240,24 @@ document.querySelectorAll('.qOpt').forEach((b) => b.addEventListener('click', ()
 
 // HD: shadows, bloom, full resolution · SD: no shadows · LEVE: lower resolution, no bloom, fewer particles,
 // no tyre marks and a short view distance, for weak PCs
-const Q_LABEL = { high: 'HD', low: 'SD', lite: 'LEVE' }, Q_NEXT = { high: 'low', low: 'lite', lite: 'high' };
-function applyViewDistance() { camera.far = quality === 'lite' ? (env.fogFar || 170) + 40 : 1400; camera.updateProjectionMatrix(); }
+const Q_LABEL = { ultra: 'NAVE', high: 'ALTA', low: 'MÉDIA', lite: 'BAIXA', potato: 'BATATA' }, Q_NEXT = { ultra: 'high', high: 'low', low: 'lite', lite: 'potato', potato: 'ultra' };
+function applyViewDistance() { camera.far = liteQ() ? (env.fogFar || 170) + 40 : 1400; camera.updateProjectionMatrix(); }
 function setQuality(q, announce, save = announce) {
   quality = Q_LABEL[q] ? q : 'high';
-  const hiQ = quality === 'high', lite = quality === 'lite';
+  const ultra = quality === 'ultra', hiQ = ultra || quality === 'high', lite = liteQ(), potato = quality === 'potato';
   sun.castShadow = hiQ;
+  const sm = ultra ? 4096 : PHONE ? 1024 : 2048;
+  if (sun.shadow.mapSize.x !== sm) { sun.shadow.mapSize.set(sm, sm); sun.shadow.map?.dispose(); sun.shadow.map = null; }
   // phones have 3× screens: HD there draws at 1× like SD and keeps only the shadows (on a small screen the extra pixels hardly show)
   const hiCap = PHONE ? 1 : 2;
-  renderer.setPixelRatio(hiQ ? Math.min(devicePixelRatio, hiCap) : lite ? Math.min(devicePixelRatio, 1) * 0.7 : Math.min(devicePixelRatio, 1));
-  fxScale = lite ? 0.4 : 1;
+  renderer.setPixelRatio(ultra ? Math.min(devicePixelRatio * 2, 3) : potato ? 0.5 : hiQ ? Math.min(devicePixelRatio, hiCap) : lite ? Math.min(devicePixelRatio, 1) * 0.7 : Math.min(devicePixelRatio, 1));
+  fxScale = potato ? 0.2 : lite ? 0.4 : 1;
   markMesh.visible = !lite;
   applyViewDistance();
   $('btnQ').textContent = Q_LABEL[quality];
-  $('btnQ').setAttribute('aria-pressed', String(hiQ));
+  $('btnQ').setAttribute('aria-pressed', 'true');
+  $('btnQ').style.fontSize = Q_LABEL[quality].length > 5 ? '10.5px' : Q_LABEL[quality].length > 4 ? '11.5px' : '';
+  $('btnQ').style.letterSpacing = Q_LABEL[quality].length > 4 ? '0' : '';
   document.querySelectorAll('.qOpt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.q === quality)));
   resize();
   if (save) {
@@ -10232,7 +10265,7 @@ function setQuality(q, announce, save = announce) {
     perfChecked = true;
   }
   if (announce) {
-    toast(hiQ ? 'Qualidade alta: sombras e brilho' : lite ? 'Modo leve: menos efeitos, mais desempenho' : 'Qualidade média: sem sombras');
+    toast(ultra ? 'Qualidade nave: tudo no máximo' : potato ? 'Modo batata: o mínimo para rodar' : hiQ ? 'Qualidade alta: sombras e brilho' : lite ? 'Modo leve: menos efeitos, mais desempenho' : 'Qualidade média: sem sombras');
   }
 }
 
@@ -10271,6 +10304,15 @@ function setMobileSim(on) {
 }
 $('devMobile').addEventListener('click', () => setMobileSim(!mobileSim));
 $('simExit').addEventListener('click', () => setMobileSim(false));
+// dev graphics: resolution, shadow map size and bloom strength, live (changing the quality resets them)
+$('devRes').addEventListener('input', (e) => { const r = +e.target.value; renderer.setPixelRatio(r); composer.setPixelRatio(r); resize(); $('devResOut').textContent = r.toFixed(2) + '×'; });
+$('devShadow').addEventListener('click', (e) => {
+  const n = +(e.target.closest('button')?.dataset.sh ?? -1); if (n < 0) return;
+  sun.castShadow = n > 0;
+  if (n) { sun.shadow.mapSize.set(n, n); sun.shadow.map?.dispose(); sun.shadow.map = null; }
+  $('devShadow').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.target)));
+});
+$('devBloom').addEventListener('input', (e) => { bloom.strength = +e.target.value; $('devBloomOut').textContent = bloom.strength.toFixed(2); });
 $('devFold').addEventListener('click', () => { const b = $('devBody'); b.hidden = !b.hidden; $('devFold').textContent = b.hidden ? '+' : '–'; $('devFold').setAttribute('aria-label', b.hidden ? 'Abrir painel' : 'Recolher painel'); });
 const devBtn = (k) => `<button type="button" data-pu="${k}" title="${PU[k].desc}">${puIcon(k)}${PU[k].n}</button>`;
 $('devPU').innerHTML = Object.keys(PU).filter((k) => !PU[k].bad).map(devBtn).join('');
@@ -10329,7 +10371,7 @@ function resize() {
   renderer.setSize(w, h, false);
   composer.setSize(w, h);
   composer.setPixelRatio(renderer.getPixelRatio());
-  bloom.resolution.set(w / (PHONE ? 4 : 2), h / (PHONE ? 4 : 2));
+  { const bd = quality === 'ultra' ? 1 : PHONE ? 4 : 2; bloom.resolution.set(w / bd, h / bd); }
   camera.aspect = w / h; camera.updateProjectionMatrix();
   fitCamera();
   const pr = renderer.getPixelRatio();
@@ -10370,7 +10412,7 @@ function update(dt) {
     if (!(devMode && devInf)) pw[k] = Math.max(0, pw[k] - dt);
     if (pw[k] === 0) { if (k === 'expand') expandLv = 0; if (k === 'shrink') shrinkLv = 0; popText(paddle.x, PADDLE_Z - 1, PU[k].n + ' acabou', '#d9d4c9'); }
   }
-  if (quality !== 'lite') paintMarks(dt);
+  if (!liteQ()) paintMarks(dt);
   laserCD -= dt; rocketCD -= dt;
   if (firing) {
     if (laserAmmo > 0 && laserCD <= 0) { fireLasers(); laserCD = 0.17; }
@@ -10408,7 +10450,7 @@ function update(dt) {
       // too slow: step down one level and measure again (HD → SD → LEVE)
       const slow = perfT / perfFrames > 1 / 38;
       perfT = 0; perfFrames = 0;
-      if (slow && quality !== 'lite') { setQuality(quality === 'high' ? 'low' : 'lite'); toast(quality === 'lite' ? 'Modo leve ligado para manter a fluidez (Q alterna)' : 'Qualidade ajustada para manter a fluidez (Q alterna)'); }
+      if (slow && !liteQ()) { setQuality(quality === 'ultra' ? 'high' : quality === 'high' ? 'low' : 'lite'); toast(liteQ() ? 'Modo leve ligado para manter a fluidez (Q alterna)' : 'Qualidade ajustada para manter a fluidez (Q alterna)'); }
       else perfChecked = true;
     }
   }
@@ -10580,7 +10622,7 @@ function frame() {
   camera.lookAt(camTarget.x + sx * 0.4, camTarget.y, camTarget.z);
   // phones redraw the shadow map every other frame: half the shadow work, and a one-frame lag nobody sees
   if (PHONE) { renderer.shadowMap.autoUpdate = false; shadowTick = (shadowTick + 1) % 2; if (!shadowTick) renderer.shadowMap.needsUpdate = true; }
-  if (quality === 'lite') renderer.render(scene, camera); else composer.render();
+  if (liteQ()) renderer.render(scene, camera); else composer.render();
 }
 
 // ================= Boot =================

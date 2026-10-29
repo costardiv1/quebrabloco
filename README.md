@@ -92,7 +92,7 @@ Fica na ilha do pântano, no mapa, e libera depois de vencer o chefão do Mundo 
 
 - **Dificuldade:** Fácil, Normal ou Difícil, com um recorde para cada uma. Muda a velocidade da bola e a chance de power-ups (mais no Fácil, menos no Difícil)
 - **Câmera:** alta, média, deitada ou rasante, ajustadas para PC e celular
-- **Gráficos:** HD, SD ou Leve, que se ajustam sozinhos em aparelhos mais fracos
+- **Gráficos:** Nave, Alta, Média, Baixa ou Batata, que se ajustam sozinhos em aparelhos mais fracos
 - **Resetar progresso:** apaga mundos, recordes, moedas e veículos, mantendo as configurações
 - **Pausa:** congela tudo, inclusive o som, e dá para trocar câmera, gráficos, música e som com o jogo parado
 
