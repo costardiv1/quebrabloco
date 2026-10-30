@@ -16,7 +16,7 @@ Tudo cabe num único arquivo HTML com three.js. Os modelos 3D, as texturas, os e
 
 ## Como jogar
 
-O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos e o Modo Infinito. Depois do mapa vem a escolha do veículo, onde o botão **Aleatório** coloca um veículo diferente, entre os que você já liberou, a cada fase. O botão Demolir! fica sempre embaixo da tela, sem precisar rolar a lista.
+O menu tem três botões: **Jogar**, **Placar** (recordes de cada dificuldade, do Modo Caos e do Modo Infinito, mundos vencidos, veículos e moedas) e **Opções**. Jogar abre o mapa: uma estrada passa pelos 10 mundos, e vencer o chefão de um mundo libera o próximo. Nas ilhas do mar ficam o Modo Caos, o Modo Infinito e o Modo Zen. Depois do mapa vem a escolha do veículo, onde o botão **Aleatório** coloca um veículo diferente, entre os que você já liberou, a cada fase. O botão Demolir! fica sempre embaixo da tela, sem precisar rolar a lista.
 
 Mexa o veículo, lance a bola e rebata para ela não passar. Quanto mais perto da ponta do veículo a bola bate, mais inclinada ela sai, e um arco translúcido mostra a direção do rebote. A bola quebra os blocos e volta; quebre todos para passar de fase. Se você perder, "Jogar de novo" recomeça na fase em que parou, com 3 vidas e a pontuação zerada (o recorde fica salvo). Na primeira partida, uma fase tutorial antes da fase 1 para o jogo a cada dica e só continua quando você toca em Avançar. Dá para jogar o tutorial de novo e rever as regras em Opções → Como jogar?
 
@@ -65,7 +65,7 @@ São 33 veículos, cada um com seu som de motor. A viatura, os bombeiros e a amb
 |---|---|
 | ![Capivara](imagens/capivara.jpg) **Capivara** · com a laranja na cabeça e um passarinho nas costas; no Aqua Rio ela nada | ![Moto de Luz](imagens/moto-de-luz.jpg) **Moto de Luz** · prêmio do chefão da Lua de Mel |
 
-As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais. O Modo Caos e o Modo Infinito não dão moedas.
+As moedas caem de caixotes e de alguns blocos, e cada fase vencida dá mais. O Modo Caos, o Modo Infinito e o Modo Zen não dão moedas.
 
 ## Power-ups e debuffs
 
@@ -87,6 +87,10 @@ Fica na ilha do vulcão, no mapa, e libera depois de vencer o chefão do Mundo 1
 Fica na ilha do pântano, no mapa, e libera depois de vencer o chefão do Mundo 3. É uma fase só, no Pântano do Ogro, com a casa no tronco e o ogro tomando banho de lama ao fundo. Os blocos não param de cair, de vez em quando cai um power-up ou debuff e tudo vai ficando mais rápido. As vidas não acabam, mas perder a bola zera a pontuação, então só faz recorde alto quem não erra. Cada minuto sem errar dá um bônus. A bola é uma cebola.
 
 ![Modo Infinito no Pântano do Ogro](imagens/infinito.jpg)
+
+## Modo Zen
+
+Um modo para relaxar, sempre liberado, no Spa dos Gatinhos: piso rosinha, piscinas com flores de lótus e gatos cochilando em almofadas. O Escudo e a Bola Bomba ficam sempre ligados, e as explosões fazem um "ploc" baixinho e viram bolhas de sabão. Não tem pontos, moedas nem debuffs, e de vez em quando cai um Foguetes ou um Raio em Cadeia. Os blocos só voltam quando estão quase acabando, e voltam bastante de uma vez. A bola é uma almofadinha de patinha de gato.
 
 ## Opções
 

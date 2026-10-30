@@ -627,7 +627,7 @@ const MAX_BALLS = 14;
 const BACK_H = 2.2;
 // the public build (index.html on GitHub Pages) is generated with DEV_BUILD = false: no developer mode
 const DEV_BUILD = false;
-const GAME_VERSION = '1.10.4';
+const GAME_VERSION = '1.10.5';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -671,7 +671,7 @@ const PU_ICON = {
   bomb: 'M135.25 38.156c-16.082.46-32.345 7.235-46.47 17.407c-17.216 12.4-31.534 30.2-37.31 50.687c-5.78 20.488-1.95 44.032 16.155 63.406c14.573 15.595 19.996 29.328 20.563 40.5c.566 11.173-3.554 20.304-10.376 27.406c-13.643 14.206-37.278 17.995-50.5 6.094l-12.5 13.906c22.224 20.005 56.61 13.645 76.47-7.03c9.93-10.34 16.43-24.836 15.593-41.313s-8.83-34.407-25.594-52.345C67.18 141.782 65.16 126.6 69.47 111.312S85.484 80.97 99.72 70.72c14.233-10.253 30.704-15.365 43.218-13.44c9.566 1.474 17.565 6.055 23.062 17.44l15.938-9.19c-8.362-15.432-21.594-24.476-36.157-26.718a57 57 0 0 0-7.31-.656a62 62 0 0 0-3.22 0zM243.5 51.563l-120.125 69.374l24.906 43.157c15.03-18.11 33.446-33.898 55-46.344c20.615-11.903 42.444-19.803 64.595-23.938zm60.03 57.406c-1.026.01-2.065.034-3.092.06c-29.894.803-60.05 8.877-87.813 24.907c-88.84 51.298-119.255 164.55-68.03 253.282c51.222 88.73 164.505 119.013 253.343 67.717c88.837-51.295 119.223-164.55 68-253.28c-34.666-60.05-97.713-93.346-162.407-92.688z',
   storm: 'M42.656 14.72C98.922 34.014 131.682 87.8 93.53 124.97c97.99 81.427 90.47 108.772 11.564 218.06c39.676 27.97 76.053 100.33 70.344 147.91H230.5c-32.26-22.573-43.393-49.275-48.563-74.72c29.67-3.367 57.124-.784 80.282 9.126c3.604 25.136 3.95 49.578 1.28 65.594h18.97c2.28-15.12 2.576-33.896.717-53.688c16.71 12.26 29.993 29.893 38.657 53.688h34.062c-30.534-30.354-48.743-63.438-64.562-97.063a274 274 0 0 1-14.813 3.22c-3.77-15.606-8.914-30.76-15.56-44.19c14.544-19.12 21.514-36.89 20.874-54.53c-.274-7.538-1.884-14.82-4.53-22.03c22.188-6.712 41.265-11.494 60.998-13.564c4.242 21.135 9.946 42.103 17.625 62.783l2.063 5.562l5.906.5c22.146 1.85 41.883 4.926 60.875 9.625c3.94 39.93-6.698 78.297-30.092 118.938c14.673 9.527 26.153 19.857 35.375 30.75h24.406c-40.497-24.248-32.673-75.68-8.22-102.375c21.968 11.687 36.194 23.99 47.844 41.5v-36.125c-26.635-3.933-42.61-21.916-51.22-47.657c16.828 5.22 33.48 11.873 51.157 20.283v-20.625c-19.077-8.64-37.455-15.373-56.31-20.532c-4.706-27.01-3.845-59.278.03-91.875c-28.84 7.984-57.094 11.11-83.906 10.157c-4.173-24.797-6.5-49.993-7.75-75.5l-.656-13.156l-12.22 4.97c-54.128 22.015-119.117 16.334-156.156-10.03C153.216 110.84 147.39 63.24 168 14.72zm285.531 167.03c1.283 20.255 3.302 40.46 6.47 60.53c-52.267-5.78-97.91-27.234-130.063-58.186c37.293 11.99 82.246 11.504 123.594-2.344zm-121.53 50.094c13.693 7.486 27.002 14.627 38.374 24.47c11.47 16.32 17.658 29.84 18.126 42.748c.49 13.534-4.895 27.892-20.437 46.875l-3.97 4.875l3 5.532c6.7 12.27 11.89 27.51 15.688 43.594c-98.4 10.34-144.816-53.688-50.782-168.094zm152.78 29.812c12.68-.05 26.115 1.008 41.157 3.375c10.154 19.476 17.11 38.17 21.062 56.408c-15.91-3.556-32.366-6.114-50.062-7.813c-6.03-17.068-10.72-34.386-14.375-51.938c.738-.01 1.474-.028 2.217-.03z',
   tempest: 'M386.97 17.688c-.678 24.347-8.144 49.282-22.19 71.843c-37.465 60.192-112.748 86.84-181.874 69.907c5.208-2.31 10.233-4.83 15.03-7.593c39.057-22.5 57.284-55.454 54.314-91.688c-7.388 21.814-24.62 41.314-50.22 56.063c-48.047 27.68-118.01 31.687-187.468 16.936v37.375c41.04 8.176 82.086 9.6 118.563 3.47c.365.25.726.503 1.094.75l.093-.03l3.28 2.124c32.687 21.385 79.955 25.336 123.75 16.28c43.797-9.054 83.514-31.274 101.126-57.343l4-5.905l6.75 2.28c39.1 13.354 75.938 17.096 119.06 14.94c.718-.056 1.442-.098 2.158-.157v-39.125c-36.865 3.595-75.212.762-111.407-9.032c9.5-26.66 10.5-54.67 3.94-81.093zM323.75 191.28c-17.796 9.052-37.843 15.86-58.625 20.157c-31.336 6.48-64.594 7.087-94.688-.53L251.28 305l-93.06 20.375L457.874 495.97L348.53 319.936l58.064-14.968l-82.844-113.69z',
-  mega: 'M18.22 19.22V144.5l24.19 19c1.02-5.3 2.84-10.8 5.31-16.5c7.36-16.9 20.6-35.6 38.22-53.25c17.66-17.62 36.26-30.86 53.26-38.22c5.4-2.37 10.7-4.14 15.8-5.19l-25.4-31.12zM164.1 68c-4.3.15-10.5 1.65-17.4 4.69c-14 6.07-31.3 18.07-47.55 34.31c-16.21 16.2-28.21 33.5-34.28 47.5c-3.03 7-4.53 13.1-4.68 17.4c-.13 3.5.46 5.4 1.28 6.6c5.27 4.8 12.65 10.2 18.47 15.3c5.09 4.5 11.53 6 17.5 5.4c5.96-.6 11.96-2.7 18.26-5.7c12.7-6.2 26.8-16.5 40.3-30c13.4-13.5 23.8-27.6 29.9-40.2c3.1-6.4 5.2-12.4 5.8-18.3c.5-5.99-.6-12.73-5.4-17.53c-4.8-5.01-10.5-12.16-16-18.35c-2-.67-4-1.03-6.2-1.12m9 35.2c-.3 2.6-1.6 6.9-4 11.9c-4.8 10.1-14.1 22.9-26.3 35.2c-12.3 12.2-25.1 21.5-35.2 26.4c-5 2.4-9.34 3.6-11.97 3.9c-1.76.2-2.55-.5-2.51-2.5c.25-2.6 1.51-6.9 3.93-11.9c4.85-10.1 14.15-22.9 26.35-35.2c12.2-12.2 25.1-21.5 35.1-26.3c5-2.5 9.4-3.7 12-4c2.1.1 2.8.6 2.6 2.5m17.5 99.9l91.6 137.5l-54.9 4.8l84.7 75.5l-41.3 16.2c80.9 53.3 172.4 74.5 205.1 41.7c32.8-32.7 16.4-131.5-35.7-185.5l-4.1 41.9l-59.3-89.2l-7.6 57zm241.9 192.4c21.8 0 39.3 17.4 39.3 39.3c0 21.8-17.5 39.3-39.3 39.3s-39.3-17.5-39.3-39.3c0-21.9 17.5-39.3 39.3-39.3',
+  mega: 'M144 256a112 112 0 1 0 224 0a112 112 0 1 0 -224 0ZM30 30L165 52L52 165ZM80 118L118 80L196 158L158 196ZM482 30L347 52L460 165ZM432 118L394 80L316 158L354 196ZM30 482L165 460L52 347ZM80 394L118 432L196 354L158 316ZM482 482L347 460L460 347ZM432 394L394 432L316 354L354 316Z',
   slow: 'M425.5 74.313c-8.895 0-16.35 6.21-18.25 14.53c-8.593 3.7-15.195 10.617-19.03 18.813c-5.254 11.223-6.848 24.648-7.158 39.313c-.525 24.904 2.99 53.73 4.532 79.03c-1.782 14.666-4.867 28.518-9.063 41.406c2.84 17.934 3.39 36.487.94 55.188c-5.017 38.286-36.52 61.134-70.22 67.937c-31.048 6.27-65.312.42-87.656-19.405c-34.752 22.61-76.646 28.578-112.406 16.594c-42.048 16.248-74.53 38.826-87.626 61.436H341.25c103.105 0 137.952-107.888 111.406-225.53c-.018.023-.044.038-.062.06c-5.71-40.853.98-70.45 14.906-88.905a18.6 18.6 0 0 0 6.25 1.095c10.333 0 18.688-8.386 18.688-18.72c0-10.332-8.355-18.718-18.688-18.718s-18.72 8.386-18.72 18.72c0 1.017.095 1.994.25 2.968c-21.242 25.165-28.854 65.708-19.25 117.906c-10.296 4.836-21.152 2.878-31.436-6.75c-1.286-28.002-5.364-59.27-4.844-83.905c.283-13.405 2.07-24.72 5.375-31.78c2.1-4.49 4.222-7.344 7.47-9.032c3.355 3.196 7.904 5.187 12.905 5.187c10.333 0 18.688-8.386 18.688-18.72c0-10.332-8.355-18.718-18.688-18.718M193.344 106.25c-2.196-.01-4.398.036-6.594.125c-35.143 1.42-70.142 15.475-99.063 41.25c-56.73 50.558-59.43 144.59-9.187 201.125c38.648 38.3 106.856 34.79 151.5-9.844c37.712-37.61 40.61-94.977 8.78-127c-22.1-22.23-60.996-24.817-85.843 1.188c-5.534 5.79-8.98 16.02-8.906 26.906c.076 10.887 3.653 22.003 9.532 29.063c3.593 4.313 10.625 8.476 18.5 10.468c4.687 1.187 9.596 1.58 14.094 1.25c13.195-.228 26.156-9.01 26.156-26.624c0-15.72-10.332-24.428-21.937-26.28c7.773-.697 14.783.618 20.594 3.81c8.51 4.678 13.69 12.944 15.468 21.533c3.52 16.995-5.478 37.125-25.407 43.343l.032.062c-.162.06-.337.067-.5.125c-.046.014-.078.05-.125.063c-10.572 3.753-22.202 3.567-32.968.843c-10.977-2.776-21.238-8.167-28.282-16.625c-9.418-11.306-13.744-26.222-13.844-40.874s4.01-29.453 14.062-39.97c32.03-33.52 83.263-31 112.625-1.467c39.98 40.22 35.282 109.352-8.843 153.374v.03c-2.627 2.627-5.384 5.056-8.156 7.438c17.017 12.7 44.022 17.605 68.532 12.657c28.256-5.706 51.524-22.667 55.375-52.064c9.492-72.455-34.215-147.342-72.25-179.25c-27.663-23.21-60.402-34.506-93.343-34.656z',
   shield: 'M112 41c-21.65 0-39 17.35-39 39c0 21.6 17.35 39 39 39c21.6 0 39-17.4 39-39c0-21.65-17.4-39-39-39m288 0c-21.6 0-39 17.35-39 39c0 21.6 17.4 39 39 39s39-17.4 39-39c0-21.65-17.4-39-39-39M112 55c13.7 0 25 11.3 25 25s-11.3 25-25 25s-25-11.3-25-25s11.3-25 25-25m288 0c13.7 0 25 11.3 25 25s-11.3 25-25 25s-25-11.3-25-25s11.3-25 25-25M83.38 129.2L80.87 151h45.83l1.9-16.5c-5.2 1.6-10.8 2.5-16.6 2.5c-10.4 0-20.2-2.8-28.62-7.8m345.22.1c-8.4 4.9-18.2 7.7-28.6 7.7c-5.8 0-11.4-.9-16.7-2.5l1.9 16.5h45.9zM41 169v57.3L79.18 169zm59.8 0l-51.98 78h42.36l52.02-78zm64 0l-52 78h42.4l52-78zm64 0l-52 78h42.4l52-78zm64 0l-52 78h42.4l52-78zm64 0l-52 78h42.4l52-78zm64 0l-52 78h42.4l52-78zm50.2 20.8L432.8 247H471zM67.71 265l-7.15 62h45.84l7.2-62zm330.69 0l7.1 62h45.9l-7.1-62zM41 345v16h430v-16zm13.56 34L42.1 487h45.88l12.42-108zm356.94 0L424 487h45.9l-12.5-108z',
   life: 'M372.48 31.215c-77.65 0-116.48 65.73-116.48 65.73s-38.83-65.72-116.48-65.72c-37.14 0-107.77 33.72-107.77 125.13c0 161.24 224.25 324.43 224.25 324.43s224.25-163.19 224.25-324.43c0-91.42-70.63-125.13-107.77-125.14m-145.492 115.02h60.698v79.415h79.238v60.7h-79.238v79.884h-60.698V286.35h-80.064v-60.7h80.064z',
@@ -710,9 +710,12 @@ const PU_WEIGHTS = { laser: 10, rocket: 8, magnet: 9, multi: 10, expand: 13, fir
 // with a boss on the field, laser, rockets, chain lightning and the bomb ball come three times as often
 const BOSS_PU = { laser: 3, rocket: 3, storm: 3, bomb: 3 };
 const recentPU = [];
+// a helping hand: Vida comes four times as often on the last life, and after 3 game-over retries of the same level good capsules drop more and debuffs less
+let deathKey = '', deathsHere = 0;
+const luckyHere = () => deathsHere >= 3 && deathKey === lvKey();
 function randomPU() {
   const bossy = !!boss && !boss.dead, last = recentPU[recentPU.length - 1];
-  const w = (k) => PU_WEIGHTS[k] * (bossy ? BOSS_PU[k] || 1 : 1)
+  const w = (k) => PU_WEIGHTS[k] * (bossy ? BOSS_PU[k] || 1 : 1) * (k === 'life' && lives === 1 && !infinite ? 4 : 1)
     * (k === 'expand' ? (last === 'expand' ? 1.8 : 1) : k === last ? 0.15 : recentPU.includes(k) ? 0.4 : 1);
   let tot = 0; for (const k in PU_WEIGHTS) tot += w(k);
   let r = Math.random() * tot, pick = 'multi';
@@ -4867,6 +4870,96 @@ function updateSwamp(dt, t) {
   }
   for (const l of swamp.lampLights) l.intensity = swamp.lampLevel * 22;
 }
+// ================= Spa dos Gatinhos (Modo Zen): pastel tiles, bamboo walls, warm pools, lotus flowers and lazy cats everywhere
+const catspa = { root: new THREE.Group(), facades: [], lampLights: [], built: false, trail: 0xd8a8c0, markColor: 'rgba(200,120,160,0.35)', fogFar: 160, fogNear: 40, expMul: 1, bloomTh: 1.35, pull: 0.55, cats: [], lotus: [] };
+function spaTileCanvas(w, h) {
+  const [c, g] = mkCanvas(w, h); g.fillStyle = '#f6dce8'; g.fillRect(0, 0, w, h);
+  const s = 32; for (let y = 0; y < h; y += s) for (let x = 0; x < w; x += s) { g.fillStyle = ((x + y) / s) % 2 ? '#f9e6ee' : '#f3d4e2'; g.fillRect(x + 1, y + 1, s - 2, s - 2); }
+  // little paw prints wandering across the floor
+  g.fillStyle = 'rgba(214,140,176,0.35)';
+  for (let k = 0; k < (w * h) / 9000; k++) { const x = Math.random() * w, y = Math.random() * h, r = 5; g.beginPath(); g.ellipse(x, y, r, r * 0.85, 0, 0, 7); g.fill(); for (const [dx, dy] of [[-6, -7], [-2, -10], [3, -10], [7, -7]]) { g.beginPath(); g.arc(x + dx, y + dy, 2.2, 0, 7); g.fill(); } }
+  return c;
+}
+function makeCat(col, rng) {
+  const g = new THREE.Group(), fur = envMat({ color: col, roughness: 0.85 }), pink = envMat({ color: 0xffa8c8, roughness: 0.7 }), dark = envMat({ color: 0x2a2028, roughness: 0.4 });
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.55, 0.9, 6, 12), fur); body.rotation.z = Math.PI / 2; body.position.y = 0.55; body.scale.set(1, 1, 0.85); g.add(body);
+  const head = new THREE.Group(); head.position.set(0.95, 0.9, 0); g.add(head);
+  head.add(new THREE.Mesh(new THREE.SphereGeometry(0.48, 16, 12), fur));
+  for (const z of [-0.24, 0.24]) {
+    const ear = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.3, 4), fur); ear.position.set(0, 0.45, z); ear.rotation.x = z > 0 ? 0.3 : -0.3; head.add(ear);
+    const inner = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.18, 4), pink); inner.position.set(0.05, 0.44, z * 0.98); inner.rotation.x = ear.rotation.x; head.add(inner);
+    // eyes closed in bliss: two little dark arcs
+    const eye = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.018, 4, 10, Math.PI), dark); eye.position.set(0.43, 0.08, z * 0.7); eye.rotation.set(0, Math.PI / 2, Math.PI); head.add(eye);
+  }
+  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 6), pink); nose.position.set(0.47, -0.04, 0); head.add(nose);
+  const tail = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.09, 6, 16, Math.PI * 1.1), fur); tail.position.set(-0.95, 0.35, 0.2); tail.rotation.set(Math.PI / 2, 0, 0.4); g.add(tail);
+  for (const [x, z] of [[0.55, 0.3], [0.55, -0.3]]) { const paw = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 8), fur); paw.position.set(x + 0.3, 0.12, z); paw.scale.set(1.3, 0.7, 1); g.add(paw); }
+  g.traverse((o) => { if (o.isMesh) o.castShadow = true; });
+  g.userData = { head, tail, ph: rng() * 6 };
+  return g;
+}
+function buildCatSpa() {
+  const rng = mulberry32(777), R = (a, b) => a + rng() * (b - a), add = (o) => { catspa.root.add(o); return o; };
+  const flat = (w, d, x, z, y, mat, circle) => { const m = add(new THREE.Mesh(circle ? new THREE.CircleGeometry(w, 40) : new THREE.PlaneGeometry(w, d), mat)); m.rotation.x = -Math.PI / 2; m.position.set(x, y, z); m.receiveShadow = true; return m; };
+  // a soft lawn all around, the tiled spa floor, the tiled court
+  flat(700, 700, 0, 0, -0.06, envMat({ color: 0xb8dca0, roughness: 0.95 }));
+  flat(60, 70, 0, -10, -0.02, envMat({ map: toTex(spaTileCanvas(512, 512), true, [6, 7]), roughness: 0.6 }));
+  flat(W, D, 0, 0, 0, envMat({ map: toTex(spaTileCanvas(W * 32, D * 32)), roughness: 0.55 }));
+  // bamboo side walls and a back wall with the spa's sign
+  const bambooM = envMat({ color: 0xa8c870, roughness: 0.6 }), nodeM = envMat({ color: 0x86a850, roughness: 0.6 });
+  for (const side of [-1, 1]) for (const up of [0, 1]) {
+    const m = add(new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, D + 0.6, 12), bambooM)); m.rotation.x = Math.PI / 2; m.position.set(side * (HW + 0.35), 0.25 + up * 0.38, -0.25); m.castShadow = m.receiveShadow = true;
+  }
+  for (const side of [-1, 1]) for (let z = -HD; z < HD; z += 1.6) { const n = add(new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.03, 4, 12), nodeM)); n.position.set(side * (HW + 0.35), 0.44, z); }
+  const sign = (() => { const [c, g] = mkCanvas(1024, 128); g.fillStyle = '#ffeef5'; g.fillRect(0, 0, 1024, 128); g.fillStyle = '#d0608e'; g.font = '64px Bungee, "Arial Black", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('SPA DOS GATINHOS', 512, 68); return toTex(c); })();
+  const woodM = envMat({ color: 0xd8b088, roughness: 0.8 }), signM = envMat({ map: sign, roughness: 0.7 });
+  const back = add(new THREE.Mesh(new THREE.BoxGeometry(W + 1, 1.5, 0.35), [woodM, woodM, woodM, woodM, signM, woodM])); back.position.set(0, 0.75, -HD - 0.2); back.castShadow = back.receiveShadow = true;
+  // warm pools with lotus flowers, and cats bathing or napping on cushions
+  const waterM = envMat({ color: 0x8ad8e8, roughness: 0.05, metalness: 0.3, transparent: true, opacity: 0.85 }), rimM = envMat({ color: 0xfaf4ee, roughness: 0.5 });
+  const pools = [[-20, -10, 5], [21, -16, 6], [-24, 10, 4], [22, 8, 4.5]];
+  for (const [x, z, r] of pools) {
+    const rim = add(new THREE.Mesh(new THREE.TorusGeometry(r, 0.35, 8, 40), rimM)); rim.rotation.x = Math.PI / 2; rim.position.set(x, 0.12, z); rim.receiveShadow = true;
+    flat(r, 0, x, z, 0.08, waterM, true);
+  }
+  const petalM = envMat({ color: 0xffb8d8, roughness: 0.6, side: THREE.DoubleSide }), padM = envMat({ color: 0x6aa84a, roughness: 0.6 }), heartM = envMat({ color: 0xffe07a, emissive: 0xffc040, emissiveIntensity: 0.3 });
+  for (const [x, z, r] of pools) for (let k = 0; k < 3; k++) {
+    const a = R(0, 6), d = R(0.3, r - 1.2), lo = add(new THREE.Group()); lo.position.set(x + Math.cos(a) * d, 0.1, z + Math.sin(a) * d);
+    const pad = new THREE.Mesh(new THREE.CircleGeometry(0.7, 14, 0.3, Math.PI * 2 - 0.6), padM); pad.rotation.x = -Math.PI / 2; lo.add(pad);
+    for (let i = 0; i < 8; i++) { const pe = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), petalM); pe.scale.set(1, 0.35, 0.5); const pa = (i / 8) * Math.PI * 2; pe.position.set(Math.cos(pa) * 0.2, 0.15, Math.sin(pa) * 0.2); pe.rotation.set(0, -pa, 0.6); lo.add(pe); }
+    const hc = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), heartM); hc.position.y = 0.2; lo.add(hc);
+    lo.userData.ph = R(0, 6); catspa.lotus.push(lo);
+  }
+  const furs = [0xf2a65a, 0x3a3a40, 0xf4f0ea, 0xb8a090, 0xe8c89a, 0x8a8a92];
+  const cushM = [0xc8a8e8, 0xa8d8f0, 0xffc0d0, 0xfff0a8].map((c) => envMat({ color: c, roughness: 0.9 }));
+  const catSpots = [[-20, -10, true], [21, -16, true], [-15, 2, false], [16, -2, false], [-17, 16, false], [17, 18, false], [-27, -22, false], [28, -4, false], [-10, -24, false], [11, -26, false]];
+  for (const [i, [x, z, bath]] of catSpots.entries()) {
+    if (!bath) { const c = add(new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.4, 0.4, 20), cushM[i % 4])); c.position.set(x, 0.2, z); c.castShadow = c.receiveShadow = true; }
+    const cat = add(makeCat(furs[i % furs.length], rng)); cat.position.set(x, bath ? -0.25 : 0.4, z); cat.rotation.y = R(0, 6); cat.scale.setScalar(bath ? 1.3 : 1.15); catspa.cats.push(cat);
+  }
+  // round bushes, paper lanterns and a few yarn balls lying around
+  const bushM = envMat({ color: 0x86c070, roughness: 0.9 });
+  for (let i = 0; i < 26; i++) { const b = add(new THREE.Mesh(new THREE.IcosahedronGeometry(R(1, 2.2), 1), bushM)); b.position.set((i % 2 ? 1 : -1) * R(14, 50), 0.5, R(-55, 20)); b.scale.y = 0.75; b.castShadow = true; }
+  const lanM = envMat({ color: 0xffd0e0, emissive: 0xffa0c0, emissiveIntensity: 0.5, roughness: 0.6 }); catspa.facades.push(lanM);
+  for (let i = 0; i < 10; i++) { const side = i % 2 ? 1 : -1, z = -22 + Math.floor(i / 2) * 9, post = add(new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.6, 6), woodM)); post.position.set(side * 13, 1.3, z); const l = add(new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 10), lanM)); l.scale.y = 1.25; l.position.set(side * 13, 2.8, z); }
+  const yarnM = [0xff6a8a, 0x6ab8ff, 0xffd04a].map((c) => envMat({ color: c, roughness: 0.95 }));
+  for (let i = 0; i < 6; i++) { const y = add(new THREE.Mesh(new THREE.SphereGeometry(0.35, 12, 10), yarnM[i % 3])); y.position.set((i % 2 ? 1 : -1) * R(13.5, 24), 0.35, R(-20, 18)); y.castShadow = true; }
+}
+catspa.themeFor = (T) => ({ ...T, bg: new THREE.Color(T.bg).lerp(new THREE.Color(0xf8d8e8), 0.55).getHex(), sky: new THREE.Color(T.sky).lerp(new THREE.Color(0xfde4f0), 0.5).getHex(), sun: new THREE.Color(T.sun).lerp(new THREE.Color(0xfff2e0), 0.4).getHex() });
+function updateCatSpa(dt, t) {
+  // the cats breathe, nod off and flick their tails; the lotus flowers bob on the water; steam rises from the pools
+  for (const c of catspa.cats) { const u = c.userData; u.head.rotation.z = Math.sin(t * 0.7 + u.ph) * 0.12; u.head.position.y = 0.9 + Math.sin(t * 1.2 + u.ph) * 0.02; u.tail.rotation.z = 0.4 + Math.sin(t * 1.6 + u.ph) * 0.35; }
+  for (const lo of catspa.lotus) { lo.position.y = 0.1 + Math.sin(t * 1.3 + lo.userData.ph) * 0.03; lo.rotation.y += dt * 0.1; }
+  if (dt > 0 && Math.random() < 0.25 * fxScale) { const [x, z] = [[-20, -10], [21, -16], [-24, 10], [22, 8]][Math.floor(Math.random() * 4)]; dust.emit(x + rand(-2, 2), 0.3, z + rand(-2, 2), 0, rand(0.4, 0.8), 0, rand(2, 3), rand(0.5, 0.9), 0xffffff, 1, 0.2, 0, 1.2, 0.35); }
+}
+catspa.build = buildCatSpa; catspa.update = updateCatSpa;
+// ---- the Zen ball: a soft pink cat paw pad
+const pawMat = envMat({ roughness: 0.75, emissive: 0x000000, map: (() => {
+  const [c, g] = mkCanvas(256, 128); g.fillStyle = '#ffd2e2'; g.fillRect(0, 0, 256, 128);
+  g.fillStyle = '#ff8ab4';
+  for (const cx of [64, 192]) { g.beginPath(); g.ellipse(cx, 76, 24, 20, 0, 0, 7); g.fill(); for (const [dx, dy] of [[-26, -18], [-9, -32], [9, -32], [26, -18]]) { g.beginPath(); g.ellipse(cx + dx, 76 + dy, 8, 10, 0, 0, 7); g.fill(); } }
+  return toTex(c);
+})() });
+
 // ---- the onion ball: purple-brown papery layers, a green sprout on top and little roots underneath
 const onionMat = envMat({ roughness: 0.45, emissive: 0x000000, map: (() => {
   const [c, g] = mkCanvas(256, 128);
@@ -4892,7 +4985,7 @@ const INF_LEVEL = { name: 'Pântano do Ogro', theme: 'tarde', rows: [
   '...........',
   'ö..Ö...Ö..ö' ] };
 const INF_MIX = [['ú', 48], ['Ú', 18], ['ü', 10], ['Ö', 8], ['ö', 6], ['?', 5], ['crate', 5]];
-const infSpeed = () => 1 + Math.min(inf.t / 200, 0.9);
+const infSpeed = () => (zen ? 1 : 1 + Math.min(inf.t / 200, 0.9));
 function infPick() { let r = Math.random() * 100; for (const [ch, w] of INF_MIX) { r -= w; if (r <= 0) return ch === 'crate' ? 'lrmbefxzgsdv'[Math.floor(Math.random() * 12)] : ch; } return 'ú'; }
 function infDrop(ch, c, r) { const b = placeBrick(ch, c, r); if (b) { b.obj.position.y = 14 + Math.random() * 4; b.vy = 0; } return b; }
 function newInfinite() {
@@ -4911,14 +5004,46 @@ function infLost() {
 }
 // switches the scenery to the swamp without touching the campaign's current world
 function setSwamp() {
-  for (const e of ENVS) { e.root.visible = false; }
+  for (const e of ENVS) { e.root.visible = false; } catspa.root.visible = false;
   if (env !== swamp) clearPetals();
   env = swamp;
   if (liteQ()) applyViewDistance();
   if (!swamp.built) { swamp.build(); swamp.built = true; pullCloser(swamp); swamp.update(0, 0); trimShadows(swamp.root); mergeStatic(swamp); }
   swamp.root.visible = true;
 }
+// ================= Modo Zen: an endless, calm level in the cat spa. Shield and bomb ball always on, explosions go "ploc" and burst
+// into soap bubbles, no score, coins or debuffs, now and then a Foguetes or Raio em Cadeia; the blocks come back in a big batch
+// only when the field is almost empty
+let zen = false;
+const ZEN_LEVEL = { name: 'Spa dos Gatinhos', theme: 'tarde', rows: [
+  'PNQPNQPNQPN',
+  'QWPNQWQNPWQ',
+  'NPQWNPNWQPN',
+  'PQNPQNQPNQP',
+  '.N.Q.P.Q.N.' ] };
+const ZEN_MIX = 'PPNNQQWL';
+function newZen() {
+  zen = true; infinite = true; recInf = false; chaos = false; recChaos = false; infPrevMap = mapIdx;
+  score = 0; shownScore = 0; lives = 5; combo = 0;
+  Object.assign(inf, { t: 0, cap: 14, lbl: 0 });
+  $('menu').hidden = true; $('overOv').hidden = true; $('pauseOv').hidden = true; $('hud').hidden = false;
+  for (const e of ENVS) e.root.visible = false; swamp.root.visible = false;
+  if (env !== catspa) clearPetals();
+  env = catspa; if (liteQ()) applyViewDistance();
+  if (!catspa.built) { catspa.build(); catspa.built = true; pullCloser(catspa); catspa.update(0, 0); trimShadows(catspa.root); mergeStatic(catspa); }
+  catspa.root.visible = true;
+  startLevel(1);
+  banner('MODO ZEN', 'Sem pressa, sem pontos · clique para lançar', 3.2);
+}
+function updateZen(dt) {
+  inf.t += dt;
+  pw.shield = Math.max(pw.shield, 30); pw.bomb = Math.max(pw.bomb, 30);
+  if (destructibleLeft() < 5) for (let i = 0; i < 34; i++) infDrop(ZEN_MIX[Math.floor(Math.random() * ZEN_MIX.length)], Math.floor(Math.random() * COLS), Math.floor(Math.random() * 7));
+  if ((inf.cap -= dt) <= 0) { inf.cap = rand(14, 22); spawnCapsule(Math.random() < 0.5 ? 'rocket' : 'storm', rand(-HW + 1, HW - 1), rand(-6, -2)); }
+  if ((inf.lbl -= dt) <= 0) { inf.lbl = 0.5; const s2 = Math.floor(inf.t); $('lvlLbl').textContent = 'Modo Zen · ' + Math.floor(s2 / 60) + ':' + String(s2 % 60).padStart(2, '0'); }
+}
 function updateInfinite(dt) {
+  if (zen) return updateZen(dt);
   inf.t += dt;
   const k = infSpeed();
   // a new block every so often (faster and faster), a full wave every 40 seconds, more right away if the field runs low
@@ -4950,6 +5075,7 @@ const ENVS = [city, beach, orient, europe, ice, desert, aqua, futuro, lua, neon]
 let env = city;
 scene.add(...ENVS.map((e) => e.root)); for (const e of ENVS) e.root.visible = false;
 swamp.build = buildSwamp; swamp.update = updateSwamp; swamp.pull = 0.55; scene.add(swamp.root); swamp.root.visible = false;
+scene.add(catspa.root); catspa.root.visible = false;
 let savedMap = 0;
 try { savedMap = clamp(parseInt(localStorage.getItem('brickstorm-map') || '0', 10) || 0, 0, MAPS.length - 1); } catch (e) { savedMap = 0; }
 let doneMaps = [];
@@ -4996,9 +5122,10 @@ function trimShadows(root) {
 // baked into one mesh per material (same look, far fewer draws). Things the world keeps a handle to (cars, cranes...) are
 // baked the same way inside themselves, so a car still drives as one piece. Anything that moves on its own stays as it is.
 function mergeStatic(e) {
-  const root = e.root, owners = new Set([root]);
+  const root = e.root, owners = new Set([root]), prot = new Set();
   const collect = (v, depth) => {
-    if (!v || typeof v !== 'object' || v.isMaterial || v.isTexture || v.isColor) return;
+    if (v && v.isMaterial) { prot.add(v); return; }
+    if (!v || typeof v !== 'object' || v.isTexture || v.isColor) return;
     if (v.isObject3D) { owners.add(v); return; }
     if (depth <= 0) return;
     for (const x of Array.isArray(v) ? v : Object.values(v)) collect(x, depth - 1);
@@ -5018,18 +5145,30 @@ function mergeStatic(e) {
   // anything that moves inside its owner while the world runs is animated by code we do not see here: leave it alone
   for (let i = 0; i < 4; i++) e.update(0.7, 3 + i * 5.3);
   root.updateMatrixWorld(true);
-  const groups = new Map();
+  const groups = new Map(), baked = new Map();
+  // plain coloured materials that differ only in colour share one material, with the colour baked into the vertices
+  // (materials the world's code keeps a handle on are left alone: it may change them later)
+  const bakeKey = (mt, g0) => mt.isMeshStandardMaterial && !prot.has(mt) && !mt.map && !mt.vertexColors && !g0.attributes.color && !mt.emissiveMap && !mt.alphaMap
+    ? [mt.type, mt.roughness, mt.metalness, mt.emissive.getHex(), mt.emissiveIntensity, mt.side, mt.flatShading, mt.envMap?.uuid, mt.envMapIntensity, mt.bumpMap?.uuid, mt.normalMap?.uuid, mt.fog].join('|') : null;
   for (const { o, ow, m } of cands) {
     const mtx = rel(o, ow);
     if (mtx.elements.some((v, k) => Math.abs(v - m.elements[k]) > 1e-4)) continue;
     const g0 = o.geometry, sig = Object.keys(g0.attributes).sort().map((k) => k + g0.attributes[k].itemSize).join() + (g0.index ? 'i' : 'n') + o.castShadow + o.receiveShadow;
     const parts = Array.isArray(o.material) ? g0.groups.map((gr) => [o.material[gr.materialIndex], gr]) : [[o.material, null]];
-    for (const [mat, gr] of parts) {
-      if (!mat) continue;
-      const g = g0.clone();
+    for (const [mat0, gr] of parts) {
+      if (!mat0) continue;
+      const g = g0.clone(), bk = bakeKey(mat0, g0);
+      let mat = mat0;
+      if (bk) {
+        if (!baked.has(bk)) { const sh = mat0.clone(); sh.color.setRGB(1, 1, 1); sh.vertexColors = true; baked.set(bk, sh); }
+        mat = baked.get(bk);
+        const n = g.attributes.position.count, col = new Float32Array(n * 3);
+        for (let i = 0; i < n; i++) { col[i * 3] = mat0.color.r; col[i * 3 + 1] = mat0.color.g; col[i * 3 + 2] = mat0.color.b; }
+        g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      }
       if (gr) g.setIndex(Array.from(g.index.array.slice(gr.start, gr.start + gr.count)));
       g.clearGroups(); g.applyMatrix4(mtx);
-      const key = ow.uuid + mat.uuid + sig;
+      const key = ow.uuid + mat.uuid + sig + (bk ? 'c' : '');
       if (!groups.has(key)) groups.set(key, { ow, mat, cast: o.castShadow, recv: o.receiveShadow, geos: [], src: [] });
       groups.get(key).geos.push(g); groups.get(key).src.push(o);
     }
@@ -5049,7 +5188,7 @@ function mergeStatic(e) {
 function setMap(i) {
   mapIdx = clamp(i, 0, MAPS.length - 1);
   for (const e of ENVS) e.root.visible = false;
-  swamp.root.visible = false;
+  swamp.root.visible = false; catspa.root.visible = false;
   if (env && env !== ENVS[mapIdx]) clearPetals();
   env = ENVS[mapIdx];
   if (liteQ()) applyViewDistance();
@@ -5154,10 +5293,11 @@ function markDone(i) {
 const WMAP_ORDER = ['obra', 'praia', 'oriente', 'europa', 'gelo', 'deserto', 'aqua', 'futuro', 'lua', 'neon'];
 const WMAP_POS = { obra: [330, 335], praia: [588, 352], oriente: [515, 150], europa: [312, 112], gelo: [112, 140], deserto: [140, 432], aqua: [330, 622], futuro: [652, 588], lua: [888, 118], neon: [752, 252] };
 const WMAP_SOON = { lua: 'Lua de Mel', neon: 'Neon' };
-const WMAP_MODE_ICON = { chaos: 'm287.586 15.297l3.504 110.963l31.537-110.963zm-95.78.238l-1.75 236.047l-170.533-43.33L130.486 377.69l-88.77-5.174l114.432 112.357l-44.466-75.867L186.896 417l-51.748-109.94l110.114 79.956l-12.635-185.23l.002.003l75.212 170.57l75.816-89.95l-6.62 154.582l60.173-39.978l-20.388 79.486l75.756-142.787l-75.924 1.94L487.32 155.87l-131.402 73.08l-12.264-139.69l-65.41 140.336l-86.435-214.06h-.003zM45.503 44.095L39.355 75.94L154.285 218h.002l-77.6-166.836l-31.185-7.07zm422.27 24.776l-31.184 7.07l-43.738 107.37l81.068-82.59l-6.147-31.85zM279.208 403.61c-40.176 0-72.708 32.537-72.708 72.71c0 5.725.636 10.706 1.887 16.05c7.25-32.545 36.097-56.655 70.82-56.655c34.82 0 63.673 23.97 70.82 56.656c1.218-5.277 1.888-10.404 1.888-16.05c0-40.175-32.536-72.71-72.71-72.71z', infinite: 'M278.535 276.134q18.47 32.88 42.854 49.503q24.75 16.255 55.782 16.255q37.311 0 60.955-24.752q23.643-25.12 23.644-63.91q0-37.313-21.795-62.064q-21.798-24.751-54.676-24.752q-29.925 0-54.306 24.752q-24.014 24.382-52.46 84.968m-45.07-39.53q-18.101-32.508-42.853-48.763q-24.381-16.253-55.782-16.254q-37.312 0-60.955 24.752Q50.229 220.72 50.23 259.51q0 37.312 21.795 62.063t54.676 24.752q29.924 0 53.937-24.382q24.381-24.382 52.828-85.338m26.23 67.605q-26.23 50.242-55.045 73.516Q176.203 401 141.108 401q-49.872 0-84.598-41.376q-34.357-41.376-34.357-102.33q0-64.65 30.662-104.55q31.032-39.896 80.535-39.897q35.094 0 62.803 22.905q27.705 22.535 55.414 74.624q25.121-50.98 54.306-74.994Q335.058 111 370.893 111q49.13 0 83.86 41.745q35.093 41.745 35.094 103.07q0 64.28-31.032 104.18q-30.663 39.526-80.165 39.527q-35.098 0-62.433-21.426q-26.97-21.796-56.523-73.886z' };
+const WMAP_MODE_ICON = { zen: 'M96 200L132 52L222 146Q256 138 290 146L380 52L416 200Q446 256 432 312Q404 436 256 448Q108 436 80 312Q66 256 96 200Z', chaos: 'm287.586 15.297l3.504 110.963l31.537-110.963zm-95.78.238l-1.75 236.047l-170.533-43.33L130.486 377.69l-88.77-5.174l114.432 112.357l-44.466-75.867L186.896 417l-51.748-109.94l110.114 79.956l-12.635-185.23l.002.003l75.212 170.57l75.816-89.95l-6.62 154.582l60.173-39.978l-20.388 79.486l75.756-142.787l-75.924 1.94L487.32 155.87l-131.402 73.08l-12.264-139.69l-65.41 140.336l-86.435-214.06h-.003zM45.503 44.095L39.355 75.94L154.285 218h.002l-77.6-166.836l-31.185-7.07zm422.27 24.776l-31.184 7.07l-43.738 107.37l81.068-82.59l-6.147-31.85zM279.208 403.61c-40.176 0-72.708 32.537-72.708 72.71c0 5.725.636 10.706 1.887 16.05c7.25-32.545 36.097-56.655 70.82-56.655c34.82 0 63.673 23.97 70.82 56.656c1.218-5.277 1.888-10.404 1.888-16.05c0-40.175-32.536-72.71-72.71-72.71z', infinite: 'M278.535 276.134q18.47 32.88 42.854 49.503q24.75 16.255 55.782 16.255q37.311 0 60.955-24.752q23.643-25.12 23.644-63.91q0-37.313-21.795-62.064q-21.798-24.751-54.676-24.752q-29.925 0-54.306 24.752q-24.014 24.382-52.46 84.968m-45.07-39.53q-18.101-32.508-42.853-48.763q-24.381-16.253-55.782-16.254q-37.312 0-60.955 24.752Q50.229 220.72 50.23 259.51q0 37.312 21.795 62.063t54.676 24.752q29.924 0 53.937-24.382q24.381-24.382 52.828-85.338m26.23 67.605q-26.23 50.242-55.045 73.516Q176.203 401 141.108 401q-49.872 0-84.598-41.376q-34.357-41.376-34.357-102.33q0-64.65 30.662-104.55q31.032-39.896 80.535-39.897q35.094 0 62.803 22.905q27.705 22.535 55.414 74.624q25.121-50.98 54.306-74.994Q335.058 111 370.893 111q49.13 0 83.86 41.745q35.093 41.745 35.094 103.07q0 64.28-31.032 104.18q-30.663 39.526-80.165 39.527q-35.098 0-62.433-21.426q-26.97-21.796-56.523-73.886z' };
 const WMAP_MODES = [
   { k: 'chaos', name: 'Modo Caos', pos: [884, 440], color: '#ff6a4a', open: () => chaosUnlocked(), lock: 'vença o Mundo 1' },
   { k: 'infinite', name: 'Modo Infinito', pos: [884, 600], color: '#8ad04a', open: () => infUnlocked(), lock: 'vença o Mundo 3' },
+  { k: 'zen', name: 'Modo Zen', pos: [884, 280], color: '#f28ab8', open: () => true, lock: '' },
 ];
 const WMAP_COAST = 'M0,0 L604,0 C640,40 612,92 640,132 C668,182 622,232 640,282 C660,334 612,380 602,420 C586,470 522,500 452,520 C382,540 332,506 270,520 C200,540 150,514 90,534 C50,546 20,532 0,540 Z';
 let wmapArt = '';
@@ -5355,6 +5495,7 @@ function sparks(x, y, z, n, color, speed = 8, life = 0.6, size = 0.3, inten = 2,
   }
 }
 function dustCloud(x, z, n, color, size = 1.3, spread = 0.9, alpha = 0.55, rise = 1) {
+  if (zen) return;
   n = Math.max(1, Math.round(n * fxScale));
   for (let i = 0; i < n; i++) {
     dust.emit(x + rand(-spread, spread), Y + rand(-0.2, 0.5), z + rand(-spread * 0.6, spread * 0.6), rand(-1.4, 1.4), rand(0.4, 1.6) * rise, rand(-1, 1),
@@ -5377,6 +5518,7 @@ let dHead = 0;
 const dM = new THREE.Matrix4(), dS = new THREE.Vector3(), dQ = new THREE.Quaternion(), zeroM = new THREE.Matrix4().makeScale(0, 0, 0);
 for (let i = 0; i < MAXD; i++) { debrisMesh.setMatrixAt(i, zeroM); debrisMesh.setColorAt(i, new THREE.Color(1, 1, 1)); }
 function spawnDebris(x, y, z, color, n = 8, power = 6, flat = false) {
+  if (zen) { for (let k = 0; k < Math.min(n, 10) * fxScale; k++) dust.emit(x + rand(-0.6, 0.6), y + rand(0, 0.4), z + rand(-0.4, 0.4), rand(-0.6, 0.6), rand(0.8, 2), rand(-0.6, 0.6), rand(1.2, 2.2), rand(0.12, 0.3), 0xeaf8ff, 1.3, 0.8, 1.5, 0, 0.75); return; }
   for (let k = 0; k < n; k++) {
     const i = dHead; dHead = (dHead + 1) % MAXD; const d = deb[i];
     d.life = rand(2.6, 4.2); d.rest = false;
@@ -5600,7 +5742,7 @@ const Snd = {
   metal() { if (this.gate('metal', 50)) { [620, 1010, 1540].forEach((f) => this.tone(f, 0.35, 'sine', 0.07, f * 0.98)); this.noise(0.05, 0.15, 6000, 0, 2000); } },
   laser() { if (this.gate('laser', 50)) { this.tone(1300, 0.09, 'sawtooth', 0.11, 260); this.tone(650, 0.07, 'square', 0.04, 180); } },
   rocket() { this.noise(0.45, 0.2, 3000, 0, 400); this.tone(200, 0.3, 'sawtooth', 0.04, 600); },
-  boom(big = 1) { if (!this.gate('boom', 50)) return; this.noise(0.9 * big, 0.65, 900, 0, 50); this.tone(90, 0.6 * big, 'sine', 0.5, 30); },
+  boom(big = 1) { if (!this.gate('boom', 50)) return; if (zen) { this.tone(rand(700, 1100), 0.07, 'sine', 0.09, 320); this.noise(0.03, 0.05, 5000, 0, 2000); return; } this.noise(0.9 * big, 0.65, 900, 0, 50); this.tone(90, 0.6 * big, 'sine', 0.5, 30); },
   zap() { if (this.gate('zap', 40)) { this.noise(0.12, 0.2, 8000, 0, 2000); this.tone(1800, 0.1, 'sawtooth', 0.05, 600); } },
   debuff() { [392, 311, 233].forEach((f, i) => this.tone(f, 0.18, 'sawtooth', 0.1, f * 0.85, i * 0.08)); },
   thunder() { if (!this.gate('thunder', 120)) return; this.noise(0.12, 0.5, 7000, 0, 1500, 'highpass'); this.noise(1.4, 0.7, 520, 0.04, 40); this.tone(52, 1.1, 'sine', 0.35, 30, 0.04); },
@@ -6963,7 +7105,7 @@ tube(V3(-0.2, 0.28, -0.12), V3(-0.2, 0.75, -0.12), 0.008, darkMetal, tankTurret)
 const tankFlag = ttP(new THREE.PlaneGeometry(0.18, 0.11), envMat({ color: 0xe8352a, side: THREE.DoubleSide, roughness: 0.6 }), -0.29, 0.69, -0.12);
 for (const z of [-0.22, 0.22]) tnP(new THREE.SphereGeometry(0.05, 10, 8), M.headlight, 0.92, -0.08, z);
 const tankFx = { yaw: 0 };
-const podTank = makePods(tankG, -0.7, 0.18);
+const podTank = makePods(tankG, -0.7, 0.18); podTank.scale.setScalar(0.0001); // the tank fires its rockets from the barrel
 
 // ---- Jipe Lunar (won by beating the Fu Turista boss): an open moon rover with mesh wheels under grey fenders, a silver frame,
 // gold foil boxes front and back, two folding seats with an astronaut driving, an umbrella antenna and a camera on a mast
@@ -7464,7 +7606,15 @@ const plasmaTex = (() => {
   g.shadowBlur = 0;
   const t = toTex(c); t.wrapS = THREE.RepeatWrapping; return t;
 })();
-const plasmaMat = envMat({ map: plasmaTex, emissiveMap: plasmaTex, emissive: 0xffffff, emissiveIntensity: 0.9, roughness: 0.06, metalness: 0.2 });
+// Futurista ball: a hologram, a sphere of glowing grid lines over a see-through blue core that flickers now and then
+const holoBallTex = (() => {
+  const [c, g] = mkCanvas(256, 128); g.fillStyle = 'rgba(0,90,140,0.7)'; g.fillRect(0, 0, 256, 128);
+  g.strokeStyle = '#00e5ff'; g.lineWidth = 5; g.shadowColor = '#00a8d8'; g.shadowBlur = 4;
+  for (let x = 0; x <= 256; x += 32) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 128); g.stroke(); }
+  for (let y = 16; y < 128; y += 22) { g.beginPath(); g.moveTo(0, y); g.lineTo(256, y); g.stroke(); }
+  const t = toTex(c); t.wrapS = THREE.RepeatWrapping; return t;
+})();
+const plasmaMat = envMat({ map: holoBallTex, emissiveMap: holoBallTex, emissive: 0xffffff, emissiveIntensity: 0.45, transparent: true, opacity: 0.95, depthWrite: false, side: THREE.DoubleSide });
 // spiky body: a sphere pushed out into soft spines around 70 directions
 const pufferGeo = (() => {
   const geo = new THREE.SphereGeometry(1, 56, 36), p = geo.attributes.position, dirs = [], v = new THREE.Vector3();
@@ -7497,7 +7647,7 @@ let recChaos = false;
 const hiKey = () => (recInf ? 'infinito' : recChaos ? 'chaos' : diff), recName = () => (recInf ? 'Modo Infinito' : recChaos ? 'Modo Caos' : DIFF[diff].n);
 function loadHi() { try { hi = parseInt(localStorage.getItem('brickstorm-hi-' + hiKey()) || '0', 10) || 0; } catch (e) { hi = 0; } }
 loadHi();
-function saveHi() { if (!devMode && score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi-' + hiKey(), String(hi)); } catch (e) {} } }
+function saveHi() { if (!devMode && !zen && score > hi) { hi = score; try { localStorage.setItem('brickstorm-hi-' + hiKey(), String(hi)); } catch (e) {} } }
 const hiLabel = () => 'Recorde no ' + recName() + ': ' + hi.toLocaleString('pt-BR');
 
 // ---- Theme (time of day)
@@ -7519,7 +7669,7 @@ function applyTheme(key) {
   if (env.bulbMat) env.bulbMat.emissiveIntensity = T.lamps * 5;
   for (const l of env.lampLights) l.intensity = T.lamps * 45;
   M.headlight.emissiveIntensity = 0.4 + T.lamps * 2;
-  bloom.strength = T.lamps > 0.5 ? 0.7 : 0.35;
+  bloom.strength = (T.lamps > 0.5 ? 0.7 : 0.35) * (quality === 'ultra' ? 1.35 : 1); // Nave glows a bit more
 }
 
 // ---- Bricks
@@ -7597,7 +7747,7 @@ function loadLevel(n) {
   despawnBoss();
   for (const b of bricks) scene.remove(b.obj);
   bricks = [];
-  const def = infinite ? INF_LEVEL : n === 0 ? tutorialLevel() : MAPS[mapIdx].levels[n - 1];
+  const def = infinite ? (zen ? ZEN_LEVEL : INF_LEVEL) : n === 0 ? tutorialLevel() : MAPS[mapIdx].levels[n - 1];
   def.rows.forEach((row, r) => {
     const cells = [...row];
     for (let c = 0; c < COLS; c++) { const ch = cells[c] || '.'; if (ch !== '.') makeBrick(ch, c, r); }
@@ -7611,7 +7761,7 @@ function loadLevel(n) {
 function destructibleLeft() { let n = 0; for (const b of bricks) if (b.alive && b.kind !== 'steel' && !b.boss) n++; return n; }
 
 function addScore(base, x, z, color) {
-  if (devMode) return;
+  if (devMode || zen) return;
   const mult = 1 + Math.min(combo, 30) * 0.1;
   const pts = Math.round(base * mult / 5) * 5;
   score += pts;
@@ -7695,8 +7845,8 @@ function destroyBrick(b, src) {
     spawnDebris(b.x, Y, b.z, 0xc89a5c, 8, 6, true);
   }
   else if (b.kind === 'normal' || b.kind === 'hard') {
-    const pu = puChance(), r = Math.random();
-    if (r < pu) dropPU(randomPU(), b.x, b.z); else if (r < pu + 0.03) spawnCapsule(randomBad(), b.x, b.z); else if (r < pu + 0.07) spawnCoin(b.x, b.z, rand(-1, 1), 0);
+    const pu = puChance() * (luckyHere() ? 1.4 : 1), r = Math.random();
+    if (r < pu) dropPU(randomPU(), b.x, b.z); else if (!zen && r < pu + (luckyHere() ? 0.01 : 0.03)) spawnCapsule(randomBad(), b.x, b.z); else if (r < pu + 0.07) spawnCoin(b.x, b.z, rand(-1, 1), 0);
   }
   if (b.kind === 'tnt') queueExplosion(b.x, b.z, 2.4, 99, 0.09, 'tnt');
 }
@@ -7743,6 +7893,8 @@ const arcGeo = new THREE.RingGeometry(0.35, 1, 40, 1, Math.PI / 2 - ARC_SPAN / 2
 const arcTex = radialTex([[0, 'rgba(255,255,255,0)'], [0.35, 'rgba(255,255,255,0)'], [0.72, 'rgba(255,255,255,1)'], [1, 'rgba(255,255,255,0)']]);
 const bounceArcs = [];
 // light floors wash out the pale yellow, so the arc turns a deeper orange and more opaque there
+// each world's bounce arc in a colour that matches it and stands out on its floor
+const ARC_COLOR = { obra: 0xffd21a, praia: 0xff3d8a, oriente: 0xff3a2a, europa: 0xffffff, gelo: 0x1e5bff, deserto: 0x00a8a0, aqua: 0xff6a4a, futuro: 0x00c2e0, lua: 0x9dff3a, neon: 0xff3ad8 };
 const ARC_LIGHT_FLOORS = new Set(['praia', 'deserto', 'gelo', 'futuro']);
 function bounceArc(x, ang) {
   let a = bounceArcs.find((q) => q.t <= 0);
@@ -7754,7 +7906,7 @@ function bounceArc(x, ang) {
     }
   }
   const light = ARC_LIGHT_FLOORS.has(MAPS[mapIdx].key);
-  a.t = ARC_LIFE; a.mesh.visible = true; a.op = light ? 1 : 0.5; a.mesh.material.color.setHex(light ? 0xff6a00 : 0xffe27a);
+  a.t = ARC_LIFE; a.mesh.visible = true; a.op = light ? 1 : 0.75; a.mesh.material.color.setHex(env === catspa ? 0xff6aa8 : env === swamp ? 0xd8ff5a : ARC_COLOR[MAPS[mapIdx].key] ?? 0xffe27a);
   a.mesh.position.set(x, Y + 0.02, PADDLE_Z - PADDLE_HD); a.mesh.rotation.set(-Math.PI / 2, 0, -ang);
 }
 function updateBounceArcs(dt) {
@@ -8072,6 +8224,7 @@ function updateBall(b, dt) {
     b.z = PADDLE_Z - PADDLE_HD - b.r - 0.02;
     b.stuckT += dt;
     if (b.auto && b.stuckT > 3.5) launchBall(b);
+    else if (!b.auto && !tut && b.stuckT > 10) launchBall(b); // nobody can hold the serve forever
     return;
   }
   if (pw.magnet > 0 && b.vz > 0) {
@@ -8167,6 +8320,7 @@ let rocketTube = 0;
 const muzzleA = new THREE.Vector3(), muzzleB = new THREE.Vector3();
 // the front end of the current vehicle's next bazooka tube, in world space
 function rocketMuzzle() {
+  if (vehicle === 'tank') { tankBarrel.updateWorldMatrix(true, false); return tankBarrel.localToWorld(muzzleA.set(0.85, 0, 0)); }
   let grp = null; VEH[vehicle].group.traverse((o) => { if (pods.includes(o)) grp = o; });
   if (!grp || !grp.children.length) return null;
   const tube = grp.children[rocketTube++ % grp.children.length];
@@ -8175,6 +8329,7 @@ function rocketMuzzle() {
   return muzzleA.z < muzzleB.z ? muzzleA : muzzleB;
 }
 function fireRocket() {
+  if (vehicle === 'tank') tankFx.kick = 0.2;
   if (!(devMode && devInf)) rockets--;
   const g = new THREE.Group();
   const body = new THREE.Mesh(rocketBodyGeo, rocketMat); body.castShadow = true;
@@ -8231,6 +8386,7 @@ for (const k in PU) capsuleMats[k] = PU[k].bad ? envMat({ map: capHazard, roughn
 // chance that a regular brick drops a power-up: 0.12 with the level full, down to 0.064 for the last bricks (Modo Caos keeps 0.08)
 let lvBricks = 1;
 function puChance() {
+  if (zen) return 0;
   if (chaos) return 0.08 * DIFF[diff].pu;
   if (infinite) return 0.05 * DIFF[diff].pu;
   const p = clamp(1 - destructibleLeft() / Math.max(1, lvBricks), 0, 1);
@@ -8442,6 +8598,7 @@ const BOSS_MSG = {
   ai: ['', 'Firewall ativado! A IA levanta barreiras', 'Vírus! Arquivos corrompidos caem em você'],
 };
 function newBoss(kind, name, weakName, hp) {
+  if (chaos) hp *= 2; // all those power-ups at once would melt a boss in seconds
   const B = { kind, name, weakName, max: hp, hp, phase: 1, t: 0, group: new THREE.Group(), parts: [], mats: [], own: [], texs: [], dead: false, gone: false, deathT: 0, flashT: 0, intro: 1.8, atk: 2.5 };
   scene.add(B.group); return B;
 }
@@ -9626,7 +9783,7 @@ function makeChess() {
     // a broken pawn drops coins and comes back from the back rank a few seconds later
     pw.p.alive = false; pw.g.visible = false; pw.dead = 6;
     spawnDebris(pw.p.x, Y + 0.5, pw.p.z, 0x1d1d24, 10, 6); dustCloud(pw.p.x, pw.p.z, 5, 0x9a948a, 1.3, 0.8, 0.5); Snd.wood(4);
-    addScore(150, pw.p.x, pw.p.z, '#ffd23a'); for (let i = 0; i < 2; i++) spawnCoin(pw.p.x + rand(-0.3, 0.3), pw.p.z, rand(-2, 2), 0);
+    addScore(150, pw.p.x, pw.p.z, '#ffd23a'); if (Math.random() < 0.2) for (let i = 0; i < 2; i++) spawnCoin(pw.p.x + rand(-0.3, 0.3), pw.p.z, rand(-2, 2), 0);
   };
   B.pawns = [-7.5, -4.5, -1.5, 1.5, 4.5, 7.5].map((x) => {
     const pw = { g: makePawn(), x, z: -7.5, fromZ: -7.5, hop: 0, hpL: 2, dead: 0 };
@@ -9906,7 +10063,7 @@ $('tutSkip').addEventListener('click', () => { endTut(true); startLevel(1); });
 $('btnTutAgain').addEventListener('click', () => { try { localStorage.removeItem('brickstorm-tutorial'); } catch (e) {} toast('O tutorial aparece antes da Fase 1 na próxima partida'); });
 function loseLife() {
   if (!devMode && !tut && !infinite) lives--;
-  if (infinite) infLost();
+  if (infinite && !zen) infLost();
   Snd.lose(); shake = 0.6;
   if (!(devMode && devInf)) resetPowers();
   combo = 0;
@@ -9997,7 +10154,7 @@ function toMenu() {
   saveHi(); clearDynamic(); resetPowers(); despawnBoss(); if (tut) endTut(false);
   if (state === 'paused') Snd.ctx?.resume();
   if (chaos) { chaos = false; if (chaosPrevMap != null) setMap(chaosPrevMap); }
-  if (infinite) { infinite = false; setMap(infPrevMap != null ? infPrevMap : mapIdx); }
+  if (infinite) { infinite = false; zen = false; catspa.root.visible = false; setMap(infPrevMap != null ? infPrevMap : mapIdx); }
   recChaos = false; recInf = false; loadHi();
   state = 'menu';
   $('pauseOv').hidden = true; $('overOv').hidden = true; $('leaveOv').hidden = true; $('hud').hidden = true; $('menu').hidden = false;
@@ -10074,14 +10231,14 @@ function showScreen(id) {
   $('menu').scrollTop = 0;
   if (id === 'scrWorld') renderMapPicker();
   if (id === 'scrMain') { $('loading').textContent = 'Versão ' + GAME_VERSION; }
-  if (id === 'scrVeh') $('vehSub').textContent = playMode === 'infinite' ? 'Modo Infinito: no Pântano do Ogro. As vidas não acabam, mas perder a bola zera a pontuação.' : playMode === 'chaos' ? 'Modo Caos: uma rodada em cada mundo que você já venceu, em ordem sorteada.' : 'Mundo ' + (mapIdx + 1) + ' · ' + MAPS[mapIdx].name;
+  if (id === 'scrVeh') $('vehSub').textContent = playMode === 'zen' ? 'Modo Zen: no Spa dos Gatinhos. Sem pontos, sem pressa, só relaxar.' : playMode === 'infinite' ? 'Modo Infinito: no Pântano do Ogro. As vidas não acabam, mas perder a bola zera a pontuação.' : playMode === 'chaos' ? 'Modo Caos: uma rodada em cada mundo que você já venceu, em ordem sorteada.' : 'Mundo ' + (mapIdx + 1) + ' · ' + MAPS[mapIdx].name;
   if (id === 'scrScore') renderScore();
   if (id === 'scrOpts') syncOptCtl();
 }
 const chaosUnlocked = () => devMode || doneMaps.includes(0), infUnlocked = () => devMode || doneMaps.includes(2);
 document.querySelectorAll('#menu [data-go]').forEach((b) => b.addEventListener('click', () => showScreen(b.dataset.go)));
 $('btnPlay').addEventListener('click', () => { Snd.init(); playMode = 'normal'; showScreen('scrWorld'); });
-$('btnStart').addEventListener('click', () => { Snd.init(); if (playMode === 'chaos') newChaos(); else if (playMode === 'infinite') newInfinite(); else newGame(); });
+$('btnStart').addEventListener('click', () => { Snd.init(); if (playMode === 'chaos') newChaos(); else if (playMode === 'infinite') newInfinite(); else if (playMode === 'zen') newZen(); else newGame(); });
 $('btnScore').addEventListener('click', () => showScreen('scrScore'));
 let autoVeh = false;
 try { autoVeh = localStorage.getItem('brickstorm-autoveh') === '1'; } catch (e) { autoVeh = false; }
@@ -10195,11 +10352,13 @@ $('credOv').addEventListener('click', (e) => { if (e.target === $('credOv')) set
 $('btnResume').addEventListener('click', () => setPaused(false));
 $('btnQuit').addEventListener('click', toMenu);
 function retryLevel() {
+  if (deathKey !== lvKey()) { deathKey = lvKey(); deathsHere = 0; }
+  deathsHere++;
   score = 0; shownScore = 0; lives = 3; combo = 0;
   $('overOv').hidden = true; $('leaveOv').hidden = true; $('pauseOv').hidden = true; $('hud').hidden = false;
   startLevel(level);
 }
-$('btnAgain').addEventListener('click', () => { Snd.init(); if (infinite) newInfinite(); else if (chaos) newChaos(); else if (overKind === 'dead') retryLevel(); else newGame(); });
+$('btnAgain').addEventListener('click', () => { Snd.init(); if (zen) newZen(); else if (infinite) newInfinite(); else if (chaos) newChaos(); else if (overKind === 'dead') retryLevel(); else newGame(); });
 $('btnLeaveStay').addEventListener('click', () => { Snd.init(); retryLevel(); });
 $('btnLeaveGo').addEventListener('click', toMenu);
 $('btnMenu').addEventListener('click', () => { if (!chaos && !infinite && overKind === 'dead') { $('overOv').hidden = true; $('leaveOv').hidden = false; } else toMenu(); });
@@ -10319,7 +10478,7 @@ $('devPU').innerHTML = Object.keys(PU).filter((k) => !PU[k].bad).map(devBtn).joi
 $('devDB').innerHTML = BAD_KEYS.map(devBtn).join('');
 // jumping to a world or level from the developer panel leaves Modo Caos and Modo Infinito: they turn coins off and reset
 // the score on every miss, so a jump made from inside them looked like a game that gave neither coins nor points
-function devLeaveModes() { chaos = false; infinite = false; }
+function devLeaveModes() { chaos = false; infinite = false; zen = false; }
 devEl.addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b || b.id === 'devFold') return;
   if (b.dataset.pu) { if (state === 'play') applyPower(b.dataset.pu); }
@@ -10506,11 +10665,17 @@ function animate(dt, t) {
   musFx.fire = Math.max(0, musFx.fire - dt); for (const fl of musFire) { fl.visible = musFx.fire > 0; fl.scale.set(1, 0.6 + Math.random() * 0.8, 1); }
   // the toy tank's turret follows the ball closest to the player, and its barrel kicks back on a hit
   if (vehicle === 'tank') { let tb = null; for (const b of balls) if (!tb || b.z > tb.z) tb = b; const want = tb ? clamp(Math.atan2(PADDLE_Z - tb.z, tb.x - paddle.x), 0.15, Math.PI - 0.15) : Math.PI / 2; tankFx.yaw += (want - tankFx.yaw) * Math.min(1, dt * 6); }
-  tankTurret.rotation.y = tankFx.yaw; tankBarrel.position.x = 0.22 - hop * 0.12; tankFlag.rotation.y = Math.sin(t * 7) * 0.4;
+  tankTurret.rotation.y = tankFx.yaw; tankFx.kick = Math.max(0, (tankFx.kick || 0) - dt); tankBarrel.position.x = 0.22 - hop * 0.12 - tankFx.kick * 0.5; tankFlag.rotation.y = Math.sin(t * 7) * 0.4;
   // the rover's dish turns and its driver looks around, the light cycle's lines glow (brighter on a hit), the gold excavator glitters
   rDish.rotation.y += dt * 0.5; rFlag.rotation.y = Math.sin(t * 5) * 0.3; rHelm.rotation.y = Math.sin(t * 0.8) * 0.3; rAstro.position.y = hop * 0.04;
   cycFx.flash = Math.max(0, cycFx.flash - dt); cycGlow.color.setRGB(0.3, 1.8, 2.3).multiplyScalar(0.85 + Math.sin(t * 6) * 0.15 + cycFx.flash * 2);
   updateCycTrail(state === 'paused' || state === 'over' ? 0 : dt);
+  if (vehicle === 'gold') {
+    const gb = goldTwin.get(boomPivot), gs = goldTwin.get(stickPivot), gk = goldTwin.get(bucketPivot);
+    gb.userData.r0 ??= gb.rotation.z; gs.userData.r0 ??= gs.rotation.z; gk.userData.r0 ??= gk.rotation.z;
+    const ph = t % 7, k = ph < 2.2 ? Math.sin((ph / 2.2) * Math.PI) : 0;
+    gb.rotation.z = gb.userData.r0 + k * 0.3; gs.rotation.z = gs.userData.r0 - k * 0.55; gk.rotation.z = gk.userData.r0 + Math.sin((ph / 2.2) * Math.PI * 2) * k * 0.6;
+  }
   if (vehicle === 'gold' && Math.random() < dt * 5) glow.emit(paddle.x + rand(-0.5, 0.5) * paddle.w, rand(0.4, 1.4), PADDLE_Z + rand(-0.3, 0.5), 0, 0.3, 0, 0.5, rand(0.25, 0.45), 0xfff2b0, 2.6, 1, 0);
   garbFx.lift = Math.max(0, garbFx.lift - dt); { const k = Math.sin(Math.min(1, garbFx.lift / 1.3) * Math.PI); garbArm.position.y = -0.06 + k * 0.5; garbArm.rotation.x = -k * 0.9; }
   for (const [k, j] of hoverJets.entries()) { const f = 0.85 + Math.sin(t * 31 + k * 2) * 0.15; j.scale.set(f, f * (1 + Math.min(0.6, Math.abs(dxp) * 8)), f); }
@@ -10541,10 +10706,10 @@ function animate(dt, t) {
   shield.userData.hit = Math.max(0, (shield.userData.hit || 0) - dt);
   shield.position.z = SHIELD_Z + shield.userData.hit * 1.2;
   const beachBall = env === beach || env === orient || env === europe || env === ice || env === desert || env === aqua || env === futuro || env === lua || env === neon || env === swamp;
-  const bm = env === orient ? temariMat : env === europe ? footballMat : env === ice ? snowballMat : env === desert ? scarabMat : env === aqua ? pufferMat : env === futuro ? plasmaMat : env === lua ? saturnMat : env === neon ? discMat : env === swamp ? onionMat : beachBall ? beachBallMat : ballMat;
+  const bm = env === catspa ? pawMat : env === orient ? temariMat : env === europe ? footballMat : env === ice ? snowballMat : env === desert ? scarabMat : env === aqua ? pufferMat : env === futuro ? plasmaMat : env === lua ? saturnMat : env === neon ? discMat : env === swamp ? onionMat : beachBall ? beachBallMat : ballMat;
   if (pw.fire > 0) { bm.color.setHex(0xff9a5a); bm.emissive.setHex(0xff4a00); bm.emissiveIntensity = 1.4; }
   else if (pw.bomb > 0) { bm.color.setHex(beachBall ? 0x4a4458 : 0x2c2833); bm.emissive.setHex(0x000000); }
-  else if (bm === plasmaMat) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 1.6 + Math.sin(t * 23) * 0.3; plasmaTex.offset.x += dt * 0.6; plasmaTex.offset.y = Math.sin(t * 1.7) * 0.05; }
+  else if (bm === plasmaMat) { const fl = Math.sin(t * 7) > 0.96 ? 0.35 : 1; bm.opacity = (0.88 + Math.sin(t * 40) * 0.07) * fl; bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 0.45; holoBallTex.offset.x += dt * 0.25; }
   else if (bm === discMat) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = 1.1 + neon.beat * 0.9; }
   else if (beachBall) { bm.color.setHex(0xffffff); bm.emissive.setHex(0xffffff); bm.emissiveIntensity = theme.lamps > 0.5 ? 0.3 : 0; }
   else { bm.color.setHex(theme.lamps > 0.5 ? 0x5d636c : 0x2b2d31); bm.emissive.setHex(0x9aa8c0); bm.emissiveIntensity = theme.lamps > 0.5 ? 0.14 : 0; }
@@ -10604,7 +10769,7 @@ function frame() {
   updateAtmosphere(dt);
   const pspd = Math.abs(paddle.x - (paddle.sndX ?? paddle.x)) / Math.max(dt, 1e-3); paddle.sndX = paddle.x;
   paddle.spd = (paddle.spd || 0) * 0.8 + pspd * 0.2;
-  Snd.tick(dt, infinite ? 'swamp' : MAPS[mapIdx].key, paddle.spd, state === 'play', vehicle);
+  Snd.tick(dt, zen ? 'oriente' : infinite ? 'swamp' : MAPS[mapIdx].key, paddle.spd, state === 'play', vehicle);
   const devOn = devMode && state !== 'menu' && state !== 'over';
   if (devEl.hidden === devOn) devEl.hidden = !devOn;
   glow.update(dt); dust.update(dt); updateDebris(dt); updatePetals(dt, elapsed); updateBolts(dt); updatePops(dt);
